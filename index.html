@@ -131,7 +131,7 @@
     /* Кнопка клика */
     .click-area {
       position: relative;
-      margin: 10px 0 20px 0;
+      margin: 10px 0 12px 0;
       display: inline-block;
     }
     .click-btn {
@@ -161,6 +161,129 @@
     }
     .click-btn:active, .click-btn.pop {
       transform: scale(0.9);
+    }
+
+    /* Кнопка вызова рекламы за бонус */
+    .watch-ad-btn {
+      display: block;
+      margin: 0 auto 18px auto;
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      color: #fff;
+      border: 2px solid #ff758c;
+      padding: 9px 18px;
+      border-radius: 25px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
+      animation: pulseAdBtn 1.5s infinite;
+    }
+    @keyframes pulseAdBtn {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+
+    /* МОДАЛЬНОЕ ОКНО ФЕЙКОВОЙ РЕКЛАМЫ */
+    .ad-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 10000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .ad-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #ddd;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .ad-timer {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #333;
+      color: #f1c40f;
+      font-size: 13px;
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 15px;
+      border: 1px solid #555;
+    }
+    .ad-close-btn {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      width: 28px;
+      height: 28px;
+      background: #444;
+      color: #fff;
+      border: 1px solid #777;
+      border-radius: 50%;
+      font-size: 14px;
+      font-weight: bold;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10001;
+    }
+    .ad-card {
+      background: linear-gradient(135deg, #2c3e50, #000000);
+      border: 3px solid #f1c40f;
+      border-radius: 20px;
+      padding: 25px 18px;
+      max-width: 350px;
+      width: 100%;
+      box-shadow: 0 0 40px rgba(241, 196, 15, 0.4);
+    }
+    .ad-emoji {
+      font-size: 72px;
+      margin-bottom: 10px;
+      animation: bounceAd 0.8s infinite alternate;
+    }
+    @keyframes bounceAd {
+      from { transform: translateY(0) scale(1); }
+      to { transform: translateY(-12px) scale(1.1); }
+    }
+    .ad-title {
+      font-size: 22px;
+      font-weight: 900;
+      color: #f1c40f;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .ad-desc {
+      font-size: 15px;
+      color: #fff;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+    .ad-fake-cta {
+      background: linear-gradient(90deg, #2ecc71, #f1c40f);
+      color: #000;
+      font-weight: 900;
+      font-size: 16px;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      width: 100%;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+    .ad-troll-msg {
+      color: #ff6b6b;
+      font-size: 13px;
+      font-weight: bold;
+      margin-top: 12px;
+      min-height: 18px;
     }
 
     /* Всплывающий текст */
@@ -363,6 +486,21 @@
 </head>
 <body>
 
+  <!-- ОКНО ШУТОЧНОЙ РЕКЛАМЫ -->
+  <div id="adOverlay" class="ad-overlay">
+    <div class="ad-badge">Реклама • 18+</div>
+    <div id="adTimer" class="ad-timer">Осталось: 5 сек</div>
+    <div id="adCloseBtn" class="ad-close-btn" onclick="tryCloseAd()">✕</div>
+
+    <div class="ad-card">
+      <div id="adEmoji" class="ad-emoji">🚀</div>
+      <div id="adTitle" class="ad-title">ЗАГОЛОВОК РЕКЛАМЫ</div>
+      <div id="adDesc" class="ad-desc">Описание супер-товара</div>
+      <button class="ad-fake-cta" onclick="clickFakeAdBtn()">СКАЧАТЬ БЕСПЛАТНО</button>
+      <div id="adTrollMsg" class="ad-troll-msg"></div>
+    </div>
+  </div>
+
   <!-- Летающий секретный бонус -->
   <div id="airdropBox" class="airdrop" onclick="catchAirdrop()">🎁</div>
 
@@ -388,7 +526,6 @@
   <!-- ВКЛАДКА 1: КЛИКЕР + КОМБО + МАГАЗИН -->
   <div id="sec-game" class="section active">
     
-    <!-- Шкала Ярости (Комбо) -->
     <div class="combo-wrap">
       <div class="combo-label">
         <span>🔥 РЕЖИМ ЯРОСТИ</span>
@@ -402,6 +539,11 @@
     <div class="click-area" id="clickArea">
       <button class="click-btn" id="mainBtn" onclick="tapCoin(event)">💵</button>
     </div>
+
+    <!-- Кнопка просмотра пранк-рекламы -->
+    <button class="watch-ad-btn" onclick="startPrankAd(true)">
+      📺 СМОТРЕТЬ РЕКЛАМУ (+МЕГА БОНУС 💰)
+    </button>
 
     <div class="shop-box">
       <div class="shop-title">🛒 МАГАЗИН ИМПЕРИИ</div>
@@ -532,6 +674,40 @@
 
     var comboEnergy = 0;
     var comboMultiplier = 1;
+    var totalClicksForAd = 0;
+
+    // Список шуточных рекламных объявлений для друзей
+    var prankAds = [
+      {
+        emoji: "👆💪",
+        title: "УВЕЛИЧЬ СВОЙ ПАЛЕЦ НА 5 СМ!",
+        desc: "Секретная мазь для тапальщиков! Соседи в шоке, нужно всего лишь каждый вечер мазать обычным..."
+      },
+      {
+        emoji: "🔥💻",
+        title: "ГОРЯЧИЕ ВИДЕОКАРТЫ РЯДОМ!",
+        desc: "Одинокие RTX 4090 в 300 метрах от тебя хотят майнить всю ночь без остановки! Жми скорее!"
+      },
+      {
+        emoji: "🦸‍♂️💰",
+        title: "ШКОЛЬНИК КУПИЛ ДУБАЙ!",
+        desc: "Он просто экономил на пирожках в столовой и нажимал на эту зеленую кнопку 3 раза в день..."
+      },
+      {
+        emoji: "🧠⚡",
+        title: "IQ ТЕСТ: ТОЛЬКО 1% ПРОЙДЕТ!",
+        desc: "Сможешь ли ты попасть по крестику с первого раза? 99% твоих друзей уже опозорились!"
+      },
+      {
+        emoji: "🦖🎰",
+        title: "КАЗИНО «У ВАСИЛИЧА»",
+        desc: "Проиграл квартиру, но выиграл уважение друзей! Заходи, бонус при регистрации — пачка сухариков!"
+      }
+    ];
+
+    var adEscapeCount = 0;
+    var adTimerInterval = null;
+    var adWithReward = true;
 
     var playerId = localStorage.getItem('m_uid');
     if (!playerId) {
@@ -562,11 +738,9 @@
     }, { passive: false });
 
     function tapCoin(e) {
-      // Накапливаем комбо от быстрых кликов
       comboEnergy = Math.min(100, comboEnergy + 7);
       updateComboState();
 
-      // Шанс 8% на КРИТИЧЕСКИЙ КЛИК x10
       var isCrit = Math.random() < 0.08;
       var prestigeMult = 1 + prestige;
       var gain = clickPower * comboMultiplier * prestigeMult * (isCrit ? 10 : 1);
@@ -579,6 +753,82 @@
       spawnDollar(gain, isCrit);
       refreshScreen();
       syncWithServer();
+
+      // Каждые ~55 кликов внезапно выскакивает смешная реклама!
+      totalClicksForAd++;
+      if (totalClicksForAd >= 55) {
+        totalClicksForAd = 0;
+        startPrankAd(true);
+      }
+    }
+
+    // ЗАПУСК ФЕЙКОВОЙ ПРАНК-РЕКЛАМЫ
+    function startPrankAd(giveBonus) {
+      adWithReward = giveBonus;
+      adEscapeCount = 0;
+
+      var ad = prankAds[Math.floor(Math.random() * prankAds.length)];
+      document.getElementById('adEmoji').innerHTML = ad.emoji;
+      document.getElementById('adTitle').innerHTML = ad.title;
+      document.getElementById('adDesc').innerHTML = ad.desc;
+      document.getElementById('adTrollMsg').innerHTML = '';
+
+      var closeBtn = document.getElementById('adCloseBtn');
+      closeBtn.style.display = 'none';
+      closeBtn.style.top = '15px';
+      closeBtn.style.right = '15px';
+      closeBtn.style.left = 'auto';
+
+      var timerBox = document.getElementById('adTimer');
+      timerBox.style.display = 'block';
+      var sec = 5;
+      timerBox.innerHTML = 'Реклама: ' + sec + ' сек';
+
+      document.getElementById('adOverlay').style.display = 'flex';
+
+      clearInterval(adTimerInterval);
+      adTimerInterval = setInterval(function() {
+        sec--;
+        if (sec > 0) {
+          timerBox.innerHTML = 'Реклама: ' + sec + ' сек';
+        } else {
+          clearInterval(adTimerInterval);
+          timerBox.style.display = 'none';
+          closeBtn.style.display = 'flex';
+        }
+      }, 1000);
+    }
+
+    // Убегающий крестик (троллинг друзей)
+    function tryCloseAd() {
+      var closeBtn = document.getElementById('adCloseBtn');
+      var trollMsg = document.getElementById('adTrollMsg');
+
+      if (adEscapeCount < 2) {
+        adEscapeCount++;
+        var randTop = Math.floor(Math.random() * (window.innerHeight - 100)) + 30;
+        var randLeft = Math.floor(Math.random() * (window.innerWidth - 80)) + 20;
+        closeBtn.style.top = randTop + 'px';
+        closeBtn.style.left = randLeft + 'px';
+        closeBtn.style.right = 'auto';
+        trollMsg.innerHTML = adEscapeCount === 1
+          ? '😂 Промахнулся по крестику! Попробуй ещё раз!'
+          : '🤪 Почти попал! Руки дрожат от богатства?';
+        return;
+      }
+
+      document.getElementById('adOverlay').style.display = 'none';
+      if (adWithReward) {
+        var reward = Math.max(300, (clickPower * 35 + autoIncome * 25) * (1 + prestige));
+        money += reward;
+        refreshScreen();
+        syncWithServer();
+        alert('🎉 Спасибо за просмотр очень важной рекламы!\nВаш бонус: +$' + formatNum(reward));
+      }
+    }
+
+    function clickFakeAdBtn() {
+      document.getElementById('adTrollMsg').innerHTML = '😂 Ха-ха, попался! Жди таймер и лови крестик в углу!';
     }
 
     function updateComboState() {
@@ -605,10 +855,9 @@
       el.style.left = (85 + offset) + 'px';
       el.style.top = '35px';
       area.appendChild(el);
-      setTimeout(function() { el.remove(); }, 750);
+      setTimeout(function() { el.remove(), 750; });
     }
 
-    // Секретный Аирдроп
     function spawnAirdrop() {
       var box = document.getElementById('airdropBox');
       var x = Math.floor(Math.random() * (window.innerWidth - 70)) + 15;
@@ -632,7 +881,6 @@
       alert('🎁 ВЫ ПОЙМАЛИ СЕКРЕТНЫЙ КЕЙС!\nБонус: +$' + formatNum(bonus));
     }
 
-    // КАЗИНО ФОРТУНЫ
     function spinCasino(part) {
       var resBox = document.getElementById('casinoResult');
       if (money < 10) {
@@ -645,13 +893,11 @@
 
       var roll = Math.random();
       if (roll < 0.07) {
-        // Джекпот x5
         var win5 = bet * 5;
         money += win5;
         resBox.style.color = '#f1c40f';
         resBox.innerHTML = '🚨 ДЖЕКПОТ x5! Вы выиграли +$' + formatNum(win5) + '!';
       } else if (roll < 0.48) {
-        // Победа x2
         var win2 = bet * 2;
         money += win2;
         resBox.style.color = '#2ecc71';
@@ -664,7 +910,6 @@
       syncWithServer();
     }
 
-    // ПЕРЕРОЖДЕНИЕ (ПРЕСТИЖ)
     function doPrestige() {
       if (money < 1000000) {
         alert('Для Перерождения нужно накопить $1 000 000!');
@@ -863,7 +1108,6 @@
       localStorage.setItem('m_auto', autoIncome);
     }
 
-    // Остывание шкалы комбо
     setInterval(function() {
       if (comboEnergy > 0) {
         comboEnergy = Math.max(0, comboEnergy - 4);
@@ -871,7 +1115,6 @@
       }
     }, 300);
 
-    // Авто-доход и обновление онлайн-рейтинга
     setInterval(function() {
       if (autoIncome > 0) {
         money += autoIncome * (1 + prestige);
@@ -883,7 +1126,6 @@
       }
     }, 1500);
 
-    // Запуск секретного подарка каждые 30 секунд
     setInterval(spawnAirdrop, 30000);
 
     refreshScreen();
