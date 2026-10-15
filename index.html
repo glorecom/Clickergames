@@ -21,6 +21,12 @@
       margin: 0;
       padding: 15px;
       overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .content {
+      flex: 1;
     }
     .header {
       background: #1e1e1e;
@@ -113,24 +119,36 @@
     .can-buy {
       border-color: #2ecc71;
     }
+    .footer-version {
+      margin-top: 30px;
+      color: #666;
+      font-size: 13px;
+      padding-bottom: 10px;
+    }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <div class="balance">$<span id="money">0</span></div>
-    <div class="stats">
-      За клик: <b>$<span id="clickPower">1</span></b> | В сек: <b>$<span id="autoIncome">0</span></b>
+  <div class="content">
+    <div class="header">
+      <div class="balance">$<span id="money">0</span></div>
+      <div class="stats">
+        За клик: <b>$<span id="clickPower">1</span></b> | В сек: <b>$<span id="autoIncome">0</span></b>
+      </div>
+    </div>
+
+    <div class="click-area" id="clickArea">
+      <button class="click-btn" id="mainBtn">💵</button>
+    </div>
+
+    <div class="shop">
+      <h3>🛒 Магазин прокачки</h3>
+      <div id="shopContainer"></div>
     </div>
   </div>
 
-  <div class="click-area" id="clickArea">
-    <button class="click-btn" id="mainBtn">💵</button>
-  </div>
-
-  <div class="shop">
-    <h3>🛒 Магазин прокачки</h3>
-    <div id="shopContainer"></div>
+  <div class="footer-version">
+    бета тестирование версия 1.1
   </div>
 
   <script>
@@ -149,14 +167,12 @@
 
     const mainBtn = document.getElementById('mainBtn');
 
-    // Жесткий перехват нажатий без зума браузера
     mainBtn.addEventListener('touchstart', (e) => {
-      e.preventDefault(); // Гасит стандартное поведение зума телефона
+      e.preventDefault();
       state.money += state.clickPower;
       updateUI();
     }, { passive: false });
 
-    // На случай клика с компьютера
     mainBtn.addEventListener('click', () => {
       state.money += state.clickPower;
       updateUI();
