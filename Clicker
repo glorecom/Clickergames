@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Денежный Кликер</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      text-align: center;
+      margin: 0;
+      padding: 15px;
+      overflow-x: hidden;
+    }
+    .header {
+      background: #1e1e1e;
+      padding: 15px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+    .balance {
+      font-size: 40px;
+      font-weight: 900;
+      color: #2ecc71;
+      margin: 0;
+    }
+    .stats {
+      color: #aaa;
+      font-size: 15px;
+      margin-top: 8px;
+    }
+    .click-area {
+      position: relative;
+      margin: 25px 0;
+    }
+    .click-btn {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #2ecc71, #27ae60);
+      border: 6px solid #1e8449;
+      color: white;
+      font-size: 64px;
+      box-shadow: 0 10px 25px rgba(46, 204, 113, 0.4);
+      cursor: pointer;
+      transition: transform 0.05s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .click-btn:active {
+      transform: scale(0.92);
+    }
+    .floating-text {
+      position: absolute;
+      color: #2ecc71;
+      font-weight: bold;
+      font-size: 22px;
+      pointer-events: none;
+      animation: floatUp 0.8s ease-out forwards;
+    }
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-60px) scale(1.2); }
+    }
+    .shop {
+      max-width: 420px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .shop h3 {
+      text-align: center;
+      color: #f1c40f;
+      margin-bottom: 12px;
+    }
+    .upgrade-btn {
+      width: 100%;
+      background-color: #1f1f1f;
+      border: 2px solid #333;
+      color: white;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .upgrade-btn:active {
+      background-color: #2c2c2c;
+    }
+    .upgrade-info {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+    .upgrade-title {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .upgrade-desc {
+      font-size: 13px;
+      color: #888;
+      margin-top: 2px;
+    }
+    .price {
+      background: #2c2c2c;
+      color: #f1c40f;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+    .can-buy {
+      border-color: #2ecc71;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="balance">$<span id="money">0</span></div>
+    <div class="stats">
+      За клик: <b>$<span id="clickPower">1</span></b> | В сек: <b>$<span id="autoIncome">0</span></b>
+    </div>
+  </div>
+
+  <div class="click-area" id="clickArea">
+    <button class="click-btn" id="mainBtn">💵</button>
+  </div>
+
+  <div class="shop">
+    <h3>🛒 Магазин прокачки</h3>
+    <div id="shopContainer"></div>
+  </div>
+
+  <script>
+    let state = JSON.parse(localStorage.getItem('clickerSave')) || {
+      money: 0,
+      clickPower: 1,
+      autoIncome: 0,
+      upgrades: [
+        { id: 'u1', name: '💪 Сила клика', desc: '+1$ к клику', type: 'click', power: 1, cost: 15, count: 0 },
+        { id: 'u2', name: '🥤 Киоск с лимонадом', desc: '+2$ в сек', type: 'auto', power: 2, cost: 50, count: 0 },
+        { id: 'u3', name: '💎 Золотой палец', desc: '+5$ к клику', type: 'click', power: 5, cost: 250, count: 0 },
+        { id: 'u4', name: '🏪 Супермаркет', desc: '+15$ в сек', type: 'auto', power: 15, cost: 1000, count: 0 },
+        { id: 'u5', name: '🏦 Крипто-Банк', desc: '+100$ в сек', type: 'auto', power: 100, cost: 8000, count: 0 }
+      ]
+    };
+
+    const mainBtn = document.getElementById('mainBtn');
+    const clickArea = document.getElementById('clickArea');
+
+    mainBtn.addEventListener('pointerdown', (e) => {
+      state.money += state.clickPower;
+      spawnFloatingText(e.clientX, e.clientY, `+$${state.clickPower}`);
+      updateUI();
+    });
+
+    function spawnFloatingText(x, y, text) {
+      const el = document.createElement('div');
+      el.className = 'floating-text';
+      el.innerText = text;
+      const rect = clickArea.getBoundingClientRect();
+      el.style.left = ((x ? x - rect.left : rect.width / 2) - 20) + 'px';
+      el.style.top = ((y ? y - rect.top : rect.height / 2) - 20) + 'px';
+      clickArea.appendChild(el);
+      setTimeout(() => el.remove(), 800);
+    }
+
+    function buyUpgrade(index) {
+      let u = state.upgrades[index];
+      if (state.money >= u.cost) {
+        state.money -= u.cost;
+        u.count++;
+        if (u.type === 'click') state.clickPower += u.power;
+        if (u.type === 'auto') state.autoIncome += u.power;
+        u.cost = Math.round(u.cost * 1.55);
+        updateUI();
+      }
+    }
+
+    function renderShop() {
+      const container = document.getElementById('shopContainer');
+      container.innerHTML = '';
+      state.upgrades.forEach((u, index) => {
+        const canBuy = state.money >= u.cost ? 'can-buy' : '';
+        container.innerHTML += `
+          <button class="upgrade-btn ${canBuy}" onclick="buyUpgrade(${index})">
+            <div class
+д
