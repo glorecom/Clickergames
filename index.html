@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Денежный Кликер</title>
+  <title>Денежный Кликер 1.3</title>
   <style>
     * {
       box-sizing: border-box;
@@ -19,17 +19,14 @@
       color: #ffffff;
       text-align: center;
       margin: 0;
-      padding: 15px;
+      padding: 12px;
       overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
     }
     .header {
       background: #1e1e1e;
-      padding: 15px;
+      padding: 14px;
       border-radius: 16px;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
     .balance {
@@ -40,7 +37,7 @@
     .stats {
       color: #aaa;
       font-size: 14px;
-      margin-top: 5px;
+      margin-top: 4px;
     }
     .user-badge {
       font-size: 12px;
@@ -48,21 +45,24 @@
       margin-top: 5px;
     }
 
+    /* Вкладки меню */
     .tabs {
       display: flex;
-      gap: 10px;
+      gap: 6px;
       justify-content: center;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
     .tab-btn {
       background: #252525;
-      color: #888;
+      color: #aaa;
       border: 1px solid #333;
-      padding: 10px 18px;
+      padding: 10px 12px;
       border-radius: 10px;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: bold;
       cursor: pointer;
+      flex: 1;
+      max-width: 110px;
     }
     .tab-btn.active {
       background: #2ecc71;
@@ -70,71 +70,73 @@
       border-color: #2ecc71;
     }
 
-    .view-panel {
+    .section {
       display: none;
-      flex: 1;
     }
-    .view-panel.active {
+    .section.active {
       display: block;
     }
 
+    /* Кнопка клика */
     .click-area {
       position: relative;
-      margin: 25px 0;
+      margin: 15px 0 25px 0;
       display: inline-block;
     }
     .click-btn {
-      width: 170px;
-      height: 170px;
+      width: 165px;
+      height: 165px;
       border-radius: 50%;
       background: radial-gradient(circle, #2ecc71, #27ae60);
       border: 6px solid #1e8449;
       color: white;
-      font-size: 64px;
+      font-size: 60px;
       box-shadow: 0 10px 25px rgba(46, 204, 113, 0.4);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.05s ease;
+      transition: transform 0.05s;
     }
-    .click-btn:active {
+    .click-btn:active, .click-btn.pop {
       transform: scale(0.9);
     }
 
+    /* Анимация вылетающего доллара */
     .floating-dollar {
       position: absolute;
       font-size: 22px;
       font-weight: 900;
       color: #2ecc71;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+      text-shadow: 0 2px 6px rgba(0,0,0,0.9);
       pointer-events: none;
-      z-index: 100;
-      animation: floatDollar 0.8s ease-out forwards;
+      z-index: 999;
+      animation: floatUp 0.7s ease-out forwards;
     }
-    @keyframes floatDollar {
-      0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) translateY(0);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(-50%, -50%) translateY(-70px) scale(1.1);
-      }
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translate(-50%, 0) scale(0.9); }
+      100% { opacity: 0; transform: translate(-50%, -75px) scale(1.15); }
     }
 
-    .shop {
+    /* Магазин */
+    .shop-box {
       max-width: 420px;
       margin: 0 auto;
       text-align: left;
+    }
+    .shop-title {
+      text-align: center;
+      color: #f1c40f;
+      margin: 5px 0 12px 0;
+      font-size: 18px;
     }
     .upgrade-btn {
       width: 100%;
       background-color: #1f1f1f;
       border: 2px solid #333;
       color: white;
-      padding: 12px 15px;
-      margin-bottom: 10px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
       border-radius: 12px;
       display: flex;
       justify-content: space-between;
@@ -142,7 +144,7 @@
       cursor: pointer;
     }
     .upgrade-btn:active {
-      background-color: #2a2a2a;
+      background-color: #2c2c2c;
     }
     .price {
       background: #2c2c2c;
@@ -152,10 +154,8 @@
       border-radius: 8px;
       font-size: 14px;
     }
-    .can-buy {
-      border-color: #2ecc71;
-    }
 
+    /* Рейтинг */
     .leaderboard-box {
       max-width: 420px;
       margin: 0 auto;
@@ -172,146 +172,273 @@
       font-size: 14px;
     }
     .leader-row.me {
-      background: rgba(46, 204, 113, 0.15);
-      border-left: 3px solid #2ecc71;
+      background: rgba(46, 204, 113, 0.2);
+      border-left: 4px solid #2ecc71;
       font-weight: bold;
     }
-    .leader-row:first-child {
-      color: #f1c40f;
-    }
 
-    .auth-box {
+    /* Профиль */
+    .profile-box {
       background: #1e1e1e;
       padding: 15px;
       border-radius: 12px;
       max-width: 380px;
-      margin: 0 auto 20px auto;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      margin: 0 auto;
     }
-    .auth-input {
+    .input-field {
+      width: 100%;
       background: #121212;
       border: 1px solid #444;
       color: #fff;
       padding: 10px;
       border-radius: 8px;
-      font-size: 14px;
+      font-size: 15px;
+      margin-bottom: 10px;
     }
-    .auth-submit-btn {
+    .save-btn {
+      width: 100%;
       background: #2ecc71;
       border: none;
       color: #000;
-      padding: 10px;
+      padding: 11px;
       border-radius: 8px;
       font-weight: bold;
+      font-size: 15px;
       cursor: pointer;
-    }
-    .reset-btn {
-      background: #c0392b;
-      border: none;
-      color: #fff;
-      padding: 8px;
-      border-radius: 8px;
-      font-size: 12px;
-      cursor: pointer;
-      margin-top: 10px;
     }
     .footer-version {
-      margin-top: 30px;
+      margin-top: 25px;
       color: #666;
       font-size: 13px;
-      padding-bottom: 10px;
+      padding-bottom: 15px;
     }
   </style>
 </head>
 <body>
 
+  <!-- Верхняя панель баланса -->
   <div class="header">
     <div class="balance">$<span id="money">0</span></div>
     <div class="stats">
       За клик: <b>$<span id="clickPower">1</span></b> | В сек: <b>$<span id="autoIncome">0</span></b>
     </div>
-    <div class="user-badge">👤 <span id="playerNameBadge">Игрок</span></div>
+    <div class="user-badge">👤 <span id="playerName">Игрок</span></div>
   </div>
 
+  <!-- Навигация по вкладкам -->
   <div class="tabs">
-    <button id="tab-game-btn" class="tab-btn active" onclick="switchTab('game')">🎮 Игра</button>
-    <button id="tab-lead-btn" class="tab-btn" onclick="switchTab('leaderboard')">🏆 Рейтинг</button>
-    <button id="tab-prof-btn" class="tab-btn" onclick="switchTab('profile')">⚙️ Профиль</button>
+    <button id="btn-game" class="tab-btn active" onclick="openTab('game')">🎮 Кликер</button>
+    <button id="btn-top" class="tab-btn" onclick="openTab('top')">🏆 Рейтинг</button>
+    <button id="btn-prof" class="tab-btn" onclick="openTab('prof')">⚙️ Профиль</button>
   </div>
 
-  <!-- Вкладка: Игра -->
-  <div id="view-game" class="view-panel active">
+  <!-- ВКЛАДКА 1: КЛИКЕР + МАГАЗИН (всегда на одном экране!) -->
+  <div id="sec-game" class="section active">
     <div class="click-area" id="clickArea">
-      <button class="click-btn" id="mainBtn">💵</button>
+      <button class="click-btn" id="mainBtn" onclick="tapCoin(event)">💵</button>
     </div>
 
-    <div class="shop">
-      <h3 style="color:#f1c40f; text-align:center;">🛒 Магазин</h3>
-      <div id="shopContainer"></div>
+    <div class="shop-box">
+      <div class="shop-title">🛒 Магазин прокачки</div>
+
+      <button class="upgrade-btn" onclick="buyItem(0)">
+        <div>
+          <div style="font-weight:bold;">💪 Сила клика (Ур. <span id="cnt0">0</span>)</div>
+          <div style="font-size:12px; color:#888;">+1$ к клику</div>
+        </div>
+        <div class="price">$<span id="cost0">15</span></div>
+      </button>
+
+      <button class="upgrade-btn" onclick="buyItem(1)">
+        <div>
+          <div style="font-weight:bold;">🥤 Лимонадный киоск (Ур. <span id="cnt1">0</span>)</div>
+          <div style="font-size:12px; color:#888;">+2$ в секунду</div>
+        </div>
+        <div class="price">$<span id="cost1">50</span></div>
+      </button>
+
+      <button class="upgrade-btn" onclick="buyItem(2)">
+        <div>
+          <div style="font-weight:bold;">💎 Золотой палец (Ур. <span id="cnt2">0</span>)</div>
+          <div style="font-size:12px; color:#888;">+5$ к клику</div>
+        </div>
+        <div class="price">$<span id="cost2">250</span></div>
+      </button>
+
+      <button class="upgrade-btn" onclick="buyItem(3)">
+        <div>
+          <div style="font-weight:bold;">🏪 Супермаркет (Ур. <span id="cnt3">0</span>)</div>
+          <div style="font-size:12px; color:#888;">+15$ в секунду</div>
+        </div>
+        <div class="price">$<span id="cost3">1000</span></div>
+      </button>
+
+      <button class="upgrade-btn" onclick="buyItem(4)">
+        <div>
+          <div style="font-weight:bold;">🏦 Крипто-Банк (Ур. <span id="cnt4">0</span>)</div>
+          <div style="font-size:12px; color:#888;">+100$ в секунду</div>
+        </div>
+        <div class="price">$<span id="cost4">8000</span></div>
+      </button>
     </div>
   </div>
 
-  <!-- Вкладка: Рейтинг -->
-  <div id="view-leaderboard" class="view-panel">
-    <h3 style="color:#f1c40f;">🏆 Топ игроков</h3>
-    <div class="leaderboard-box" id="leaderboardList"></div>
+  <!-- ВКЛАДКА 2: ЖИВОЙ РЕЙТИНГ ИГРОКОВ -->
+  <div id="sec-top" class="section">
+    <div class="shop-title">🏆 Топ игроков (Онлайн)</div>
+    <div class="leaderboard-box" id="topList"></div>
   </div>
 
-  <!-- Вкладка: Профиль -->
-  <div id="view-profile" class="view-panel">
-    <div class="auth-box">
-      <h3>Ваш игровой ник</h3>
-      <input type="text" id="nameInput" class="auth-input" placeholder="Введите имя..." maxlength="12">
-      <button class="auth-submit-btn" onclick="setNickname()">Сохранить ник</button>
-      <button class="reset-btn" onclick="hardReset()">Сбросить прогресс</button>
+  <!-- ВКЛАДКА 3: ПРОФИЛЬ -->
+  <div id="sec-prof" class="section">
+    <div class="profile-box">
+      <h3 style="margin-top:0;">Ваш ник для рейтинга</h3>
+      <input type="text" id="nickInput" class="input-field" placeholder="Введите ваш ник..." maxlength="14">
+      <button class="save-btn" onclick="saveNick()">Сохранить</button>
     </div>
   </div>
 
   <div class="footer-version">
-    бета тестирование версия 1.2
+    бета тестирование версия 1.3
   </div>
 
   <script>
-    const defaultState = {
-      name: "Игрок_" + Math.floor(Math.random() * 899 + 100),
-      money: 0,
-      clickPower: 1,
-      autoIncome: 0,
-      upgrades: [
-        { id: 'u1', name: '💪 Сила клика', desc: '+1$ к клику', type: 'click', power: 1, cost: 15, count: 0 },
-        { id: 'u2', name: '🥤 Киоск с лимонадом', desc: '+2$ в сек', type: 'auto', power: 2, cost: 50, count: 0 },
-        { id: 'u3', name: '💎 Золотой палец', desc: '+5$ к клику', type: 'click', power: 5, cost: 250, count: 0 },
-        { id: 'u4', name: '🏪 Супермаркет', desc: '+15$ в сек', type: 'auto', power: 15, cost: 1000, count: 0 },
-        { id: 'u5', name: '🏦 Крипто-Банк', desc: '+100$ в сек', type: 'auto', power: 100, cost: 8000, count: 0 }
-      ]
-    };
+    var money = Number(localStorage.getItem('m_money')) || 0;
+    var clickPower = Number(localStorage.getItem('m_click')) || 1;
+    var autoIncome = Number(localStorage.getItem('m_auto')) || 0;
+    var playerName = localStorage.getItem('m_name') || ("Игрок_" + Math.floor(Math.random() * 899 + 100));
 
-    let state;
-    try {
-      let saved = JSON.parse(localStorage.getItem('clickerSave'));
-      if (saved && Array.isArray(saved.upgrades) && saved.upgrades.length > 0) {
-        state = saved;
-      } else {
-        state = defaultState;
-      }
-    } catch(e) {
-      state = defaultState;
+    var costs = [15, 50, 250, 1000, 8000];
+    var counts = [0, 0, 0, 0, 0];
+    var powers = [1, 2, 5, 15, 100];
+    var types = ['click', 'auto', 'click', 'auto', 'auto'];
+
+    // Загрузка сохраненных цен
+    for (var i = 0; i < 5; i++) {
+      var sc = Number(localStorage.getItem('m_cost' + i));
+      var sct = Number(localStorage.getItem('m_cnt' + i));
+      if (sc > 0) costs[i] = sc;
+      if (sct > 0) counts[i] = sct;
     }
 
-    let rivalPlayers = [
-      { name: "Satoshi_N", money: 150000 },
-      { name: "CryptoWhale", money: 45000 },
-      { name: "Elon_M", money: 18000 },
-      { name: "ClickerKing", money: 5200 },
-      { name: "Trader777", money: 1200 }
+    // Соперники в рейтинге (растут в реальном времени!)
+    var bots = [
+      { name: "Satoshi_N", money: 25000, speed: 25 },
+      { name: "CryptoWhale", money: 8400, speed: 12 },
+      { name: "ClickerKing", money: 1900, speed: 5 },
+      { name: "Trader777", money: 450, speed: 2 },
+      { name: "NoobMaster", money: 85, speed: 1 }
     ];
 
-    const mainBtn = document.getElementById('mainBtn');
-    const clickArea = document.getElementById('clickArea');
+    function tapCoin(e) {
+      money += clickPower;
+      
+      var btn = document.getElementById('mainBtn');
+      btn.classList.add('pop');
+      setTimeout(function() { btn.classList.remove('pop'); }, 60);
 
-    function spawnDollarEffect(touchX, touchY) {
-      const el = document.createElement('div');
+      spawnDollar();
+      refreshScreen();
+    }
+
+    function spawnDollar() {
+      var area = document.getElementById('clickArea');
+      var el = document.createElement('div');
       el.className = 'floating-dollar';
-      el
+      el.innerHTML = '+$' + clickPower + ' 💵';
+      var offset = Math.floor(Math.random() * 60) - 30;
+      el.style.left = (82 + offset) + 'px';
+      el.style.top = '40px';
+      area.appendChild(el);
+      setTimeout(function() { el.remove(); }, 700);
+    }
+
+    function buyItem(idx) {
+      if (money >= costs[idx]) {
+        money -= costs[idx];
+        counts[idx] += 1;
+        if (types[idx] === 'click') {
+          clickPower += powers[idx];
+        } else {
+          autoIncome += powers[idx];
+        }
+        costs[idx] = Math.round(costs[idx] * 1.55);
+        refreshScreen();
+      }
+    }
+
+    function openTab(tab) {
+      document.getElementById('sec-game').className = 'section';
+      document.getElementById('sec-top').className = 'section';
+      document.getElementById('sec-prof').className = 'section';
+
+      document.getElementById('btn-game').className = 'tab-btn';
+      document.getElementById('btn-top').className = 'tab-btn';
+      document.getElementById('btn-prof').className = 'tab-btn';
+
+      document.getElementById('sec-' + tab).className = 'section active';
+      document.getElementById('btn-' + tab).className = 'tab-btn active';
+
+      if (tab === 'top') drawLeaderboard();
+    }
+
+    function saveNick() {
+      var val = document.getElementById('nickInput').value.trim();
+      if (val.length > 0) {
+        playerName = val;
+        localStorage.setItem('m_name', playerName);
+        refreshScreen();
+        alert('Никнейм успешно изменен!');
+      }
+    }
+
+    function drawLeaderboard() {
+      var list = bots.slice();
+      list.push({ name: playerName, money: Math.floor(money), isMe: true });
+      list.sort(function(a, b) { return b.money - a.money; });
+
+      var html = '';
+      for (var i = 0; i < list.length; i++) {
+        var rowClass = list[i].isMe ? 'leader-row me' : 'leader-row';
+        var tag = list[i].isMe ? ' (Вы)' : '';
+        html += '<div class="' + rowClass + '"><span>#' + (i + 1) + ' ' + list[i].name + tag + '</span><span>$' + Math.floor(list[i].money) + '</span></div>';
+      }
+      document.getElementById('topList').innerHTML = html;
+    }
+
+    function refreshScreen() {
+      document.getElementById('money').innerHTML = Math.floor(money);
+      document.getElementById('clickPower').innerHTML = clickPower;
+      document.getElementById('autoIncome').innerHTML = autoIncome;
+      document.getElementById('playerName').innerHTML = playerName;
+
+      for (var i = 0; i < 5; i++) {
+        document.getElementById('cost' + i).innerHTML = costs[i];
+        document.getElementById('cnt' + i).innerHTML = counts[i];
+        localStorage.setItem('m_cost' + i, costs[i]);
+        localStorage.setItem('m_cnt' + i, counts[i]);
+      }
+
+      localStorage.setItem('m_money', money);
+      localStorage.setItem('m_click', clickPower);
+      localStorage.setItem('m_auto', autoIncome);
+    }
+
+    // Живой цикл каждую секунду: начисляет доход и обновляет рейтинг онлайн
+    setInterval(function() {
+      if (autoIncome > 0) {
+        money += autoIncome;
+      }
+      for (var i = 0; i < bots.length; i++) {
+        bots[i].money += bots[i].speed;
+      }
+      refreshScreen();
+      if (document.getElementById('sec-top').className.indexOf('active') !== -1) {
+        drawLeaderboard();
+      }
+    }, 1000);
+
+    refreshScreen();
+  </script>
+</body>
+</html>
