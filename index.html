@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Денежный Кликер Онлайн</title>
+  <title>Денежный Кликер</title>
   <style>
     * {
       box-sizing: border-box;
@@ -98,13 +98,13 @@
       justify-content: center;
       transition: transform 0.05s ease;
     }
-    .click-btn.active-pop {
+    .click-btn:active {
       transform: scale(0.9);
     }
 
     .floating-dollar {
       position: absolute;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 900;
       color: #2ecc71;
       text-shadow: 0 2px 8px rgba(0,0,0,0.8);
@@ -115,14 +115,11 @@
     @keyframes floatDollar {
       0% {
         opacity: 1;
-        transform: translate(-50%, -50%) scale(0.8) translateY(0);
-      }
-      50% {
-        transform: translate(-50%, -50%) scale(1.2) translateY(-40px);
+        transform: translate(-50%, -50%) translateY(0);
       }
       100% {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(1) translateY(-80px);
+        transform: translate(-50%, -50%) translateY(-70px) scale(1.1);
       }
     }
 
@@ -143,6 +140,9 @@
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
+    }
+    .upgrade-btn:active {
+      background-color: #2a2a2a;
     }
     .price {
       background: #2c2c2c;
@@ -207,6 +207,16 @@
       font-weight: bold;
       cursor: pointer;
     }
+    .reset-btn {
+      background: #c0392b;
+      border: none;
+      color: #fff;
+      padding: 8px;
+      border-radius: 8px;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
     .footer-version {
       margin-top: 30px;
       color: #666;
@@ -226,9 +236,9 @@
   </div>
 
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('game', this)">🎮 Игра</button>
-    <button class="tab-btn" onclick="switchTab('leaderboard', this)">🏆 Рейтинг</button>
-    <button class="tab-btn" onclick="switchTab('profile', this)">⚙️ Профиль</button>
+    <button id="tab-game-btn" class="tab-btn active" onclick="switchTab('game')">🎮 Игра</button>
+    <button id="tab-lead-btn" class="tab-btn" onclick="switchTab('leaderboard')">🏆 Рейтинг</button>
+    <button id="tab-prof-btn" class="tab-btn" onclick="switchTab('profile')">⚙️ Профиль</button>
   </div>
 
   <!-- Вкладка: Игра -->
@@ -255,6 +265,7 @@
       <h3>Ваш игровой ник</h3>
       <input type="text" id="nameInput" class="auth-input" placeholder="Введите имя..." maxlength="12">
       <button class="auth-submit-btn" onclick="setNickname()">Сохранить ник</button>
+      <button class="reset-btn" onclick="hardReset()">Сбросить прогресс</button>
     </div>
   </div>
 
@@ -263,5 +274,44 @@
   </div>
 
   <script>
-    let state = JSON.parse(localStorage.getItem('clickerSave')) || {
-      name: "Игрок
+    const defaultState = {
+      name: "Игрок_" + Math.floor(Math.random() * 899 + 100),
+      money: 0,
+      clickPower: 1,
+      autoIncome: 0,
+      upgrades: [
+        { id: 'u1', name: '💪 Сила клика', desc: '+1$ к клику', type: 'click', power: 1, cost: 15, count: 0 },
+        { id: 'u2', name: '🥤 Киоск с лимонадом', desc: '+2$ в сек', type: 'auto', power: 2, cost: 50, count: 0 },
+        { id: 'u3', name: '💎 Золотой палец', desc: '+5$ к клику', type: 'click', power: 5, cost: 250, count: 0 },
+        { id: 'u4', name: '🏪 Супермаркет', desc: '+15$ в сек', type: 'auto', power: 15, cost: 1000, count: 0 },
+        { id: 'u5', name: '🏦 Крипто-Банк', desc: '+100$ в сек', type: 'auto', power: 100, cost: 8000, count: 0 }
+      ]
+    };
+
+    let state;
+    try {
+      let saved = JSON.parse(localStorage.getItem('clickerSave'));
+      if (saved && Array.isArray(saved.upgrades) && saved.upgrades.length > 0) {
+        state = saved;
+      } else {
+        state = defaultState;
+      }
+    } catch(e) {
+      state = defaultState;
+    }
+
+    let rivalPlayers = [
+      { name: "Satoshi_N", money: 150000 },
+      { name: "CryptoWhale", money: 45000 },
+      { name: "Elon_M", money: 18000 },
+      { name: "ClickerKing", money: 5200 },
+      { name: "Trader777", money: 1200 }
+    ];
+
+    const mainBtn = document.getElementById('mainBtn');
+    const clickArea = document.getElementById('clickArea');
+
+    function spawnDollarEffect(touchX, touchY) {
+      const el = document.createElement('div');
+      el.className = 'floating-dollar';
+      el
