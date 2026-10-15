@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Денежный Кликер Онлайн</title>
+  <title>Денежный Кликер Онлайн — Мега Обновление</title>
   <style>
     * {
       box-sizing: border-box;
@@ -15,21 +15,21 @@
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: radial-gradient(circle at top, #1a2a3a 0%, #0d0f12 100%);
+      background: radial-gradient(circle at top, #1d2b3a 0%, #090b0e 100%);
       color: #ffffff;
       text-align: center;
       margin: 0;
-      padding: 12px;
+      padding: 10px;
       overflow-x: hidden;
       min-height: 100vh;
     }
 
     /* Шапка баланса */
     .header {
-      background: linear-gradient(145deg, rgba(35, 43, 56, 0.9), rgba(20, 24, 31, 0.9));
-      padding: 16px;
+      background: linear-gradient(145deg, rgba(30, 39, 52, 0.95), rgba(16, 20, 26, 0.95));
+      padding: 14px;
       border-radius: 20px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       box-shadow: 0 8px 25px rgba(0,0,0,0.6);
       border: 1px solid rgba(255, 255, 255, 0.08);
       max-width: 440px;
@@ -37,50 +37,48 @@
       margin-right: auto;
     }
     .balance {
-      font-size: 40px;
+      font-size: 38px;
       font-weight: 900;
       color: #2ecc71;
       text-shadow: 0 0 18px rgba(46, 204, 113, 0.45);
-      letter-spacing: 0.5px;
     }
     .stats {
       display: flex;
       justify-content: center;
-      gap: 15px;
+      gap: 12px;
       color: #b0b8c4;
-      font-size: 13px;
-      margin-top: 8px;
-      background: rgba(0, 0, 0, 0.35);
-      padding: 6px 12px;
+      font-size: 12px;
+      margin-top: 6px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 6px 10px;
       border-radius: 10px;
+      flex-wrap: wrap;
     }
-    .stats b {
-      color: #fff;
-    }
+    .stats b { color: #fff; }
     .user-badge {
       font-size: 12px;
       color: #f1c40f;
-      margin-top: 8px;
+      margin-top: 6px;
       font-weight: 600;
     }
 
     /* Вкладки меню */
     .tabs {
       display: flex;
-      gap: 8px;
+      gap: 5px;
       justify-content: center;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       max-width: 440px;
       margin-left: auto;
       margin-right: auto;
     }
     .tab-btn {
-      background: #1b2028;
+      background: #181c24;
       color: #8b949e;
-      border: 1px solid #2d3440;
-      padding: 11px 10px;
+      border: 1px solid #2b313d;
+      padding: 10px 6px;
       border-radius: 12px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: bold;
       cursor: pointer;
       flex: 1;
@@ -102,92 +100,144 @@
       display: block;
     }
 
+    /* Шкала КОМБО */
+    .combo-wrap {
+      max-width: 280px;
+      margin: 0 auto 10px auto;
+    }
+    .combo-label {
+      font-size: 13px;
+      font-weight: 800;
+      color: #f39c12;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .combo-bar-bg {
+      width: 100%;
+      height: 10px;
+      background: #1b2028;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #2d3440;
+    }
+    .combo-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #2ecc71, #f1c40f, #e74c3c, #9b59b6);
+      transition: width 0.1s ease;
+    }
+
     /* Кнопка клика */
     .click-area {
       position: relative;
-      margin: 15px 0 25px 0;
+      margin: 10px 0 20px 0;
       display: inline-block;
     }
     .click-btn {
-      width: 175px;
-      height: 175px;
+      width: 170px;
+      height: 170px;
       border-radius: 50%;
       background: radial-gradient(circle at 30% 30%, #3bee86, #27ae60, #186a3b);
       border: 6px solid rgba(46, 204, 113, 0.4);
       color: white;
-      font-size: 68px;
+      font-size: 66px;
       box-shadow: 0 12px 35px rgba(46, 204, 113, 0.45), inset 0 -6px 15px rgba(0,0,0,0.4);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.05s;
+      transition: transform 0.05s, box-shadow 0.2s, background 0.3s;
+    }
+    .click-btn.frenzy-2 {
+      background: radial-gradient(circle at 30% 30%, #f1c40f, #e67e22, #d35400);
+      box-shadow: 0 0 40px rgba(241, 196, 15, 0.7);
+      border-color: #fff3cd;
+    }
+    .click-btn.frenzy-5 {
+      background: radial-gradient(circle at 30% 30%, #e056fd, #be2edd, #686de0);
+      box-shadow: 0 0 50px rgba(224, 86, 253, 0.9);
+      border-color: #ffffff;
     }
     .click-btn:active, .click-btn.pop {
-      transform: scale(0.91);
+      transform: scale(0.9);
     }
 
-    /* Анимация вылетающего доллара */
+    /* Всплывающий текст */
     .floating-dollar {
       position: absolute;
-      font-size: 22px;
+      font-size: 21px;
       font-weight: 900;
       color: #2ecc71;
       text-shadow: 0 2px 8px rgba(0,0,0,0.95);
       pointer-events: none;
       z-index: 999;
-      animation: floatUp 0.7s ease-out forwards;
+      white-space: nowrap;
+      animation: floatUp 0.75s ease-out forwards;
+    }
+    .floating-dollar.crit {
+      font-size: 27px;
+      color: #f1c40f;
+      text-shadow: 0 0 15px rgba(241, 196, 15, 0.9);
     }
     @keyframes floatUp {
-      0% { opacity: 1; transform: translate(-50%, 0) scale(0.9); }
-      100% { opacity: 0; transform: translate(-50%, -80px) scale(1.15); }
+      0% { opacity: 1; transform: translate(-50%, 0) scale(0.85); }
+      100% { opacity: 0; transform: translate(-50%, -85px) scale(1.15); }
+    }
+
+    /* Летающий Аирдроп-бонус */
+    .airdrop {
+      position: fixed;
+      font-size: 46px;
+      z-index: 9999;
+      cursor: pointer;
+      filter: drop-shadow(0 0 15px #f1c40f);
+      animation: pulseDrop 0.6s infinite alternate;
+      display: none;
+    }
+    @keyframes pulseDrop {
+      from { transform: scale(1) rotate(-8deg); }
+      to { transform: scale(1.18) rotate(8deg); }
     }
 
     /* Магазин */
-    .shop-box {
-      text-align: left;
-    }
+    .shop-box { text-align: left; }
     .shop-title {
       text-align: center;
       color: #f1c40f;
       margin: 5px 0 12px 0;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 800;
-      letter-spacing: 0.5px;
     }
     .upgrade-btn {
       width: 100%;
       background: #181c24;
       border: 1px solid #2b313d;
       color: white;
-      padding: 12px 14px;
-      margin-bottom: 9px;
+      padding: 11px 13px;
+      margin-bottom: 8px;
       border-radius: 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
-      transition: transform 0.1s, border-color 0.2s;
     }
     .upgrade-btn.affordable {
       border-color: #2ecc71;
-      background: linear-gradient(90deg, #181c24 0%, rgba(46, 204, 113, 0.12) 100%);
-    }
-    .upgrade-btn:active {
-      transform: scale(0.98);
+      background: linear-gradient(90deg, #181c24 0%, rgba(46, 204, 113, 0.14) 100%);
     }
     .item-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       text-align: left;
     }
     .item-icon {
-      font-size: 26px;
+      font-size: 24px;
       background: #232936;
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -198,13 +248,13 @@
       font-size: 11px;
       padding: 2px 6px;
       border-radius: 6px;
-      margin-left: 5px;
+      margin-left: 4px;
     }
     .price {
       background: #232936;
       color: #f1c40f;
       font-weight: 800;
-      padding: 8px 12px;
+      padding: 8px 11px;
       border-radius: 10px;
       font-size: 13px;
       white-space: nowrap;
@@ -214,7 +264,45 @@
       color: #0d0f12;
     }
 
-    /* Рейтинг реальных игроков */
+    /* Казино и Престиж */
+    .card-box {
+      background: #181c24;
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid #2b313d;
+      margin-bottom: 14px;
+    }
+    .casino-btns {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .bet-btn {
+      flex: 1;
+      background: linear-gradient(135deg, #f39c12, #d35400);
+      border: none;
+      color: #fff;
+      padding: 12px 6px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .prestige-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #9b59b6, #8e44ad);
+      border: none;
+      color: #fff;
+      padding: 13px;
+      border-radius: 12px;
+      font-weight: 900;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 10px;
+      box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);
+    }
+
+    /* Рейтинг */
     .leaderboard-box {
       background: #181c24;
       border-radius: 16px;
@@ -225,7 +313,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 13px 16px;
+      padding: 12px 15px;
       border-bottom: 1px solid #232832;
       font-size: 14px;
     }
@@ -236,106 +324,81 @@
     }
     .live-dot {
       display: inline-block;
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       background: #2ecc71;
       border-radius: 50%;
-      margin-right: 5px;
+      margin-right: 4px;
       box-shadow: 0 0 8px #2ecc71;
     }
 
-    /* Профиль и Авторизация */
-    .profile-box {
-      background: #181c24;
-      padding: 18px;
-      border-radius: 16px;
-      border: 1px solid #2b313d;
-      text-align: left;
-    }
-    .input-label {
-      font-size: 12px;
-      color: #8b949e;
-      margin-bottom: 4px;
-      display: block;
-    }
+    /* Профиль */
     .input-field {
       width: 100%;
       background: #0d0f12;
       border: 1px solid #30363d;
       color: #fff;
-      padding: 12px;
+      padding: 11px;
       border-radius: 10px;
-      font-size: 15px;
-      margin-bottom: 12px;
-      outline: none;
-    }
-    .input-field:focus {
-      border-color: #2ecc71;
-    }
-    .auth-buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 5px;
-    }
-    .btn-login {
-      flex: 1;
-      background: #2ecc71;
-      border: none;
-      color: #0d0f12;
-      padding: 12px;
-      border-radius: 10px;
-      font-weight: 800;
       font-size: 14px;
-      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    .auth-buttons { display: flex; gap: 10px; }
+    .btn-login {
+      flex: 1; background: #2ecc71; border: none; color: #0d0f12;
+      padding: 12px; border-radius: 10px; font-weight: 800; cursor: pointer;
     }
     .btn-register {
-      flex: 1;
-      background: #3498db;
-      border: none;
-      color: #fff;
-      padding: 12px;
-      border-radius: 10px;
-      font-weight: 800;
-      font-size: 14px;
-      cursor: pointer;
+      flex: 1; background: #3498db; border: none; color: #fff;
+      padding: 12px; border-radius: 10px; font-weight: 800; cursor: pointer;
     }
     .status-msg {
-      margin-top: 12px;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 13px;
-      text-align: center;
-      display: none;
+      margin-top: 10px; padding: 10px; border-radius: 8px;
+      font-size: 13px; display: none;
     }
     .footer-version {
-      margin-top: 28px;
-      color: #555d69;
-      font-size: 13px;
-      padding-bottom: 15px;
+      margin-top: 25px; color: #555d69; font-size: 13px; padding-bottom: 15px;
     }
   </style>
 </head>
 <body>
 
+  <!-- Летающий секретный бонус -->
+  <div id="airdropBox" class="airdrop" onclick="catchAirdrop()">🎁</div>
+
   <!-- Верхняя панель баланса -->
   <div class="header">
     <div class="balance">$<span id="money">0</span></div>
     <div class="stats">
-      <span>👆 За клик: <b>$<span id="clickPower">1</span></b></span>
+      <span>👆 Клик: <b>$<span id="clickPower">1</span></b></span>
       <span>⚡ В сек: <b>$<span id="autoIncome">0</span></b></span>
+      <span>💎 Престиж: <b><span id="prestigeCnt">0</span></b> (+<span id="prestigeBonus">0</span>%)</span>
     </div>
-    <div class="user-badge">👤 Аккаунт: <span id="playerName">Гость</span></div>
+    <div class="user-badge">👤 <span id="playerName">Гость</span></div>
   </div>
 
   <!-- Навигация по вкладкам -->
   <div class="tabs">
     <button id="btn-game" class="tab-btn active" onclick="openTab('game')">🎮 Кликер</button>
-    <button id="btn-top" class="tab-btn" onclick="openTab('top')"><span class="live-dot"></span>Рейтинг</button>
-    <button id="btn-prof" class="tab-btn" onclick="openTab('prof')">🔐 Аккаунт</button>
+    <button id="btn-fun" class="tab-btn" onclick="openTab('fun')">🎰 Азарт</button>
+    <button id="btn-top" class="tab-btn" onclick="openTab('top')"><span class="live-dot"></span>Топ</button>
+    <button id="btn-prof" class="tab-btn" onclick="openTab('prof')">🔐 Вход</button>
   </div>
 
-  <!-- ВКЛАДКА 1: КЛИКЕР + РАСШИРЕННЫЙ МАГАЗИН (10 СЛОТОВ) -->
+  <!-- ВКЛАДКА 1: КЛИКЕР + КОМБО + МАГАЗИН -->
   <div id="sec-game" class="section active">
+    
+    <!-- Шкала Ярости (Комбо) -->
+    <div class="combo-wrap">
+      <div class="combo-label">
+        <span>🔥 РЕЖИМ ЯРОСТИ</span>
+        <span id="comboText">x1</span>
+      </div>
+      <div class="combo-bar-bg">
+        <div id="comboFill" class="combo-bar-fill"></div>
+      </div>
+    </div>
+
     <div class="click-area" id="clickArea">
       <button class="click-btn" id="mainBtn" onclick="tapCoin(event)">💵</button>
     </div>
@@ -343,129 +406,85 @@
     <div class="shop-box">
       <div class="shop-title">🛒 МАГАЗИН ИМПЕРИИ</div>
 
-      <!-- Слот 0 -->
       <button class="upgrade-btn" id="upBtn0" onclick="buyItem(0)">
-        <div class="item-left">
-          <div class="item-icon">💪</div>
-          <div>
-            <div style="font-weight:bold; font-size:14px;">Сила клика <span class="lvl-tag">Ур. <span id="cnt0">0</span></span></div>
-            <div style="font-size:12px; color:#8b949e;">+1$ к клику</div>
-          </div>
-        </div>
+        <div class="item-left"><div class="item-icon">💪</div><div><div style="font-weight:bold; font-size:14px;">Сила клика <span class="lvl-tag">Ур. <span id="cnt0">0</span></span></div><div style="font-size:12px; color:#8b949e;">+1$ к клику</div></div></div>
         <div class="price">$<span id="cost0">15</span></div>
       </button>
 
-      <!-- Слот 1 -->
       <button class="upgrade-btn" id="upBtn1" onclick="buyItem(1)">
-        <div class="item-left">
-          <div class="item-icon">🥤</div>
-          <div>
-            <div style="font-weight:bold; font-size:14px;">Лимонадный киоск <span class="lvl-tag">Ур. <span id="cnt1">0</span></span></div>
-            <div style="font-size:12px; color:#8b949e;">+2$ в секунду</div>
-          </div>
-        </div>
+        <div class="item-left"><div class="item-icon">🥤</div><div><div style="font-weight:bold; font-size:14px;">Лимонадный киоск <span class="lvl-tag">Ур. <span id="cnt1">0</span></span></div><div style="font-size:12px; color:#8b949e;">+2$ в секунду</div></div></div>
         <div class="price">$<span id="cost1">50</span></div>
       </button>
 
-      <!-- Слот 2 -->
       <button class="upgrade-btn" id="upBtn2" onclick="buyItem(2)">
-        <div class="item-left">
-          <div class="item-icon">💎</div>
-          <div>
-            <div style="font-weight:bold; font-size:14px;">Золотой палец <span class="lvl-tag">Ур. <span id="cnt2">0</span></span></div>
-            <div style="font-size:12px; color:#8b949e;">+5$ к клику</div>
-          </div>
-        </div>
+        <div class="item-left"><div class="item-icon">💎</div><div><div style="font-weight:bold; font-size:14px;">Золотой палец <span class="lvl-tag">Ур. <span id="cnt2">0</span></span></div><div style="font-size:12px; color:#8b949e;">+5$ к клику</div></div></div>
         <div class="price">$<span id="cost2">250</span></div>
       </button>
 
-      <!-- Слот 3 -->
       <button class="upgrade-btn" id="upBtn3" onclick="buyItem(3)">
-        <div class="item-left">
-          <div class="item-icon">☕</div>
-          <div>
-            <div style="font-weight:bold; font-size:14px;">Сеть кофеен <span class="lvl-tag">Ур. <span id="cnt3">0</span></span></div>
-            <div style="font-size:12px; color:#8b949e;">+15$ в секунду</div>
-          </div>
-        </div>
+        <div class="item-left"><div class="item-icon">☕</div><div><div style="font-weight:bold; font-size:14px;">Сеть кофеен <span class="lvl-tag">Ур. <span id="cnt3">0</span></span></div><div style="font-size:12px; color:#8b949e;">+15$ в секунду</div></div></div>
         <div class="price">$<span id="cost3">1 000</span></div>
       </button>
 
-      <!-- Слот 4 -->
       <button class="upgrade-btn" id="upBtn4" onclick="buyItem(4)">
-        <div class="item-left">
-          <div class="item-icon">🧤</div>
-          <div>
-            <div style="font-weight:bold; font-size:14px;">Перчатка магната <span class="lvl-tag">Ур. <span id="cnt4">0</span></span></div>
-            <div style="font-size:12px; color:#8b949e;">+25$ к клику</div>
-          </div>
-        </div>
+        <div class="item-left"><div class="item-icon">🧤</div><div><div style="font-weight:bold; font-size:14px;">Перчатка магната <span class="lvl-tag">Ур. <span id="cnt4">0</span></span></div><div style="font-size:12px; color:#8b949e;">+25$ к клику</div></div></div>
         <div class="price">$<span id="cost4">3 500</span></div>
       </button>
 
-      <!-- Слот 5 -->
       <button class="upgrade-btn" id="upBtn5" onclick="buyItem(5)">
-        <div class="item-left">
-          <div class="item-icon">🖥️</div>
-          <div>
-            <div style="font-weight:bold; font-size:14px;">Майнинг-ферма <span class="lvl-tag">Ур. <span id="cnt5">0</span></span></div>
-            <div style="font-size:12px; color:#8b949e;">+60$ в секунду</div>
-          </div>
-        </div>
+        <div class="item-left"><div class="item-icon">🖥️</div><div><div style="font-weight:bold; font-size:14px;">Майнинг-ферма <span class="lvl-tag">Ур. <span id="cnt5">0</span></span></div><div style="font-size:12px; color:#8b949e;">+60$ в секунду</div></div></div>
         <div class="price">$<span id="cost5">12 000</span></div>
       </button>
 
-      <!-- Слот 6 -->
       <button class="upgrade-btn" id="upBtn6" onclick="buyItem(6)">
-        <div class="item-left">
-          <div class="item-icon">🤖</div>
-          <div>
-            <div style="font-weight:bold; font-size:14px;">ИИ Трейдинг-Бот <span class="lvl-tag">Ур. <span id="cnt6">0</span></span></div>
-            <div style="font-size:12px; color:#8b949e;">+150$ к клику</div>
-          </div>
-        </div>
+        <div class="item-left"><div class="item-icon">🤖</div><div><div style="font-weight:bold; font-size:14px;">ИИ Трейдинг-Бот <span class="lvl-tag">Ур. <span id="cnt6">0</span></span></div><div style="font-size:12px; color:#8b949e;">+150$ к клику</div></div></div>
         <div class="price">$<span id="cost6">45 000</span></div>
       </button>
 
-      <!-- Слот 7 -->
       <button class="upgrade-btn" id="upBtn7" onclick="buyItem(7)">
-        <div class="item-left">
-          <div class="item-icon">🏦</div>
-          <div>
-            <div style="font-weight:bold; font-size:14px;">Крипто-Биржа <span class="lvl-tag">Ур. <span id="cnt7">0</span></span></div>
-            <div style="font-size:12px; color:#8b949e;">+350$ в секунду</div>
-          </div>
-        </div>
+        <div class="item-left"><div class="item-icon">🏦</div><div><div style="font-weight:bold; font-size:14px;">Крипто-Биржа <span class="lvl-tag">Ур. <span id="cnt7">0</span></span></div><div style="font-size:12px; color:#8b949e;">+350$ в секунду</div></div></div>
         <div class="price">$<span id="cost7">150 000</span></div>
       </button>
 
-      <!-- Слот 8 -->
       <button class="upgrade-btn" id="upBtn8" onclick="buyItem(8)">
-        <div class="item-left">
-          <div class="item-icon">🏭</div>
-          <div>
-            <div style="font-weight:bold; font-size:14px;">Завод электрокаров <span class="lvl-tag">Ур. <span id="cnt8">0</span></span></div>
-            <div style="font-size:12px; color:#8b949e;">+1 200$ в секунду</div>
-          </div>
-        </div>
+        <div class="item-left"><div class="item-icon">🏭</div><div><div style="font-weight:bold; font-size:14px;">Завод электрокаров <span class="lvl-tag">Ур. <span id="cnt8">0</span></span></div><div style="font-size:12px; color:#8b949e;">+1 200$ в секунду</div></div></div>
         <div class="price">$<span id="cost8">600 000</span></div>
       </button>
 
-      <!-- Слот 9 -->
       <button class="upgrade-btn" id="upBtn9" onclick="buyItem(9)">
-        <div class="item-left">
-          <div class="item-icon">🚀</div>
-          <div>
-            <div style="font-weight:bold; font-size:14px;">Космическая база <span class="lvl-tag">Ур. <span id="cnt9">0</span></span></div>
-            <div style="font-size:12px; color:#8b949e;">+5 000$ в секунду</div>
-          </div>
-        </div>
+        <div class="item-left"><div class="item-icon">🚀</div><div><div style="font-weight:bold; font-size:14px;">Космическая база <span class="lvl-tag">Ур. <span id="cnt9">0</span></span></div><div style="font-size:12px; color:#8b949e;">+5 000$ в секунду</div></div></div>
         <div class="price">$<span id="cost9">2 500 000</span></div>
       </button>
     </div>
   </div>
 
-  <!-- ВКЛАДКА 2: РЕЙТИНГ РЕАЛЬНЫХ ИГРОКОВ -->
+  <!-- ВКЛАДКА 2: КАЗИНО И ПЕРЕРОЖДЕНИЕ -->
+  <div id="sec-fun" class="section">
+    <div class="card-box">
+      <h3 style="margin:0 0 6px 0; color:#f1c40f;">🎰 Колесо Фортуны</h3>
+      <p style="font-size:12px; color:#8b949e; margin:0;">
+        Рискните частью баланса! Шанс выиграть <b>x2</b> или сорвать <b>ДЖЕКПОТ x5</b>!
+      </p>
+      <div class="casino-btns">
+        <button class="bet-btn" onclick="spinCasino(0.25)">Ставка 25%</button>
+        <button class="bet-btn" onclick="spinCasino(0.5)">Ставка 50%</button>
+        <button class="bet-btn" style="background:linear-gradient(135deg,#e74c3c,#c0392b);" onclick="spinCasino(1)">ВА-БАНК!</button>
+      </div>
+      <div id="casinoResult" style="margin-top:12px; font-weight:bold; font-size:14px; min-height:20px;"></div>
+    </div>
+
+    <div class="card-box">
+      <h3 style="margin:0 0 6px 0; color:#e056fd;">👑 Перерождение (Престиж)</h3>
+      <p style="font-size:12px; color:#8b949e; margin:0;">
+        Сбросьте деньги и бизнесы, чтобы получить <b>Кристалл Престижа 💎</b>. Каждый кристалл навсегда дает <b>+100% ко всем доходам</b> и корону в рейтинге!
+      </p>
+      <button class="prestige-btn" onclick="doPrestige()">
+        👑 Сделать Престиж (Нужно $1 000 000)
+      </button>
+    </div>
+  </div>
+
+  <!-- ВКЛАДКА 3: РЕЙТИНГ РЕАЛЬНЫХ ИГРОКОВ -->
   <div id="sec-top" class="section">
     <div class="shop-title">🏆 ЖИВОЙ РЕЙТИНГ ИГРОКОВ</div>
     <div class="leaderboard-box" id="topList">
@@ -473,25 +492,19 @@
     </div>
   </div>
 
-  <!-- ВКЛАДКА 3: ВХОД И РЕГИСТРАЦИЯ -->
+  <!-- ВКЛАДКА 4: АККАУНТ -->
   <div id="sec-prof" class="section">
-    <div class="profile-box">
+    <div class="card-box" style="text-align:left;">
       <h3 style="margin:0 0 6px 0; color:#f1c40f;">🔐 Вход и Регистрация</h3>
-      <p style="font-size:12px; color:#8b949e; margin-top:0; margin-bottom:14px;">
-        Придумайте ник и пароль, чтобы сохранить свой прогресс в облаке и заходить с любого устройства!
+      <p style="font-size:12px; color:#8b949e; margin-top:0; margin-bottom:12px;">
+        Привяжите пароль к нику, чтобы играть с любого устройства.
       </p>
-
-      <label class="input-label">Никнейм игрока:</label>
-      <input type="text" id="authNick" class="input-field" placeholder="Например: Boss777" maxlength="14">
-
-      <label class="input-label">Пароль:</label>
-      <input type="password" id="authPass" class="input-field" placeholder="Введите пароль..." maxlength="20">
-
+      <input type="text" id="authNick" class="input-field" placeholder="Ваш никнейм..." maxlength="14">
+      <input type="password" id="authPass" class="input-field" placeholder="Ваш пароль..." maxlength="20">
       <div class="auth-buttons">
         <button class="btn-login" onclick="loginAccount()">Войти</button>
         <button class="btn-register" onclick="registerAccount()">Регистрация</button>
       </div>
-
       <div id="authStatus" class="status-msg"></div>
     </div>
   </div>
@@ -503,7 +516,6 @@
   <script>
     var FIREBASE_URL = "https://clicker-8ad8b-default-rtdb.firebaseio.com";
 
-    // Базовые настройки 10 слотов магазина
     var baseCosts = [15, 50, 250, 1000, 3500, 12000, 45000, 150000, 600000, 2500000];
     var powers    = [1, 2, 5, 15, 25, 60, 150, 350, 1200, 5000];
     var types     = ['click', 'auto', 'click', 'auto', 'click', 'auto', 'click', 'auto', 'auto', 'auto'];
@@ -514,17 +526,19 @@
     var money = Number(localStorage.getItem('m_money')) || 0;
     var clickPower = Number(localStorage.getItem('m_click')) || 1;
     var autoIncome = Number(localStorage.getItem('m_auto')) || 0;
+    var prestige = Number(localStorage.getItem('m_prestige')) || 0;
     var playerName = localStorage.getItem('m_name') || ("Гость_" + Math.floor(Math.random() * 899 + 100));
     var playerPass = localStorage.getItem('m_pass') || "";
 
-    // Уникальный ключ профиля в базе
+    var comboEnergy = 0;
+    var comboMultiplier = 1;
+
     var playerId = localStorage.getItem('m_uid');
     if (!playerId) {
       playerId = 'user_' + Math.random().toString(36).substr(2, 9);
       localStorage.setItem('m_uid', playerId);
     }
 
-    // Загрузка уровней из памяти телефона
     for (var i = 0; i < 10; i++) {
       var sc = Number(localStorage.getItem('m_cost' + i));
       var sct = Number(localStorage.getItem('m_cnt' + i));
@@ -548,26 +562,125 @@
     }, { passive: false });
 
     function tapCoin(e) {
-      money += clickPower;
-      
-      mainBtn.classList.add('pop');
-      setTimeout(function() { mainBtn.classList.remove('pop'); }, 60);
+      // Накапливаем комбо от быстрых кликов
+      comboEnergy = Math.min(100, comboEnergy + 7);
+      updateComboState();
 
-      spawnDollar();
+      // Шанс 8% на КРИТИЧЕСКИЙ КЛИК x10
+      var isCrit = Math.random() < 0.08;
+      var prestigeMult = 1 + prestige;
+      var gain = clickPower * comboMultiplier * prestigeMult * (isCrit ? 10 : 1);
+
+      money += gain;
+
+      mainBtn.classList.add('pop');
+      setTimeout(function() { mainBtn.classList.remove('pop'); }, 55);
+
+      spawnDollar(gain, isCrit);
       refreshScreen();
       syncWithServer();
     }
 
-    function spawnDollar() {
+    function updateComboState() {
+      if (comboEnergy >= 85) {
+        comboMultiplier = 5;
+        mainBtn.className = 'click-btn frenzy-5';
+      } else if (comboEnergy >= 45) {
+        comboMultiplier = 2;
+        mainBtn.className = 'click-btn frenzy-2';
+      } else {
+        comboMultiplier = 1;
+        mainBtn.className = 'click-btn';
+      }
+      document.getElementById('comboFill').style.width = comboEnergy + '%';
+      document.getElementById('comboText').innerHTML = 'x' + comboMultiplier + (comboMultiplier > 1 ? ' 🔥' : '');
+    }
+
+    function spawnDollar(gain, isCrit) {
       var area = document.getElementById('clickArea');
       var el = document.createElement('div');
-      el.className = 'floating-dollar';
-      el.innerHTML = '+$' + formatNum(clickPower) + ' 💵';
-      var offset = Math.floor(Math.random() * 70) - 35;
-      el.style.left = (87 + offset) + 'px';
-      el.style.top = '40px';
+      el.className = isCrit ? 'floating-dollar crit' : 'floating-dollar';
+      el.innerHTML = (isCrit ? '💥 КРИТ +$' : '+$') + formatNum(gain);
+      var offset = Math.floor(Math.random() * 80) - 40;
+      el.style.left = (85 + offset) + 'px';
+      el.style.top = '35px';
       area.appendChild(el);
-      setTimeout(function() { el.remove(); }, 700);
+      setTimeout(function() { el.remove(); }, 750);
+    }
+
+    // Секретный Аирдроп
+    function spawnAirdrop() {
+      var box = document.getElementById('airdropBox');
+      var x = Math.floor(Math.random() * (window.innerWidth - 70)) + 15;
+      var y = Math.floor(Math.random() * (window.innerHeight - 200)) + 80;
+      box.style.left = x + 'px';
+      box.style.top = y + 'px';
+      box.style.display = 'block';
+
+      setTimeout(function() {
+        box.style.display = 'none';
+      }, 6000);
+    }
+
+    function catchAirdrop() {
+      var box = document.getElementById('airdropBox');
+      box.style.display = 'none';
+      var bonus = Math.max(250, (clickPower * 25 + autoIncome * 20) * (1 + prestige));
+      money += bonus;
+      refreshScreen();
+      syncWithServer();
+      alert('🎁 ВЫ ПОЙМАЛИ СЕКРЕТНЫЙ КЕЙС!\nБонус: +$' + formatNum(bonus));
+    }
+
+    // КАЗИНО ФОРТУНЫ
+    function spinCasino(part) {
+      var resBox = document.getElementById('casinoResult');
+      if (money < 10) {
+        resBox.style.color = '#e74c3c';
+        resBox.innerHTML = '❌ Нужно минимум $10 для ставки!';
+        return;
+      }
+      var bet = Math.floor(money * part);
+      money -= bet;
+
+      var roll = Math.random();
+      if (roll < 0.07) {
+        // Джекпот x5
+        var win5 = bet * 5;
+        money += win5;
+        resBox.style.color = '#f1c40f';
+        resBox.innerHTML = '🚨 ДЖЕКПОТ x5! Вы выиграли +$' + formatNum(win5) + '!';
+      } else if (roll < 0.48) {
+        // Победа x2
+        var win2 = bet * 2;
+        money += win2;
+        resBox.style.color = '#2ecc71';
+        resBox.innerHTML = '🎉 ПОБЕДА x2! Вы выиграли +$' + formatNum(win2) + '!';
+      } else {
+        resBox.style.color = '#ff6b6b';
+        resBox.innerHTML = '💸 Не повезло... Потеряно $' + formatNum(bet);
+      }
+      refreshScreen();
+      syncWithServer();
+    }
+
+    // ПЕРЕРОЖДЕНИЕ (ПРЕСТИЖ)
+    function doPrestige() {
+      if (money < 1000000) {
+        alert('Для Перерождения нужно накопить $1 000 000!');
+        return;
+      }
+      if (confirm('Сделать Перерождение? Вы получите +1 Кристалл Престижа (+100% ко всем доходам навсегда!), а деньги и бизнесы начнут с начала.')) {
+        prestige += 1;
+        money = 0;
+        clickPower = 1;
+        autoIncome = 0;
+        costs = baseCosts.slice();
+        counts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        localStorage.setItem('m_prestige', prestige);
+        refreshScreen();
+        syncWithServer();
+      }
     }
 
     function buyItem(idx) {
@@ -586,14 +699,10 @@
     }
 
     function openTab(tab) {
-      document.getElementById('sec-game').className = 'section';
-      document.getElementById('sec-top').className = 'section';
-      document.getElementById('sec-prof').className = 'section';
-
-      document.getElementById('btn-game').className = 'tab-btn';
-      document.getElementById('btn-top').className = 'tab-btn';
-      document.getElementById('btn-prof').className = 'tab-btn';
-
+      ['game', 'fun', 'top', 'prof'].forEach(function(t) {
+        document.getElementById('sec-' + t).className = 'section';
+        document.getElementById('btn-' + t).className = 'tab-btn';
+      });
       document.getElementById('sec-' + tab).className = 'section active';
       document.getElementById('btn-' + tab).className = 'tab-btn active';
 
@@ -608,97 +717,76 @@
       box.innerHTML = text;
     }
 
-    // РЕГИСТРАЦИЯ АККАУНТА С ПАРОЛЕМ
     function registerAccount() {
       var nick = document.getElementById('authNick').value.trim();
       var pass = document.getElementById('authPass').value.trim();
-
       if (nick.length < 3 || pass.length < 3) {
-        showStatus('⚠️ Ник и пароль должны быть не короче 3 символов!', true);
+        showStatus('⚠️ Ник и пароль должны быть от 3 символов!', true);
         return;
       }
-
       var accId = cleanKey(nick);
-      showStatus('⏳ Проверка ника в базе...', false);
+      showStatus('⏳ Проверка ника...', false);
 
       fetch(FIREBASE_URL + '/players/' + accId + '.json')
         .then(function(r) { return r.json(); })
         .then(function(existing) {
           if (existing && existing.pass) {
-            showStatus('❌ Этот ник уже занят! Если это ваш аккаунт — нажмите «Войти».', true);
+            showStatus('❌ Ник занят! Если он ваш — нажмите «Войти».', true);
             return;
           }
-          // Привязываем текущий прогресс к новому аккаунту
           playerId = accId;
           playerName = nick;
           playerPass = pass;
-
           localStorage.setItem('m_uid', playerId);
           localStorage.setItem('m_name', playerName);
           localStorage.setItem('m_pass', playerPass);
-
           refreshScreen();
           syncWithServer();
-          showStatus('✅ Аккаунт «' + nick + '» успешно создан! Прогресс защищен паролем.', false);
-        })
-        .catch(function() {
-          showStatus('❌ Ошибка сети при подключении к базе.', true);
+          showStatus('✅ Аккаунт создан и сохранен!', false);
         });
     }
 
-    // ВХОД В АККАУНТ И ВОССТАНОВЛЕНИЕ ПРОГРЕССА
     function loginAccount() {
       var nick = document.getElementById('authNick').value.trim();
       var pass = document.getElementById('authPass').value.trim();
-
       if (!nick || !pass) {
-        showStatus('⚠️ Введите ваш ник и пароль!', true);
+        showStatus('⚠️ Введите ник и пароль!', true);
         return;
       }
-
       var accId = cleanKey(nick);
-      showStatus('⏳ Загрузка вашего аккаунта...', false);
+      showStatus('⏳ Вход...', false);
 
       fetch(FIREBASE_URL + '/players/' + accId + '.json')
         .then(function(r) { return r.json(); })
         .then(function(data) {
           if (!data) {
-            showStatus('❌ Аккаунт не найден! Нажмите «Регистрация», чтобы создать его.', true);
+            showStatus('❌ Аккаунт не найден!', true);
             return;
           }
           if (data.pass && data.pass !== pass) {
             showStatus('❌ Неверный пароль!', true);
             return;
           }
-
-          // Загружаем весь прогресс из облака!
           playerId = accId;
           playerName = data.name || nick;
           playerPass = pass;
           money = Number(data.money) || 0;
           clickPower = Number(data.clickPower) || 1;
           autoIncome = Number(data.autoIncome) || 0;
-
-          if (Array.isArray(data.costs) && data.costs.length === 10) {
-            costs = data.costs;
-          }
-          if (Array.isArray(data.counts) && data.counts.length === 10) {
-            counts = data.counts;
-          }
+          prestige = Number(data.prestige) || 0;
+          if (Array.isArray(data.costs) && data.costs.length === 10) costs = data.costs;
+          if (Array.isArray(data.counts) && data.counts.length === 10) counts = data.counts;
 
           localStorage.setItem('m_uid', playerId);
           localStorage.setItem('m_name', playerName);
           localStorage.setItem('m_pass', playerPass);
+          localStorage.setItem('m_prestige', prestige);
 
           refreshScreen();
-          showStatus('✅ Вы успешно вошли! Весь ваш прогресс восстановлен.', false);
-        })
-        .catch(function() {
-          showStatus('❌ Ошибка загрузки профиля.', true);
+          showStatus('✅ Прогресс успешно загружен!', false);
         });
     }
 
-    // Сохранение всего прогресса в Firebase
     function syncWithServer() {
       fetch(FIREBASE_URL + '/players/' + playerId + '.json', {
         method: 'PUT',
@@ -709,6 +797,7 @@
           money: Math.floor(money),
           clickPower: clickPower,
           autoIncome: autoIncome,
+          prestige: prestige,
           costs: costs,
           counts: counts,
           updated: Date.now()
@@ -716,14 +805,13 @@
       }).catch(function() {});
     }
 
-    // Загрузка живого рейтинга
     function loadRealPlayers() {
       var box = document.getElementById('topList');
       fetch(FIREBASE_URL + '/players.json')
         .then(function(res) { return res.json(); })
         .then(function(data) {
           if (!data || data.error) {
-            box.innerHTML = '<div style="padding:15px; color:#f1c40f;">Пока нет данных. Сделайте первый клик!</div>';
+            box.innerHTML = '<div style="padding:15px;">Пока нет данных. Сделайте клик!</div>';
             return;
           }
           var list = [];
@@ -732,7 +820,8 @@
               list.push({
                 id: key,
                 name: data[key].name || 'Аноним',
-                money: data[key].money
+                money: data[key].money,
+                prestige: data[key].prestige || 0
               });
             }
           }
@@ -743,33 +832,28 @@
             var isMe = (list[i].id === playerId);
             var rowClass = isMe ? 'leader-row me' : 'leader-row';
             var tag = isMe ? ' (Вы)' : '';
+            var crown = list[i].prestige > 0 ? ' 👑' + list[i].prestige : '';
             var medal = (i === 0) ? '🥇 ' : (i === 1) ? '🥈 ' : (i === 2) ? '🥉 ' : '#' + (i + 1) + ' ';
-            html += '<div class="' + rowClass + '"><span>' + medal + list[i].name + tag + '</span><span style="color:#2ecc71; font-weight:bold;">$' + formatNum(list[i].money) + '</span></div>';
+            html += '<div class="' + rowClass + '"><span>' + medal + list[i].name + crown + tag + '</span><span style="color:#2ecc71; font-weight:bold;">$' + formatNum(list[i].money) + '</span></div>';
           }
           box.innerHTML = html;
-        })
-        .catch(function() {
-          box.innerHTML = '<div style="padding:15px; color:#e74c3c;">Ошибка подключения к серверу</div>';
         });
     }
 
     function refreshScreen() {
+      var pMult = 1 + prestige;
       document.getElementById('money').innerHTML = formatNum(money);
-      document.getElementById('clickPower').innerHTML = formatNum(clickPower);
-      document.getElementById('autoIncome').innerHTML = formatNum(autoIncome);
-      document.getElementById('playerName').innerHTML = playerName;
+      document.getElementById('clickPower').innerHTML = formatNum(clickPower * pMult);
+      document.getElementById('autoIncome').innerHTML = formatNum(autoIncome * pMult);
+      document.getElementById('prestigeCnt').innerHTML = prestige;
+      document.getElementById('prestigeBonus').innerHTML = prestige * 100;
+      document.getElementById('playerName').innerHTML = playerName + (prestige > 0 ? ' 👑' + prestige : '');
 
       for (var i = 0; i < 10; i++) {
         document.getElementById('cost' + i).innerHTML = formatNum(costs[i]);
         document.getElementById('cnt' + i).innerHTML = counts[i];
-        
         var btn = document.getElementById('upBtn' + i);
-        if (money >= costs[i]) {
-          btn.className = 'upgrade-btn affordable';
-        } else {
-          btn.className = 'upgrade-btn';
-        }
-
+        btn.className = (money >= costs[i]) ? 'upgrade-btn affordable' : 'upgrade-btn';
         localStorage.setItem('m_cost' + i, costs[i]);
         localStorage.setItem('m_cnt' + i, counts[i]);
       }
@@ -779,9 +863,18 @@
       localStorage.setItem('m_auto', autoIncome);
     }
 
+    // Остывание шкалы комбо
+    setInterval(function() {
+      if (comboEnergy > 0) {
+        comboEnergy = Math.max(0, comboEnergy - 4);
+        updateComboState();
+      }
+    }, 300);
+
+    // Авто-доход и обновление онлайн-рейтинга
     setInterval(function() {
       if (autoIncome > 0) {
-        money += autoIncome;
+        money += autoIncome * (1 + prestige);
         refreshScreen();
       }
       syncWithServer();
@@ -789,6 +882,9 @@
         loadRealPlayers();
       }
     }, 1500);
+
+    // Запуск секретного подарка каждые 30 секунд
+    setInterval(spawnAirdrop, 30000);
 
     refreshScreen();
     syncWithServer();
