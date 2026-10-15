@@ -674,7 +674,10 @@
 
     var comboEnergy = 0;
     var comboMultiplier = 1;
-    var totalClicksForAd = 0;
+
+    // Таймер для рекламы: раз в 3 минуты (180 000 миллисекунд)
+    var lastAdTime = Date.now();
+    var AD_COOLDOWN_MS = 180000;
 
     // Список шуточных рекламных объявлений для друзей
     var prankAds = [
@@ -695,7 +698,7 @@
       },
       {
         emoji: "🧠⚡",
-        title: "IQ ТЕСТ: ТОЛЬКО 0% ПРОЙДЕТ!",
+        title: "IQ ТЕСТ: ТОЛЬКО 1% ПРОЙДЕТ!",
         desc: "Сможешь ли ты попасть по крестику с первого раза? 99% твоих друзей уже опозорились!"
       },
       {
@@ -754,16 +757,16 @@
       refreshScreen();
       syncWithServer();
 
-      // Каждые ~55 кликов внезапно выскакивает смешная реклама!
-      totalClicksForAd++;
-      if (totalClicksForAd >= 55) {
-        totalClicksForAd = 0;
+      // Проверка: прошло ли 3 минуты (180 секунд) с последней рекламы при тапе
+      if (Date.now() - lastAdTime >= AD_COOLDOWN_MS) {
+        lastAdTime = Date.now();
         startPrankAd(true);
       }
     }
 
     // ЗАПУСК ФЕЙКОВОЙ ПРАНК-РЕКЛАМЫ
     function startPrankAd(giveBonus) {
+      lastAdTime = Date.now();
       adWithReward = giveBonus;
       adEscapeCount = 0;
 
@@ -818,6 +821,7 @@
       }
 
       document.getElementById('adOverlay').style.display = 'none';
+      lastAdTime = Date.now();
       if (adWithReward) {
         var reward = Math.max(300, (clickPower * 35 + autoIncome * 25) * (1 + prestige));
         money += reward;
@@ -855,7 +859,7 @@
       el.style.left = (85 + offset) + 'px';
       el.style.top = '35px';
       area.appendChild(el);
-      setTimeout(function() { el.remove(), 750; });
+      setTimeout(function() { el.remove(); }, 750);
     }
 
     function spawnAirdrop() {
