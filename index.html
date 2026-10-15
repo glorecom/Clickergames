@@ -48,7 +48,6 @@
       margin-top: 5px;
     }
 
-    /* Навигация */
     .tabs {
       display: flex;
       gap: 10px;
@@ -79,7 +78,6 @@
       display: block;
     }
 
-    /* Кнопка кликера */
     .click-area {
       position: relative;
       margin: 25px 0;
@@ -104,7 +102,6 @@
       transform: scale(0.9);
     }
 
-    /* Всплывающая анимация долларов */
     .floating-dollar {
       position: absolute;
       font-size: 24px;
@@ -129,7 +126,6 @@
       }
     }
 
-    /* Магазин */
     .shop {
       max-width: 420px;
       margin: 0 auto;
@@ -160,7 +156,6 @@
       border-color: #2ecc71;
     }
 
-    /* Таблица лидеров в реальном времени */
     .leaderboard-box {
       max-width: 420px;
       margin: 0 auto;
@@ -175,31 +170,16 @@
       padding: 12px 15px;
       border-bottom: 1px solid #2a2a2a;
       font-size: 14px;
-      transition: background 0.3s ease;
     }
     .leader-row.me {
       background: rgba(46, 204, 113, 0.15);
       border-left: 3px solid #2ecc71;
+      font-weight: bold;
     }
     .leader-row:first-child {
       color: #f1c40f;
-      font-weight: bold;
-    }
-    .live-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      background: #2ecc71;
-      border-radius: 50%;
-      margin-right: 6px;
-      animation: pulseDot 1.5s infinite;
-    }
-    @keyframes pulseDot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.7); }
     }
 
-    /* Профиль */
     .auth-box {
       background: #1e1e1e;
       padding: 15px;
@@ -225,4 +205,63 @@
       padding: 10px;
       border-radius: 8px;
       font-weight: bold;
-      cursor: pointer
+      cursor: pointer;
+    }
+    .footer-version {
+      margin-top: 30px;
+      color: #666;
+      font-size: 13px;
+      padding-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="balance">$<span id="money">0</span></div>
+    <div class="stats">
+      За клик: <b>$<span id="clickPower">1</span></b> | В сек: <b>$<span id="autoIncome">0</span></b>
+    </div>
+    <div class="user-badge">👤 <span id="playerNameBadge">Игрок</span></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('game', this)">🎮 Игра</button>
+    <button class="tab-btn" onclick="switchTab('leaderboard', this)">🏆 Рейтинг</button>
+    <button class="tab-btn" onclick="switchTab('profile', this)">⚙️ Профиль</button>
+  </div>
+
+  <!-- Вкладка: Игра -->
+  <div id="view-game" class="view-panel active">
+    <div class="click-area" id="clickArea">
+      <button class="click-btn" id="mainBtn">💵</button>
+    </div>
+
+    <div class="shop">
+      <h3 style="color:#f1c40f; text-align:center;">🛒 Магазин</h3>
+      <div id="shopContainer"></div>
+    </div>
+  </div>
+
+  <!-- Вкладка: Рейтинг -->
+  <div id="view-leaderboard" class="view-panel">
+    <h3 style="color:#f1c40f;">🏆 Топ игроков</h3>
+    <div class="leaderboard-box" id="leaderboardList"></div>
+  </div>
+
+  <!-- Вкладка: Профиль -->
+  <div id="view-profile" class="view-panel">
+    <div class="auth-box">
+      <h3>Ваш игровой ник</h3>
+      <input type="text" id="nameInput" class="auth-input" placeholder="Введите имя..." maxlength="12">
+      <button class="auth-submit-btn" onclick="setNickname()">Сохранить ник</button>
+    </div>
+  </div>
+
+  <div class="footer-version">
+    бета тестирование версия 1.2
+  </div>
+
+  <script>
+    let state = JSON.parse(localStorage.getItem('clickerSave')) || {
+      name: "Игрок
