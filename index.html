@@ -41,6 +41,7 @@
     .click-area {
       position: relative;
       margin: 25px 0;
+      display: inline-block;
     }
     .click-btn {
       width: 170px;
@@ -67,6 +68,7 @@
       font-size: 22px;
       pointer-events: none;
       animation: floatUp 0.8s ease-out forwards;
+      z-index: 10;
     }
     @keyframes floatUp {
       0% { opacity: 1; transform: translateY(0) scale(1); }
@@ -161,9 +163,16 @@
     const mainBtn = document.getElementById('mainBtn');
     const clickArea = document.getElementById('clickArea');
 
-    mainBtn.addEventListener('pointerdown', (e) => {
+    // Клик по кнопке денег (поддержка телефона и ПК)
+    mainBtn.addEventListener('click', (e) => {
       state.money += state.clickPower;
-      spawnFloatingText(e.clientX, e.clientY, `+$${state.clickPower}`);
+      
+      // Получаем координаты для анимации текста
+      const rect = mainBtn.getBoundingClientRect();
+      const x = e.clientX || (rect.left + rect.width / 2);
+      const y = e.clientY || (rect.top + rect.height / 2);
+      spawnFloatingText(x, y, `+$${state.clickPower}`);
+      
       updateUI();
     });
 
@@ -171,11 +180,15 @@
       const el = document.createElement('div');
       el.className = 'floating-text';
       el.innerText = text;
-      const rect = clickArea.getBoundingClientRect();
-      el.style.left = ((x ? x - rect.left : rect.width / 2) - 20) + 'px';
-      el.style.top = ((y ? y - rect.top : rect.height / 2) - 20) + 'px';
-      clickArea.appendChild(el);
+      el.style.left = (window.innerWidth / 2 - 20) + 'px';
+      el.style.top = (rectCenterY() - 50) + 'px';
+      document.body.appendChild(el);
       setTimeout(() => el.remove(), 800);
+    }
+
+    function rectCenterY() {
+      const rect = mainBtn.getBoundingClientRect();
+      return rect.top;
     }
 
     function buyUpgrade(index) {
@@ -197,5 +210,33 @@
         const canBuy = state.money >= u.cost ? 'can-buy' : '';
         container.innerHTML += `
           <button class="upgrade-btn ${canBuy}" onclick="buyUpgrade(${index})">
-            <div class
-д
+            <div class="upgrade-info">
+              <span class="upgrade-title">${u.name} (Ур. ${u.count})</span>
+              <span class="upgrade-desc">${u.desc}</span>
+            </div>
+            <div class="price">$${u.cost}</div>
+          </button>
+        `;
+      });
+    }
+
+    function updateUI() {
+      document.getElementById('money').innerText = Math.floor(state.money);
+      document.getElementById('clickPower').innerText = state.clickPower;
+      document.getElementById('autoIncome').innerText = state.autoIncome;
+      renderShop();
+      localStorage.setItem('clickerSave', JSON.stringify(state));
+    }
+
+    // Авто-доход каждую секунду
+    setInterval(() => {
+      if (state.autoIncome > 0) {
+        state.money += state.autoIncome;
+        updateUI();
+      }
+    }, 1000);
+
+    updateUI();
+  </script>
+</body>
+</html>
