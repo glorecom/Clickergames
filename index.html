@@ -9,7 +9,9 @@
       box-sizing: border-box;
       user-select: none;
       -webkit-user-select: none;
+      -webkit-touch-callout: none;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -161,35 +163,11 @@
     };
 
     const mainBtn = document.getElementById('mainBtn');
-    const clickArea = document.getElementById('clickArea');
 
-    // Клик по кнопке денег (поддержка телефона и ПК)
     mainBtn.addEventListener('click', (e) => {
       state.money += state.clickPower;
-      
-      // Получаем координаты для анимации текста
-      const rect = mainBtn.getBoundingClientRect();
-      const x = e.clientX || (rect.left + rect.width / 2);
-      const y = e.clientY || (rect.top + rect.height / 2);
-      spawnFloatingText(x, y, `+$${state.clickPower}`);
-      
       updateUI();
     });
-
-    function spawnFloatingText(x, y, text) {
-      const el = document.createElement('div');
-      el.className = 'floating-text';
-      el.innerText = text;
-      el.style.left = (window.innerWidth / 2 - 20) + 'px';
-      el.style.top = (rectCenterY() - 50) + 'px';
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 800);
-    }
-
-    function rectCenterY() {
-      const rect = mainBtn.getBoundingClientRect();
-      return rect.top;
-    }
 
     function buyUpgrade(index) {
       let u = state.upgrades[index];
@@ -228,7 +206,6 @@
       localStorage.setItem('clickerSave', JSON.stringify(state));
     }
 
-    // Авто-доход каждую секунду
     setInterval(() => {
       if (state.autoIncome > 0) {
         state.money += state.autoIncome;
