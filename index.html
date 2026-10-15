@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Денежный Кликер</title>
+  <title>Денежный Кликер — Онлайн</title>
   <style>
     * {
       box-sizing: border-box;
@@ -25,27 +25,61 @@
       flex-direction: column;
       min-height: 100vh;
     }
-    .content {
-      flex: 1;
-    }
     .header {
       background: #1e1e1e;
       padding: 15px;
       border-radius: 16px;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
     .balance {
-      font-size: 40px;
+      font-size: 38px;
       font-weight: 900;
       color: #2ecc71;
-      margin: 0;
     }
     .stats {
       color: #aaa;
-      font-size: 15px;
-      margin-top: 8px;
+      font-size: 14px;
+      margin-top: 5px;
     }
+    .user-badge {
+      font-size: 12px;
+      color: #f1c40f;
+      margin-top: 5px;
+    }
+
+    /* Навигация между вкладками */
+    .tabs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .tab-btn {
+      background: #252525;
+      color: #888;
+      border: 1px solid #333;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .tab-btn.active {
+      background: #2ecc71;
+      color: #121212;
+      border-color: #2ecc71;
+    }
+
+    .view-panel {
+      display: none;
+      flex: 1;
+    }
+    .view-panel.active {
+      display: block;
+    }
+
+    /* Анимация клика и пульсация */
     .click-area {
       position: relative;
       margin: 25px 0;
@@ -64,19 +98,17 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      transition: transform 0.08s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    .click-btn:active {
-      transform: scale(0.92);
+    .click-btn.pop {
+      transform: scale(0.88) rotate(-4deg);
     }
+
+    /* Магазин */
     .shop {
       max-width: 420px;
       margin: 0 auto;
       text-align: left;
-    }
-    .shop h3 {
-      text-align: center;
-      color: #f1c40f;
-      margin-bottom: 12px;
     }
     .upgrade-btn {
       width: 100%;
@@ -91,34 +123,68 @@
       align-items: center;
       cursor: pointer;
     }
-    .upgrade-btn:active {
-      background-color: #2c2c2c;
-    }
-    .upgrade-info {
-      display: flex;
-      flex-direction: column;
-      text-align: left;
-    }
-    .upgrade-title {
-      font-size: 16px;
-      font-weight: bold;
-    }
-    .upgrade-desc {
-      font-size: 13px;
-      color: #888;
-      margin-top: 2px;
-    }
     .price {
       background: #2c2c2c;
       color: #f1c40f;
       font-weight: bold;
       padding: 8px 12px;
       border-radius: 8px;
-      font-size: 15px;
+      font-size: 14px;
     }
     .can-buy {
       border-color: #2ecc71;
     }
+
+    /* Таблица лидеров */
+    .leaderboard-box {
+      max-width: 420px;
+      margin: 0 auto;
+      background: #1b1b1b;
+      border-radius: 14px;
+      border: 1px solid #333;
+      overflow: hidden;
+    }
+    .leader-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 15px;
+      border-bottom: 1px solid #2a2a2a;
+      font-size: 14px;
+    }
+    .leader-row:first-child {
+      color: #f1c40f;
+      font-weight: bold;
+    }
+
+    /* Модалка логина */
+    .auth-box {
+      background: #1e1e1e;
+      padding: 15px;
+      border-radius: 12px;
+      max-width: 380px;
+      margin: 0 auto 20px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .auth-input {
+      background: #121212;
+      border: 1px solid #444;
+      color: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .auth-submit-btn {
+      background: #2ecc71;
+      border: none;
+      color: #000;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
     .footer-version {
       margin-top: 30px;
       color: #666;
@@ -126,33 +192,32 @@
       padding-bottom: 10px;
     }
   </style>
-</head>
-<body>
 
-  <div class="content">
-    <div class="header">
-      <div class="balance">$<span id="money">0</span></div>
-      <div class="stats">
-        За клик: <b>$<span id="clickPower">1</span></b> | В сек: <b>$<span id="autoIncome">0</span></b>
-      </div>
-    </div>
+  <!-- Подключение SDK Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
-    <div class="click-area" id="clickArea">
-      <button class="click-btn" id="mainBtn">💵</button>
-    </div>
+    // ВСТАВЬТЕ СЮДА ВАШИ ДАННЫЕ ИЗ FIREBASE CONSOLE
+    const firebaseConfig = {
+      apiKey: "ВАШ_API_KEY",
+      authDomain: "ВАШ_PROJECT.firebaseapp.com",
+      projectId: "ВАШ_PROJECT_ID",
+      storageBucket: "ВАШ_PROJECT.appspot.com",
+      messagingSenderId: "ВАШ_SENDER_ID",
+      appId: "ВАШ_APP_ID"
+    };
 
-    <div class="shop">
-      <h3>🛒 Магазин прокачки</h3>
-      <div id="shopContainer"></div>
-    </div>
-  </div>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-  <div class="footer-version">
-    бета тестирование версия 1.1
-  </div>
+    let currentUser = null;
+    let syncTimeout = null;
 
-  <script>
-    let state = JSON.parse(localStorage.getItem('clickerSave')) || {
+    window.state = JSON.parse(localStorage.getItem('clickerSave')) || {
+      name: "Игрок_" + Math.floor(Math.random() * 9000 + 1000),
       money: 0,
       clickPower: 1,
       autoIncome: 0,
@@ -165,41 +230,181 @@
       ]
     };
 
+    // Быстрый анонимный вход при старте
+    signInAnonymously(auth).catch((err) => console.log("Вход оффлайн"));
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        currentUser = user;
+        document.getElementById('playerNameBadge').innerText = user.displayName || window.state.name;
+        
+        // Подтягиваем облачный прогресс, если он новее
+        const userRef = doc(db, "players", user.uid);
+        onSnapshot(userRef, (docSnap) => {
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (data.money > window.state.money) {
+              window.state = data;
+              updateUI();
+            }
+          }
+        });
+      }
+    });
+
+    // Функция авто-сохранения в Firestore
+    window.cloudSave = function() {
+      if (!currentUser) return;
+      clearTimeout(syncTimeout);
+      syncTimeout = setTimeout(async () => {
+        try {
+          await setDoc(doc(db, "players", currentUser.uid), {
+            name: currentUser.displayName || window.state.name,
+            money: Math.floor(window.state.money),
+            clickPower: window.state.clickPower,
+            autoIncome: window.state.autoIncome,
+            upgrades: window.state.upgrades,
+            lastSeen: Date.now()
+          }, { merge: true });
+        } catch (e) {
+          console.error("Ошибка сохранения в базу", e);
+        }
+      }, 2000);
+    };
+
+    window.setNickname = async function() {
+      const name = document.getElementById('nameInput').value.trim();
+      if (!name) return;
+      window.state.name = name;
+      if (currentUser) {
+        await updateProfile(currentUser, { displayName: name });
+        window.cloudSave();
+      }
+      document.getElementById('playerNameBadge').innerText = name;
+      alert("Никнейм успешно сохранен!");
+    };
+
+    window.loadLeaderboard = async function() {
+      const box = document.getElementById('leaderboardList');
+      box.innerHTML = '<div style="padding:15px; color:#aaa;">Загрузка рейтинга...</div>';
+      try {
+        const q = query(collection(db, "players"), orderBy("money", "desc"), limit(10));
+        const snap = await getDocs(q);
+        box.innerHTML = '';
+        let rank = 1;
+        snap.forEach((doc) => {
+          const d = doc.data();
+          box.innerHTML += `
+            <div class="leader-row">
+              <span>#${rank} ${d.name || "Аноним"}</span>
+              <span>$${d.money.toLocaleString()}</span>
+            </div>
+          `;
+          rank++;
+        });
+      } catch (e) {
+        box.innerHTML = '<div style="padding:15px; color:#e74c3c;">Не удалось загрузить топ (проверьте правила Firestore)</div>';
+      }
+    };
+  </script>
+</head>
+<body>
+
+  <div class="header">
+    <div class="balance">$<span id="money">0</span></div>
+    <div class="stats">
+      За клик: <b>$<span id="clickPower">1</span></b> | В сек: <b>$<span id="autoIncome">0</span></b>
+    </div>
+    <div class="user-badge">👤 <span id="playerNameBadge">Игрок</span></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('game')">🎮 Игра</button>
+    <button class="tab-btn" onclick="switchTab('leaderboard')">🏆 Топ игроков</button>
+    <button class="tab-btn" onclick="switchTab('profile')">⚙️ Профиль</button>
+  </div>
+
+  <!-- Вкладка: Игра -->
+  <div id="view-game" class="view-panel active">
+    <div class="click-area">
+      <button class="click-btn" id="mainBtn">💵</button>
+    </div>
+
+    <div class="shop">
+      <h3 style="color:#f1c40f; text-align:center;">🛒 Магазин</h3>
+      <div id="shopContainer"></div>
+    </div>
+  </div>
+
+  <!-- Вкладка: Рейтинг -->
+  <div id="view-leaderboard" class="view-panel">
+    <h3 style="color:#f1c40f;">🏆 Топ-10 Богачей</h3>
+    <div class="leaderboard-box" id="leaderboardList"></div>
+    <button class="auth-submit-btn" style="margin-top:15px;" onclick="window.loadLeaderboard()">🔄 Обновить</button>
+  </div>
+
+  <!-- Вкладка: Профиль -->
+  <div id="view-profile" class="view-panel">
+    <div class="auth-box">
+      <h3>Сохранение прогресса</h3>
+      <input type="text" id="nameInput" class="auth-input" placeholder="Введите ваш никнейм" maxlength="15">
+      <button class="auth-submit-btn" onclick="window.setNickname()">Сохранить ник</button>
+      <p style="font-size:12px; color:#888;">Ваш баланс автоматически синхронизируется с облаком и участвует в таблице лидеров.</p>
+    </div>
+  </div>
+
+  <div class="footer-version">
+    бета тестирование версия 1.2 • онлайн
+  </div>
+
+  <script>
     const mainBtn = document.getElementById('mainBtn');
+
+    // Анимация при тапе и клик без задержки
+    function handleTap() {
+      window.state.money += window.state.clickPower;
+      
+      mainBtn.classList.remove('pop');
+      void mainBtn.offsetWidth; 
+      mainBtn.classList.add('pop');
+      setTimeout(() => mainBtn.classList.remove('pop'), 80);
+
+      updateUI();
+      if (window.cloudSave) window.cloudSave();
+    }
 
     mainBtn.addEventListener('touchstart', (e) => {
       e.preventDefault();
-      state.money += state.clickPower;
-      updateUI();
+      handleTap();
     }, { passive: false });
 
     mainBtn.addEventListener('click', () => {
-      state.money += state.clickPower;
-      updateUI();
+      handleTap();
     });
 
     function buyUpgrade(index) {
-      let u = state.upgrades[index];
-      if (state.money >= u.cost) {
-        state.money -= u.cost;
+      let u = window.state.upgrades[index];
+      if (window.state.money >= u.cost) {
+        window.state.money -= u.cost;
         u.count++;
-        if (u.type === 'click') state.clickPower += u.power;
-        if (u.type === 'auto') state.autoIncome += u.power;
+        if (u.type === 'click') window.state.clickPower += u.power;
+        if (u.type === 'auto') window.state.autoIncome += u.power;
         u.cost = Math.round(u.cost * 1.55);
         updateUI();
+        if (window.cloudSave) window.cloudSave();
       }
     }
 
     function renderShop() {
       const container = document.getElementById('shopContainer');
       container.innerHTML = '';
-      state.upgrades.forEach((u, index) => {
-        const canBuy = state.money >= u.cost ? 'can-buy' : '';
+      window.state.upgrades.forEach((u, index) => {
+        const canBuy = window.state.money >= u.cost ? 'can-buy' : '';
         container.innerHTML += `
           <button class="upgrade-btn ${canBuy}" onclick="buyUpgrade(${index})">
-            <div class="upgrade-info">
-              <span class="upgrade-title">${u.name} (Ур. ${u.count})</span>
-              <span class="upgrade-desc">${u.desc}</span>
+            <div>
+              <div style="font-weight:bold;">${u.name} (Ур. ${u.count})</div>
+              <div style="font-size:12px; color:#888;">${u.desc}</div>
             </div>
             <div class="price">$${u.cost}</div>
           </button>
@@ -208,17 +413,30 @@
     }
 
     function updateUI() {
-      document.getElementById('money').innerText = Math.floor(state.money);
-      document.getElementById('clickPower').innerText = state.clickPower;
-      document.getElementById('autoIncome').innerText = state.autoIncome;
+      document.getElementById('money').innerText = Math.floor(window.state.money);
+      document.getElementById('clickPower').innerText = window.state.clickPower;
+      document.getElementById('autoIncome').innerText = window.state.autoIncome;
       renderShop();
-      localStorage.setItem('clickerSave', JSON.stringify(state));
+      localStorage.setItem('clickerSave', JSON.stringify(window.state));
+    }
+
+    function switchTab(name) {
+      document.querySelectorAll('.view-panel').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById('view-' + name).classList.add('active');
+      event.target.classList.add('active');
+
+      if (name === 'leaderboard' && window.loadLeaderboard) {
+        window.loadLeaderboard();
+      }
     }
 
     setInterval(() => {
-      if (state.autoIncome > 0) {
-        state.money += state.autoIncome;
+      if (window.state.autoIncome > 0) {
+        window.state.money += window.state.autoIncome;
         updateUI();
+        if (window.cloudSave) window.cloudSave();
       }
     }, 1000);
 
