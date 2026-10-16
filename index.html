@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Денежный Кликер Онлайн — Мега Обновление</title>
+  <title>Денежный Кликер — Империя Онлайн</title>
   <style>
     * {
       box-sizing: border-box;
@@ -15,29 +15,40 @@
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: radial-gradient(circle at top, #1d2b3a 0%, #090b0e 100%);
+      background: radial-gradient(circle at top, #1b2838 0%, #090b0f 100%);
       color: #ffffff;
       text-align: center;
       margin: 0;
-      padding: 10px;
+      padding: 8px;
       overflow-x: hidden;
       min-height: 100vh;
     }
 
-    /* Шапка баланса */
+    /* Шапка баланса и ранга */
     .header {
-      background: linear-gradient(145deg, rgba(30, 39, 52, 0.95), rgba(16, 20, 26, 0.95));
-      padding: 14px;
-      border-radius: 20px;
-      margin-bottom: 12px;
+      background: linear-gradient(145deg, rgba(28, 37, 50, 0.95), rgba(14, 18, 24, 0.95));
+      padding: 12px;
+      border-radius: 18px;
+      margin-bottom: 10px;
       box-shadow: 0 8px 25px rgba(0,0,0,0.6);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      max-width: 440px;
+      max-width: 450px;
       margin-left: auto;
       margin-right: auto;
     }
+    .rank-badge {
+      display: inline-block;
+      background: linear-gradient(90deg, #f39c12, #e67e22);
+      color: #000;
+      font-weight: 900;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
     .balance {
-      font-size: 38px;
+      font-size: 34px;
       font-weight: 900;
       color: #2ecc71;
       text-shadow: 0 0 18px rgba(46, 204, 113, 0.45);
@@ -45,77 +56,120 @@
     .stats {
       display: flex;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
       color: #b0b8c4;
-      font-size: 12px;
+      font-size: 11px;
       margin-top: 6px;
-      background: rgba(0, 0, 0, 0.4);
-      padding: 6px 10px;
+      background: rgba(0, 0, 0, 0.45);
+      padding: 6px 8px;
       border-radius: 10px;
       flex-wrap: wrap;
     }
     .stats b { color: #fff; }
     .user-badge {
       font-size: 12px;
-      color: #f1c40f;
+      color: #58a6ff;
       margin-top: 6px;
       font-weight: 600;
     }
 
-    /* Вкладки меню */
+    /* Навигация (5 вкладок) */
     .tabs {
       display: flex;
-      gap: 5px;
+      gap: 4px;
       justify-content: center;
-      margin-bottom: 14px;
-      max-width: 440px;
+      margin-bottom: 12px;
+      max-width: 450px;
       margin-left: auto;
       margin-right: auto;
     }
     .tab-btn {
-      background: #181c24;
+      background: #161a22;
       color: #8b949e;
-      border: 1px solid #2b313d;
-      padding: 10px 6px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: bold;
+      border: 1px solid #282f3d;
+      padding: 9px 4px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 800;
       cursor: pointer;
       flex: 1;
       transition: all 0.2s;
     }
     .tab-btn.active {
       background: linear-gradient(135deg, #2ecc71, #27ae60);
-      color: #0d0f12;
+      color: #090b0f;
       border-color: #2ecc71;
       box-shadow: 0 4px 12px rgba(46, 204, 113, 0.35);
     }
 
     .section {
       display: none;
-      max-width: 440px;
+      max-width: 450px;
       margin: 0 auto;
     }
     .section.active {
       display: block;
     }
 
+    /* БЛОК БОССА */
+    .boss-card {
+      background: linear-gradient(135deg, #2c1624, #151821);
+      border: 1px solid #e74c3c;
+      border-radius: 16px;
+      padding: 10px 14px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
+    }
+    .boss-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 800;
+      color: #ff7675;
+      margin-bottom: 6px;
+    }
+    .boss-hp-bg {
+      width: 100%;
+      height: 14px;
+      background: #0d0f12;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #442228;
+      position: relative;
+    }
+    .boss-hp-fill {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #ff4757, #ff6b81);
+      transition: width 0.1s;
+    }
+    .boss-hp-text {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 13px;
+      color: #fff;
+      text-shadow: 0 1px 3px #000;
+    }
+
     /* Шкала КОМБО */
     .combo-wrap {
       max-width: 280px;
-      margin: 0 auto 10px auto;
+      margin: 0 auto 8px auto;
     }
     .combo-label {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 800;
       color: #f39c12;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       display: flex;
       justify-content: space-between;
     }
     .combo-bar-bg {
       width: 100%;
-      height: 10px;
+      height: 8px;
       background: #1b2028;
       border-radius: 10px;
       overflow: hidden;
@@ -131,18 +185,18 @@
     /* Кнопка клика */
     .click-area {
       position: relative;
-      margin: 10px 0 12px 0;
+      margin: 6px 0 10px 0;
       display: inline-block;
     }
     .click-btn {
-      width: 170px;
-      height: 170px;
+      width: 155px;
+      height: 155px;
       border-radius: 50%;
       background: radial-gradient(circle at 30% 30%, #3bee86, #27ae60, #186a3b);
-      border: 6px solid rgba(46, 204, 113, 0.4);
+      border: 5px solid rgba(46, 204, 113, 0.4);
       color: white;
-      font-size: 66px;
-      box-shadow: 0 12px 35px rgba(46, 204, 113, 0.45), inset 0 -6px 15px rgba(0,0,0,0.4);
+      font-size: 60px;
+      box-shadow: 0 10px 30px rgba(46, 204, 113, 0.45), inset 0 -6px 15px rgba(0,0,0,0.4);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -151,36 +205,211 @@
     }
     .click-btn.frenzy-2 {
       background: radial-gradient(circle at 30% 30%, #f1c40f, #e67e22, #d35400);
-      box-shadow: 0 0 40px rgba(241, 196, 15, 0.7);
+      box-shadow: 0 0 35px rgba(241, 196, 15, 0.7);
       border-color: #fff3cd;
     }
     .click-btn.frenzy-5 {
       background: radial-gradient(circle at 30% 30%, #e056fd, #be2edd, #686de0);
-      box-shadow: 0 0 50px rgba(224, 86, 253, 0.9);
+      box-shadow: 0 0 45px rgba(224, 86, 253, 0.9);
       border-color: #ffffff;
     }
     .click-btn:active, .click-btn.pop {
       transform: scale(0.9);
     }
 
-    /* Кнопка вызова рекламы за бонус */
+    /* Кнопка вызова рекламы */
     .watch-ad-btn {
       display: block;
-      margin: 0 auto 18px auto;
+      margin: 0 auto 14px auto;
       background: linear-gradient(135deg, #ff416c, #ff4b2b);
       color: #fff;
-      border: 2px solid #ff758c;
-      padding: 9px 18px;
+      border: 1px solid #ff758c;
+      padding: 8px 16px;
       border-radius: 25px;
       font-weight: 800;
-      font-size: 13px;
+      font-size: 12px;
       cursor: pointer;
       box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
-      animation: pulseAdBtn 1.5s infinite;
     }
-    @keyframes pulseAdBtn {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.04); }
+
+    /* Всплывающий текст */
+    .floating-dollar {
+      position: absolute;
+      font-size: 20px;
+      font-weight: 900;
+      color: #2ecc71;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.95);
+      pointer-events: none;
+      z-index: 999;
+      white-space: nowrap;
+      animation: floatUp 0.7s ease-out forwards;
+    }
+    .floating-dollar.crit {
+      font-size: 25px;
+      color: #f1c40f;
+      text-shadow: 0 0 15px rgba(241, 196, 15, 0.9);
+    }
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translate(-50%, 0) scale(0.85); }
+      100% { opacity: 0; transform: translate(-50%, -80px) scale(1.15); }
+    }
+
+    /* Магазин */
+    .shop-box { text-align: left; }
+    .shop-title {
+      text-align: center;
+      color: #f1c40f;
+      margin: 5px 0 10px 0;
+      font-size: 15px;
+      font-weight: 900;
+    }
+    .upgrade-btn {
+      width: 100%;
+      background: #161a22;
+      border: 1px solid #262c38;
+      color: white;
+      padding: 10px 12px;
+      margin-bottom: 7px;
+      border-radius: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+    .upgrade-btn.affordable {
+      border-color: #2ecc71;
+      background: linear-gradient(90deg, #161a22 0%, rgba(46, 204, 113, 0.14) 100%);
+    }
+    .item-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+    }
+    .item-icon {
+      font-size: 22px;
+      background: #212733;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lvl-tag {
+      background: #2b3343;
+      color: #58a6ff;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      margin-left: 4px;
+    }
+    .price {
+      background: #212733;
+      color: #f1c40f;
+      font-weight: 800;
+      padding: 7px 10px;
+      border-radius: 9px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .upgrade-btn.affordable .price {
+      background: #2ecc71;
+      color: #090b0f;
+    }
+
+    /* КРИПТО-БИРЖА */
+    .card-box {
+      background: #161a22;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid #262c38;
+      margin-bottom: 12px;
+      text-align: left;
+    }
+    .news-ticker {
+      background: rgba(241, 196, 15, 0.12);
+      border: 1px solid #f1c40f;
+      color: #f1c40f;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .coin-card {
+      background: #1c222d;
+      border: 1px solid #2d3646;
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .coin-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .coin-name { font-weight: 900; font-size: 15px; }
+    .coin-price { font-weight: 900; font-size: 16px; }
+    .up { color: #2ecc71; }
+    .down { color: #ff4757; }
+    .chart-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 40px;
+      background: #11151c;
+      padding: 6px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    .bar {
+      flex: 1;
+      background: #58a6ff;
+      border-radius: 3px;
+      min-height: 4px;
+      transition: height 0.3s;
+    }
+    .trade-btns {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-buy-coin {
+      flex: 1; background: #2ecc71; color: #000; border: none;
+      padding: 9px; border-radius: 8px; font-weight: 900; font-size: 12px; cursor: pointer;
+    }
+    .btn-sell-coin {
+      flex: 1; background: #e74c3c; color: #fff; border: none;
+      padding: 9px; border-radius: 8px; font-weight: 900; font-size: 12px; cursor: pointer;
+    }
+
+    /* КЕЙСЫ И АРТЕФАКТЫ */
+    .case-grid {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .case-item {
+      flex: 1;
+      background: linear-gradient(145deg, #232a38, #161a22);
+      border: 1px solid #3a4459;
+      border-radius: 14px;
+      padding: 12px 8px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .artifact-badge {
+      display: inline-block;
+      background: #232a38;
+      border: 1px solid #f1c40f;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      margin: 4px;
+      font-weight: bold;
     }
 
     /* МОДАЛЬНОЕ ОКНО ФЕЙКОВОЙ РЕКЛАМЫ */
@@ -196,292 +425,63 @@
       padding: 20px;
     }
     .ad-badge {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      background: rgba(255, 255, 255, 0.2);
-      color: #ddd;
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 6px;
+      position: absolute; top: 15px; left: 15px;
+      background: rgba(255, 255, 255, 0.2); color: #ddd;
+      font-size: 11px; padding: 4px 8px; border-radius: 6px;
     }
     .ad-timer {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: #333;
-      color: #f1c40f;
-      font-size: 13px;
-      font-weight: bold;
-      padding: 6px 12px;
-      border-radius: 15px;
-      border: 1px solid #555;
+      position: absolute; top: 15px; right: 15px;
+      background: #333; color: #f1c40f; font-size: 13px;
+      font-weight: bold; padding: 6px 12px; border-radius: 15px;
     }
     .ad-close-btn {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      width: 28px;
-      height: 28px;
-      background: #444;
-      color: #fff;
-      border: 1px solid #777;
-      border-radius: 50%;
-      font-size: 14px;
-      font-weight: bold;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 10001;
+      position: fixed; top: 15px; right: 15px;
+      width: 28px; height: 28px; background: #444; color: #fff;
+      border: 1px solid #777; border-radius: 50%;
+      font-size: 14px; font-weight: bold; display: none;
+      align-items: center; justify-content: center; cursor: pointer; z-index: 10001;
     }
     .ad-card {
       background: linear-gradient(135deg, #2c3e50, #000000);
-      border: 3px solid #f1c40f;
-      border-radius: 20px;
-      padding: 25px 18px;
-      max-width: 350px;
-      width: 100%;
-      box-shadow: 0 0 40px rgba(241, 196, 15, 0.4);
+      border: 3px solid #f1c40f; border-radius: 20px;
+      padding: 25px 18px; max-width: 350px; width: 100%;
     }
-    .ad-emoji {
-      font-size: 72px;
-      margin-bottom: 10px;
-      animation: bounceAd 0.8s infinite alternate;
-    }
-    @keyframes bounceAd {
-      from { transform: translateY(0) scale(1); }
-      to { transform: translateY(-12px) scale(1.1); }
-    }
-    .ad-title {
-      font-size: 22px;
-      font-weight: 900;
-      color: #f1c40f;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-    }
-    .ad-desc {
-      font-size: 15px;
-      color: #fff;
-      margin-bottom: 20px;
-      line-height: 1.4;
-    }
+    .ad-emoji { font-size: 68px; margin-bottom: 10px; }
+    .ad-title { font-size: 20px; font-weight: 900; color: #f1c40f; margin-bottom: 10px; }
+    .ad-desc { font-size: 14px; color: #fff; margin-bottom: 18px; }
     .ad-fake-cta {
       background: linear-gradient(90deg, #2ecc71, #f1c40f);
-      color: #000;
-      font-weight: 900;
-      font-size: 16px;
-      padding: 14px;
-      border-radius: 12px;
-      border: none;
-      width: 100%;
-      cursor: pointer;
-      text-transform: uppercase;
+      color: #000; font-weight: 900; font-size: 15px;
+      padding: 13px; border-radius: 12px; border: none; width: 100%; cursor: pointer;
     }
-    .ad-troll-msg {
-      color: #ff6b6b;
-      font-size: 13px;
-      font-weight: bold;
-      margin-top: 12px;
-      min-height: 18px;
-    }
+    .ad-troll-msg { color: #ff6b6b; font-size: 13px; font-weight: bold; margin-top: 12px; min-height: 18px; }
 
-    /* Всплывающий текст */
-    .floating-dollar {
-      position: absolute;
-      font-size: 21px;
-      font-weight: 900;
-      color: #2ecc71;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.95);
-      pointer-events: none;
-      z-index: 999;
-      white-space: nowrap;
-      animation: floatUp 0.75s ease-out forwards;
-    }
-    .floating-dollar.crit {
-      font-size: 27px;
-      color: #f1c40f;
-      text-shadow: 0 0 15px rgba(241, 196, 15, 0.9);
-    }
-    @keyframes floatUp {
-      0% { opacity: 1; transform: translate(-50%, 0) scale(0.85); }
-      100% { opacity: 0; transform: translate(-50%, -85px) scale(1.15); }
-    }
-
-    /* Летающий Аирдроп-бонус */
+    /* Летающий Аирдроп */
     .airdrop {
-      position: fixed;
-      font-size: 46px;
-      z-index: 9999;
-      cursor: pointer;
-      filter: drop-shadow(0 0 15px #f1c40f);
-      animation: pulseDrop 0.6s infinite alternate;
-      display: none;
-    }
-    @keyframes pulseDrop {
-      from { transform: scale(1) rotate(-8deg); }
-      to { transform: scale(1.18) rotate(8deg); }
-    }
-
-    /* Магазин */
-    .shop-box { text-align: left; }
-    .shop-title {
-      text-align: center;
-      color: #f1c40f;
-      margin: 5px 0 12px 0;
-      font-size: 16px;
-      font-weight: 800;
-    }
-    .upgrade-btn {
-      width: 100%;
-      background: #181c24;
-      border: 1px solid #2b313d;
-      color: white;
-      padding: 11px 13px;
-      margin-bottom: 8px;
-      border-radius: 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-    }
-    .upgrade-btn.affordable {
-      border-color: #2ecc71;
-      background: linear-gradient(90deg, #181c24 0%, rgba(46, 204, 113, 0.14) 100%);
-    }
-    .item-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-align: left;
-    }
-    .item-icon {
-      font-size: 24px;
-      background: #232936;
-      width: 42px;
-      height: 42px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .lvl-tag {
-      background: #2b3343;
-      color: #58a6ff;
-      font-size: 11px;
-      padding: 2px 6px;
-      border-radius: 6px;
-      margin-left: 4px;
-    }
-    .price {
-      background: #232936;
-      color: #f1c40f;
-      font-weight: 800;
-      padding: 8px 11px;
-      border-radius: 10px;
-      font-size: 13px;
-      white-space: nowrap;
-    }
-    .upgrade-btn.affordable .price {
-      background: #2ecc71;
-      color: #0d0f12;
-    }
-
-    /* Казино и Престиж */
-    .card-box {
-      background: #181c24;
-      padding: 16px;
-      border-radius: 16px;
-      border: 1px solid #2b313d;
-      margin-bottom: 14px;
-    }
-    .casino-btns {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-    }
-    .bet-btn {
-      flex: 1;
-      background: linear-gradient(135deg, #f39c12, #d35400);
-      border: none;
-      color: #fff;
-      padding: 12px 6px;
-      border-radius: 10px;
-      font-weight: 800;
-      font-size: 13px;
-      cursor: pointer;
-    }
-    .prestige-btn {
-      width: 100%;
-      background: linear-gradient(135deg, #9b59b6, #8e44ad);
-      border: none;
-      color: #fff;
-      padding: 13px;
-      border-radius: 12px;
-      font-weight: 900;
-      font-size: 14px;
-      cursor: pointer;
-      margin-top: 10px;
-      box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);
+      position: fixed; font-size: 44px; z-index: 9999; cursor: pointer;
+      filter: drop-shadow(0 0 15px #f1c40f); display: none;
     }
 
     /* Рейтинг */
     .leaderboard-box {
-      background: #181c24;
-      border-radius: 16px;
-      border: 1px solid #2b313d;
-      overflow: hidden;
+      background: #161a22; border-radius: 16px; border: 1px solid #262c38; overflow: hidden;
     }
     .leader-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 15px;
-      border-bottom: 1px solid #232832;
-      font-size: 14px;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 11px 14px; border-bottom: 1px solid #202632; font-size: 13px;
     }
     .leader-row.me {
-      background: rgba(46, 204, 113, 0.18);
-      border-left: 4px solid #2ecc71;
-      font-weight: bold;
+      background: rgba(46, 204, 113, 0.18); border-left: 4px solid #2ecc71; font-weight: bold;
     }
-    .live-dot {
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      background: #2ecc71;
-      border-radius: 50%;
-      margin-right: 4px;
-      box-shadow: 0 0 8px #2ecc71;
-    }
-
-    /* Профиль */
     .input-field {
-      width: 100%;
-      background: #0d0f12;
-      border: 1px solid #30363d;
-      color: #fff;
-      padding: 11px;
-      border-radius: 10px;
-      font-size: 14px;
-      margin-bottom: 10px;
+      width: 100%; background: #0d0f12; border: 1px solid #30363d;
+      color: #fff; padding: 11px; border-radius: 10px; font-size: 14px; margin-bottom: 10px;
     }
     .auth-buttons { display: flex; gap: 10px; }
-    .btn-login {
-      flex: 1; background: #2ecc71; border: none; color: #0d0f12;
-      padding: 12px; border-radius: 10px; font-weight: 800; cursor: pointer;
-    }
-    .btn-register {
-      flex: 1; background: #3498db; border: none; color: #fff;
-      padding: 12px; border-radius: 10px; font-weight: 800; cursor: pointer;
-    }
-    .status-msg {
-      margin-top: 10px; padding: 10px; border-radius: 8px;
-      font-size: 13px; display: none;
-    }
-    .footer-version {
-      margin-top: 25px; color: #555d69; font-size: 13px; padding-bottom: 15px;
-    }
+    .btn-login { flex: 1; background: #2ecc71; border: none; color: #000; padding: 12px; border-radius: 10px; font-weight: 800; cursor: pointer; }
+    .btn-register { flex: 1; background: #3498db; border: none; color: #fff; padding: 12px; border-radius: 10px; font-weight: 800; cursor: pointer; }
+    .status-msg { margin-top: 10px; padding: 10px; border-radius: 8px; font-size: 13px; display: none; }
+    .footer-version { margin-top: 25px; color: #555d69; font-size: 12px; padding-bottom: 15px; }
   </style>
 </head>
 <body>
@@ -491,44 +491,57 @@
     <div class="ad-badge">Реклама • 18+</div>
     <div id="adTimer" class="ad-timer">Осталось: 5 сек</div>
     <div id="adCloseBtn" class="ad-close-btn" onclick="tryCloseAd()">✕</div>
-
     <div class="ad-card">
       <div id="adEmoji" class="ad-emoji">🚀</div>
-      <div id="adTitle" class="ad-title">ЗАГОЛОВОК РЕКЛАМЫ</div>
-      <div id="adDesc" class="ad-desc">Описание супер-товара</div>
+      <div id="adTitle" class="ad-title">ЗАГОЛОВОК</div>
+      <div id="adDesc" class="ad-desc">Описание</div>
       <button class="ad-fake-cta" onclick="clickFakeAdBtn()">СКАЧАТЬ БЕСПЛАТНО</button>
       <div id="adTrollMsg" class="ad-troll-msg"></div>
     </div>
   </div>
 
-  <!-- Летающий секретный бонус -->
+  <!-- Секретный бонус -->
   <div id="airdropBox" class="airdrop" onclick="catchAirdrop()">🎁</div>
 
-  <!-- Верхняя панель баланса -->
+  <!-- Верхняя панель -->
   <div class="header">
+    <div id="rankBadge" class="rank-badge">Звание: Новичок</div>
     <div class="balance">$<span id="money">0</span></div>
     <div class="stats">
-      <span>👆 Клик: <b>$<span id="clickPower">1</span></b></span>
-      <span>⚡ В сек: <b>$<span id="autoIncome">0</span></b></span>
-      <span>💎 Престиж: <b><span id="prestigeCnt">0</span></b> (+<span id="prestigeBonus">0</span>%)</span>
+      <span>👆 Урон/Клик: <b>$<span id="clickPower">1</span></b></span>
+      <span>⚡ Авто/сек: <b>$<span id="autoIncome">0</span></b></span>
+      <span>💎 Бонус: <b>+<span id="totalMultText">0</span>%</b></span>
     </div>
-    <div class="user-badge">👤 <span id="playerName">Гость</span></div>
+    <div class="user-badge">👤 <span id="playerName">Гость</span> | 👾 Босс #<span id="bossLvlText">1</span></div>
   </div>
 
-  <!-- Навигация по вкладкам -->
+  <!-- 5 ВКЛАДОК ИГРЫ -->
   <div class="tabs">
-    <button id="btn-game" class="tab-btn active" onclick="openTab('game')">🎮 Кликер</button>
-    <button id="btn-fun" class="tab-btn" onclick="openTab('fun')">🎰 Азарт</button>
-    <button id="btn-top" class="tab-btn" onclick="openTab('top')"><span class="live-dot"></span>Топ</button>
+    <button id="btn-game" class="tab-btn active" onclick="openTab('game')">⚔️ Босс</button>
+    <button id="btn-trade" class="tab-btn" onclick="openTab('trade')">📈 Биржа</button>
+    <button id="btn-cases" class="tab-btn" onclick="openTab('cases')">📦 Кейсы</button>
+    <button id="btn-top" class="tab-btn" onclick="openTab('top')">🏆 Топ</button>
     <button id="btn-prof" class="tab-btn" onclick="openTab('prof')">🔐 Вход</button>
   </div>
 
-  <!-- ВКЛАДКА 1: КЛИКЕР + КОМБО + МАГАЗИН -->
+  <!-- ВКЛАДКА 1: БИТВА С БОССОМ + КЛИКЕР + 15 СЛОТОВ МАГАЗИНА -->
   <div id="sec-game" class="section active">
     
+    <!-- Карточка Босса -->
+    <div class="boss-card">
+      <div class="boss-header">
+        <span id="bossName">👾 Босс #1: Налоговый Инспектор</span>
+        <span style="color:#f1c40f;">Награда: $<span id="bossReward">500</span></span>
+      </div>
+      <div class="boss-hp-bg">
+        <div id="bossHpFill" class="boss-hp-fill"></div>
+        <div id="bossHpText" class="boss-hp-text">250 / 250 HP</div>
+      </div>
+    </div>
+
     <div class="combo-wrap">
       <div class="combo-label">
-        <span>🔥 РЕЖИМ ЯРОСТИ</span>
+        <span>🔥 ЯРОСТЬ КЛИКА</span>
         <span id="comboText">x1</span>
       </div>
       <div class="combo-bar-bg">
@@ -540,106 +553,85 @@
       <button class="click-btn" id="mainBtn" onclick="tapCoin(event)">💵</button>
     </div>
 
-    <!-- Кнопка просмотра пранк-рекламы -->
     <button class="watch-ad-btn" onclick="startPrankAd(true)">
       📺 СМОТРЕТЬ РЕКЛАМУ (+МЕГА БОНУС 💰)
     </button>
 
     <div class="shop-box">
-      <div class="shop-title">🛒 МАГАЗИН ИМПЕРИИ</div>
-
-      <button class="upgrade-btn" id="upBtn0" onclick="buyItem(0)">
-        <div class="item-left"><div class="item-icon">💪</div><div><div style="font-weight:bold; font-size:14px;">Сила клика <span class="lvl-tag">Ур. <span id="cnt0">0</span></span></div><div style="font-size:12px; color:#8b949e;">+1$ к клику</div></div></div>
-        <div class="price">$<span id="cost0">15</span></div>
-      </button>
-
-      <button class="upgrade-btn" id="upBtn1" onclick="buyItem(1)">
-        <div class="item-left"><div class="item-icon">🥤</div><div><div style="font-weight:bold; font-size:14px;">Лимонадный киоск <span class="lvl-tag">Ур. <span id="cnt1">0</span></span></div><div style="font-size:12px; color:#8b949e;">+2$ в секунду</div></div></div>
-        <div class="price">$<span id="cost1">50</span></div>
-      </button>
-
-      <button class="upgrade-btn" id="upBtn2" onclick="buyItem(2)">
-        <div class="item-left"><div class="item-icon">💎</div><div><div style="font-weight:bold; font-size:14px;">Золотой палец <span class="lvl-tag">Ур. <span id="cnt2">0</span></span></div><div style="font-size:12px; color:#8b949e;">+5$ к клику</div></div></div>
-        <div class="price">$<span id="cost2">250</span></div>
-      </button>
-
-      <button class="upgrade-btn" id="upBtn3" onclick="buyItem(3)">
-        <div class="item-left"><div class="item-icon">☕</div><div><div style="font-weight:bold; font-size:14px;">Сеть кофеен <span class="lvl-tag">Ур. <span id="cnt3">0</span></span></div><div style="font-size:12px; color:#8b949e;">+15$ в секунду</div></div></div>
-        <div class="price">$<span id="cost3">1 000</span></div>
-      </button>
-
-      <button class="upgrade-btn" id="upBtn4" onclick="buyItem(4)">
-        <div class="item-left"><div class="item-icon">🧤</div><div><div style="font-weight:bold; font-size:14px;">Перчатка магната <span class="lvl-tag">Ур. <span id="cnt4">0</span></span></div><div style="font-size:12px; color:#8b949e;">+25$ к клику</div></div></div>
-        <div class="price">$<span id="cost4">3 500</span></div>
-      </button>
-
-      <button class="upgrade-btn" id="upBtn5" onclick="buyItem(5)">
-        <div class="item-left"><div class="item-icon">🖥️</div><div><div style="font-weight:bold; font-size:14px;">Майнинг-ферма <span class="lvl-tag">Ур. <span id="cnt5">0</span></span></div><div style="font-size:12px; color:#8b949e;">+60$ в секунду</div></div></div>
-        <div class="price">$<span id="cost5">12 000</span></div>
-      </button>
-
-      <button class="upgrade-btn" id="upBtn6" onclick="buyItem(6)">
-        <div class="item-left"><div class="item-icon">🤖</div><div><div style="font-weight:bold; font-size:14px;">ИИ Трейдинг-Бот <span class="lvl-tag">Ур. <span id="cnt6">0</span></span></div><div style="font-size:12px; color:#8b949e;">+150$ к клику</div></div></div>
-        <div class="price">$<span id="cost6">45 000</span></div>
-      </button>
-
-      <button class="upgrade-btn" id="upBtn7" onclick="buyItem(7)">
-        <div class="item-left"><div class="item-icon">🏦</div><div><div style="font-weight:bold; font-size:14px;">Крипто-Биржа <span class="lvl-tag">Ур. <span id="cnt7">0</span></span></div><div style="font-size:12px; color:#8b949e;">+350$ в секунду</div></div></div>
-        <div class="price">$<span id="cost7">150 000</span></div>
-      </button>
-
-      <button class="upgrade-btn" id="upBtn8" onclick="buyItem(8)">
-        <div class="item-left"><div class="item-icon">🏭</div><div><div style="font-weight:bold; font-size:14px;">Завод электрокаров <span class="lvl-tag">Ур. <span id="cnt8">0</span></span></div><div style="font-size:12px; color:#8b949e;">+1 200$ в секунду</div></div></div>
-        <div class="price">$<span id="cost8">600 000</span></div>
-      </button>
-
-      <button class="upgrade-btn" id="upBtn9" onclick="buyItem(9)">
-        <div class="item-left"><div class="item-icon">🚀</div><div><div style="font-weight:bold; font-size:14px;">Космическая база <span class="lvl-tag">Ур. <span id="cnt9">0</span></span></div><div style="font-size:12px; color:#8b949e;">+5 000$ в секунду</div></div></div>
-        <div class="price">$<span id="cost9">2 500 000</span></div>
-      </button>
+      <div class="shop-title">🛒 МАГАЗИН ИМПЕРИИ (15 УРОВНЕЙ)</div>
+      <div id="shopList"></div>
     </div>
   </div>
 
-  <!-- ВКЛАДКА 2: КАЗИНО И ПЕРЕРОЖДЕНИЕ -->
-  <div id="sec-fun" class="section">
+  <!-- ВКЛАДКА 2: ЖИВАЯ КРИПТО-БИРЖА -->
+  <div id="sec-trade" class="section">
+    <div id="marketNews" class="news-ticker">📰 Рынок спокоен: Трейдеры ждут новостей...</div>
+    <div id="coinsContainer"></div>
+  </div>
+
+  <!-- ВКЛАДКА 3: КЕЙСЫ, КАЗИНО И ПРЕСТИЖ -->
+  <div id="sec-cases" class="section">
     <div class="card-box">
-      <h3 style="margin:0 0 6px 0; color:#f1c40f;">🎰 Колесо Фортуны</h3>
+      <h3 style="margin:0 0 6px 0; color:#f1c40f;">📦 Секретные Кейсы с Артефактами</h3>
       <p style="font-size:12px; color:#8b949e; margin:0;">
-        Рискните частью баланса! Шанс выиграть <b>x2</b> или сорвать <b>ДЖЕКПОТ x5</b>!
+        Выбивайте редкие предметы, которые <b>навсегда</b> умножают ваш доход и остаются даже после Престижа!
       </p>
-      <div class="casino-btns">
-        <button class="bet-btn" onclick="spinCasino(0.25)">Ставка 25%</button>
-        <button class="bet-btn" onclick="spinCasino(0.5)">Ставка 50%</button>
-        <button class="bet-btn" style="background:linear-gradient(135deg,#e74c3c,#c0392b);" onclick="spinCasino(1)">ВА-БАНК!</button>
+      <div class="case-grid">
+        <div class="case-item" onclick="openCase(5000, 'Обычный')">
+          <div style="font-size:32px;">🧰</div>
+          <div style="font-weight:bold; font-size:13px; margin:4px 0;">Бронзовый</div>
+          <div style="color:#2ecc71; font-weight:900; font-size:12px;">$5 000</div>
+        </div>
+        <div class="case-item" onclick="openCase(75000, 'Эпический')">
+          <div style="font-size:32px;">💎</div>
+          <div style="font-weight:bold; font-size:13px; margin:4px 0;">Алмазный</div>
+          <div style="color:#f1c40f; font-weight:900; font-size:12px;">$75 000</div>
+        </div>
+        <div class="case-item" onclick="openCase(1000000, 'Легендарный')">
+          <div style="font-size:32px;">👑</div>
+          <div style="font-weight:bold; font-size:13px; margin:4px 0;">Королевский</div>
+          <div style="color:#e056fd; font-weight:900; font-size:12px;">$1 000 000</div>
+        </div>
       </div>
-      <div id="casinoResult" style="margin-top:12px; font-weight:bold; font-size:14px; min-height:20px;"></div>
+      <div style="margin-top:12px; font-size:12px; color:#aaa;">Ваша коллекция артефактов:</div>
+      <div id="artifactList" style="margin-top:6px;">Пока пусто</div>
+    </div>
+
+    <div class="card-box">
+      <h3 style="margin:0 0 6px 0; color:#2ecc71;">🎰 Быстрая Рулетка</h3>
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <button class="btn-buy-coin" onclick="spinCasino(0.25)">Ставка 25%</button>
+        <button class="btn-buy-coin" onclick="spinCasino(0.5)">Ставка 50%</button>
+        <button class="btn-sell-coin" onclick="spinCasino(1)">ВА-БАНК!</button>
+      </div>
+      <div id="casinoResult" style="margin-top:10px; font-weight:bold; font-size:13px;"></div>
     </div>
 
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#e056fd;">👑 Перерождение (Престиж)</h3>
       <p style="font-size:12px; color:#8b949e; margin:0;">
-        Сбросьте деньги и бизнесы, чтобы получить <b>Кристалл Престижа 💎</b>. Каждый кристалл навсегда дает <b>+100% ко всем доходам</b> и корону в рейтинге!
+        Сбросьте деньги и бизнесы ради <b>+100% к доходу навсегда</b> (Артефакты сохраняются!).
       </p>
-      <button class="prestige-btn" onclick="doPrestige()">
-        👑 Сделать Престиж (Нужно $1 000 000)
+      <button class="btn-register" style="width:100%; margin-top:10px; background:#8e44ad;" onclick="doPrestige()">
+        👑 Сделать Престиж (Нужно $5 000 000)
       </button>
     </div>
   </div>
 
-  <!-- ВКЛАДКА 3: РЕЙТИНГ РЕАЛЬНЫХ ИГРОКОВ -->
+  <!-- ВКЛАДКА 4: ОНЛАЙН РЕЙТИНГ -->
   <div id="sec-top" class="section">
-    <div class="shop-title">🏆 ЖИВОЙ РЕЙТИНГ ИГРОКОВ</div>
+    <div class="shop-title">🏆 ЖИВОЙ ОНЛАЙН-РЕЙТИНГ</div>
     <div class="leaderboard-box" id="topList">
       <div style="padding:15px; color:#888;">Загрузка игроков...</div>
     </div>
   </div>
 
-  <!-- ВКЛАДКА 4: АККАУНТ -->
+  <!-- ВКЛАДКА 5: АККАУНТ -->
   <div id="sec-prof" class="section">
-    <div class="card-box" style="text-align:left;">
-      <h3 style="margin:0 0 6px 0; color:#f1c40f;">🔐 Вход и Регистрация</h3>
+    <div class="card-box">
+      <h3 style="margin:0 0 6px 0; color:#f1c40f;">🔐 Вход и Сохранение</h3>
       <p style="font-size:12px; color:#8b949e; margin-top:0; margin-bottom:12px;">
-        Привяжите пароль к нику, чтобы играть с любого устройства.
+        Привяжите пароль к нику, чтобы ваш прогресс, артефакты и акции были в безопасности.
       </p>
       <input type="text" id="authNick" class="input-field" placeholder="Ваш никнейм..." maxlength="14">
       <input type="password" id="authPass" class="input-field" placeholder="Ваш пароль..." maxlength="20">
@@ -658,56 +650,70 @@
   <script>
     var FIREBASE_URL = "https://clicker-8ad8b-default-rtdb.firebaseio.com";
 
-    var baseCosts = [15, 50, 250, 1000, 3500, 12000, 45000, 150000, 600000, 2500000];
-    var powers    = [1, 2, 5, 15, 25, 60, 150, 350, 1200, 5000];
-    var types     = ['click', 'auto', 'click', 'auto', 'click', 'auto', 'click', 'auto', 'auto', 'auto'];
+    // 15 УРОВНЕЙ ПРОКАЧКИ НА ДОЛГУЮ ИГРУ
+    var shopItems = [
+      { icon: "💪", name: "Тренировка пальца", desc: "+1$ к клику", type: "click", power: 1, baseCost: 15 },
+      { icon: "🥤", name: "Лимонадный стенд", desc: "+2$ в сек", type: "auto", power: 2, baseCost: 50 },
+      { icon: "💎", name: "Золотая перчатка", desc: "+6$ к клику", type: "click", power: 6, baseCost: 250 },
+      { icon: "☕", name: "Сеть кофеен", desc: "+18$ в сек", type: "auto", power: 18, baseCost: 1100 },
+      { icon: "⚡", name: "Кибер-имплант руки", desc: "+35$ к клику", type: "click", power: 35, baseCost: 4200 },
+      { icon: "🖥️", name: "Подпольная Майнинг-ферма", desc: "+95$ в сек", type: "auto", power: 95, baseCost: 15000 },
+      { icon: "🤖", name: "Нейросеть-Трейдер", desc: "+220$ к клику", type: "click", power: 220, baseCost: 55000 },
+      { icon: "🏦", name: "Крипто-Биржа", desc: "+600$ в сек", type: "auto", power: 600, baseCost: 200000 },
+      { icon: "🏭", name: "Гигафабрика роботов", desc: "+2 200$ в сек", type: "auto", power: 2200, baseCost: 850000 },
+      { icon: "🚀", name: "Лунная База Добычи", desc: "+8 500$ в сек", type: "auto", power: 8500, baseCost: 3800000 },
+      { icon: "☄️", name: "Захват Астероидов", desc: "+15 000$ к клику", type: "click", power: 15000, baseCost: 16000000 },
+      { icon: "🧬", name: "Квантовый Компьютер", desc: "+45 000$ в сек", type: "auto", power: 45000, baseCost: 75000000 },
+      { icon: "☀️", name: "Сфера Дайсона", desc: "+200 000$ в сек", type: "auto", power: 200000, baseCost: 380000000 },
+      { icon: "🌌", name: "Портал Мультивселенной", desc: "+1 000 000$ в сек", type: "auto", power: 1000000, baseCost: 2000000000 },
+      { icon: "👑", name: "Матрица Бесконечности", desc: "+6 000 000$ в сек", type: "auto", power: 6000000, baseCost: 12000000000 }
+    ];
 
-    var costs  = baseCosts.slice();
-    var counts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    var costs = [];
+    var counts = [];
+    for (var i = 0; i < shopItems.length; i++) {
+      costs[i] = Number(localStorage.getItem('m2_cost' + i)) || shopItems[i].baseCost;
+      counts[i] = Number(localStorage.getItem('m2_cnt' + i)) || 0;
+    }
 
     var money = Number(localStorage.getItem('m_money')) || 0;
     var clickPower = Number(localStorage.getItem('m_click')) || 1;
     var autoIncome = Number(localStorage.getItem('m_auto')) || 0;
     var prestige = Number(localStorage.getItem('m_prestige')) || 0;
+    var artifactBonus = Number(localStorage.getItem('m_art_bonus')) || 0;
+    var myArtifacts = JSON.parse(localStorage.getItem('m_arts') || "[]");
+
     var playerName = localStorage.getItem('m_name') || ("Гость_" + Math.floor(Math.random() * 899 + 100));
     var playerPass = localStorage.getItem('m_pass') || "";
 
-    var comboEnergy = 0;
-    var comboMultiplier = 1;
+    // СИСТЕМА БОССОВ
+    var bossNames = [
+      "Налоговый Инспектор", "Уличный Коллектор", "Мамкин Хакер", "Жадный Банкир",
+      "Крипто-Мошенник", "Волк с Уолл-Стрит", "Теневой Олигарх", "Глава Корпорации",
+      "ИИ-Сингулярность", "Архитектор Матрицы"
+    ];
+    var bossLevel = Number(localStorage.getItem('m_boss_lvl')) || 1;
+    var bossMaxHp = Math.floor(250 * Math.pow(2.4, bossLevel - 1));
+    var bossHp = Number(localStorage.getItem('m_boss_hp')) || bossMaxHp;
 
-    // Таймер для рекламы: раз в 3 минуты (180 000 миллисекунд)
-    var lastAdTime = Date.now();
-    var AD_COOLDOWN_MS = 180000;
-
-    // Список шуточных рекламных объявлений для друзей
-    var prankAds = [
-      {
-        emoji: "👆💪",
-        title: "УВЕЛИЧЬ СВОЙ ЧЛ** НА 5 СМ!",
-        desc: "Секретная мазь для тапальщиков! Соседи в шоке, нужно всего лишь каждый вечер мазать обычным..."
-      },
-      {
-        emoji: "🔥💻",
-        title: "ГОРЯЧИЕ ВИДЕОКАРТЫ РЯДОМ!",
-        desc: "Одинокие RTX 4090 в 300 метрах от тебя хотят майнить всю ночь без остановки! Жми скорее!"
-      },
-      {
-        emoji: "🦸‍♂️💰",
-        title: "ШКОЛЬНИК КУПИЛ ДУБАЙ!",
-        desc: "Он просто экономил на пирожках в столовой и нажимал на эту зеленую кнопку 3 раза в день..."
-      },
-      {
-        emoji: "🧠⚡",
-        title: "IQ ТЕСТ: ТОЛЬКО 1% ПРОЙДЕТ!",
-        desc: "Сможешь ли ты попасть по крестику с первого раза? 99% твоих друзей уже опозорились!"
-      },
-      {
-        emoji: "🦖🎰",
-        title: "КАЗИНО «У АРТЕМА»",
-        desc: "Проиграл квартиру, но выиграл уважение друзей! Заходи, бонус при регистрации — пачка сухариков!"
-      }
+    // КРИПТО-БИРЖА
+    var coins = [
+      { id: 0, name: "🪙 BitCoin", price: 1000, min: 300, max: 3500, owned: Number(localStorage.getItem('c_own0')) || 0, history: [900, 950, 1000, 1050, 980, 1000, 1020, 1000] },
+      { id: 1, name: "🐶 DogeMeme", price: 150, min: 25, max: 800, owned: Number(localStorage.getItem('c_own1')) || 0, history: [120, 140, 160, 130, 150, 170, 140, 150] },
+      { id: 2, name: "🤖 CyberAI", price: 5000, min: 1200, max: 18000, owned: Number(localStorage.getItem('c_own2')) || 0, history: [4500, 4800, 5100, 4900, 5200, 5000, 4950, 5000] }
     ];
 
+    var comboEnergy = 0;
+    var comboMultiplier = 1;
+    var lastAdTime = Date.now();
+    var AD_COOLDOWN_MS = 180000; // 3 минуты
+
+    var prankAds = [
+      { emoji: "👆💪", title: "УВЕЛИЧЬ ПАЛЕЦ НА 5 СМ!", desc: "Секретная мазь для тапальщиков! Соседи в шоке, нужно всего лишь..." },
+      { emoji: "🔥💻", title: "ГОРЯЧИЕ ВИДЕОКАРТЫ РЯДОМ!", desc: "Одинокие RTX 4090 в 300 метрах от тебя хотят майнить всю ночь!" },
+      { emoji: "🦸‍♂️💰", title: "ШКОЛЬНИК КУПИЛ ДУБАЙ!", desc: "Он просто экономил на пирожках и нажимал эту кнопку 3 раза в день..." },
+      { emoji: "🧠⚡", title: "IQ ТЕСТ: ПОПАДИ ПО КРЕСТИКУ!", desc: "99% твоих друзей не могут закрыть эту рекламу с первого раза!" }
+    ];
     var adEscapeCount = 0;
     var adTimerInterval = null;
     var adWithReward = true;
@@ -718,37 +724,53 @@
       localStorage.setItem('m_uid', playerId);
     }
 
-    for (var i = 0; i < 10; i++) {
-      var sc = Number(localStorage.getItem('m_cost' + i));
-      var sct = Number(localStorage.getItem('m_cnt' + i));
-      if (sc > 0) costs[i] = sc;
-      if (sct > 0) counts[i] = sct;
-    }
-
     function formatNum(n) {
       return Math.floor(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }
 
-    function cleanKey(nick) {
-      return 'acc_' + nick.toLowerCase().replace(/[^a-zа-я0-9_]/gi, '');
+    function getTotalMult() {
+      return 1 + prestige + (artifactBonus / 100);
+    }
+
+    function getRankTitle(m) {
+      if (m < 500) return "Бомж с телефоном";
+      if (m < 5000) return "Уличный темщик";
+      if (m < 50000) return "Мамкин инвестор";
+      if (m < 500000) return "Крипто-Барон";
+      if (m < 5000000) return "Волк с Уолл-Стрит";
+      if (m < 100000000) return "Теневой Магнат";
+      return "Властелин Вселенной 🌌";
+    }
+
+    // Построение HTML магазина
+    function initShopHTML() {
+      var html = '';
+      for (var i = 0; i < shopItems.length; i++) {
+        var it = shopItems[i];
+        html += '<button class="upgrade-btn" id="upBtn' + i + '" onclick="buyItem(' + i + ')">' +
+          '<div class="item-left"><div class="item-icon">' + it.icon + '</div>' +
+          '<div><div style="font-weight:bold; font-size:13px;">' + it.name + ' <span class="lvl-tag">Ур. <span id="cnt' + i + '">0</span></span></div>' +
+          '<div style="font-size:11px; color:#8b949e;">' + it.desc + '</div></div></div>' +
+          '<div class="price">$<span id="cost' + i + '">0</span></div></button>';
+      }
+      document.getElementById('shopList').innerHTML = html;
     }
 
     var mainBtn = document.getElementById('mainBtn');
-
     mainBtn.addEventListener('touchstart', function(e) {
       e.preventDefault();
       tapCoin();
     }, { passive: false });
 
-    function tapCoin(e) {
+    function tapCoin() {
       comboEnergy = Math.min(100, comboEnergy + 7);
       updateComboState();
 
-      var isCrit = Math.random() < 0.08;
-      var prestigeMult = 1 + prestige;
-      var gain = clickPower * comboMultiplier * prestigeMult * (isCrit ? 10 : 1);
+      var isCrit = Math.random() < 0.09;
+      var gain = clickPower * comboMultiplier * getTotalMult() * (isCrit ? 10 : 1);
 
       money += gain;
+      damageBoss(gain);
 
       mainBtn.classList.add('pop');
       setTimeout(function() { mainBtn.classList.remove('pop'); }, 55);
@@ -757,14 +779,150 @@
       refreshScreen();
       syncWithServer();
 
-      // Проверка: прошло ли 3 минуты (180 секунд) с последней рекламы при тапе
       if (Date.now() - lastAdTime >= AD_COOLDOWN_MS) {
         lastAdTime = Date.now();
         startPrankAd(true);
       }
     }
 
-    // ЗАПУСК ФЕЙКОВОЙ ПРАНК-РЕКЛАМЫ
+    function damageBoss(dmg) {
+      bossHp -= dmg;
+      if (bossHp <= 0) {
+        var reward = Math.floor(bossMaxHp * 0.6);
+        money += reward;
+        bossLevel++;
+        bossMaxHp = Math.floor(250 * Math.pow(2.35, bossLevel - 1));
+        bossHp = bossMaxHp;
+        localStorage.setItem('m_boss_lvl', bossLevel);
+        spawnDollar(reward, true);
+      }
+      localStorage.setItem('m_boss_hp', Math.floor(bossHp));
+    }
+
+    function buyItem(idx) {
+      if (money >= costs[idx]) {
+        money -= costs[idx];
+        counts[idx] += 1;
+        if (shopItems[idx].type === 'click') {
+          clickPower += shopItems[idx].power;
+        } else {
+          autoIncome += shopItems[idx].power;
+        }
+        costs[idx] = Math.round(costs[idx] * 1.55);
+        refreshScreen();
+        syncWithServer();
+      }
+    }
+
+    // БИРЖА КРИПТОВАЛЮТ
+    function updateMarket() {
+      var newsList = [
+        "🚀 Илон Маск твитнул про крипту!",
+        "📉 Центробанк пугает запретами...",
+        "🔥 Крупные фонды скупают активы!",
+        "⚡ Хакеры взломали мелкую биржу!",
+        "💎 Аналитики предрекают мега-рост!"
+      ];
+      if (Math.random() < 0.35) {
+        document.getElementById('marketNews').innerHTML = "📰 " + newsList[Math.floor(Math.random() * newsList.length)];
+      }
+
+      for (var i = 0; i < coins.length; i++) {
+        var c = coins[i];
+        var change = (Math.random() - 0.48) * 0.22;
+        c.price = Math.round(c.price * (1 + change));
+        if (c.price < c.min) c.price = c.min + Math.floor(Math.random() * 50);
+        if (c.price > c.max) c.price = c.max - Math.floor(Math.random() * 100);
+        c.history.push(c.price);
+        if (c.history.length > 10) c.history.shift();
+      }
+      if (document.getElementById('sec-trade').className.indexOf('active') !== -1) {
+        renderMarket();
+      }
+    }
+
+    function renderMarket() {
+      var html = '';
+      for (var i = 0; i < coins.length; i++) {
+        var c = coins[i];
+        var prev = c.history[c.history.length - 2] || c.price;
+        var isUp = c.price >= prev;
+        var barsHtml = '';
+        for (var j = 0; j < c.history.length; j++) {
+          var h = Math.max(10, Math.min(100, Math.round((c.history[j] / c.max) * 100)));
+          var color = (j === c.history.length - 1) ? (isUp ? '#2ecc71' : '#ff4757') : '#3b485e';
+          barsHtml += '<div class="bar" style="height:' + h + '%; background:' + color + ';"></div>';
+        }
+
+        html += '<div class="coin-card">' +
+          '<div class="coin-top"><span class="coin-name">' + c.name + ' (У вас: ' + c.owned + ' шт)</span>' +
+          '<span class="coin-price ' + (isUp ? 'up' : 'down') + '">$' + formatNum(c.price) + (isUp ? ' ▲' : ' ▼') + '</span></div>' +
+          '<div class="chart-bars">' + barsHtml + '</div>' +
+          '<div class="trade-btns">' +
+          '<button class="btn-buy-coin" onclick="buyCoin(' + i + ')">Купить 1 шт</button>' +
+          '<button class="btn-sell-coin" onclick="sellCoin(' + i + ')">Продать всё</button>' +
+          '</div></div>';
+      }
+      document.getElementById('coinsContainer').innerHTML = html;
+    }
+
+    function buyCoin(idx) {
+      var c = coins[idx];
+      if (money >= c.price) {
+        money -= c.price;
+        c.owned += 1;
+        localStorage.setItem('c_own' + idx, c.owned);
+        refreshScreen();
+        renderMarket();
+      } else {
+        alert('Не хватает денег на покупку монеты!');
+      }
+    }
+
+    function sellCoin(idx) {
+      var c = coins[idx];
+      if (c.owned > 0) {
+        var revenue = c.owned * c.price;
+        money += revenue;
+        c.owned = 0;
+        localStorage.setItem('c_own' + idx, 0);
+        refreshScreen();
+        renderMarket();
+        syncWithServer();
+      }
+    }
+
+    // ОТКРЫТИЕ КЕЙСОВ С АРТЕФАКТАМИ
+    function openCase(price, tier) {
+      if (money < price) {
+        alert('Недостаточно денег для открытия этого кейса!');
+        return;
+      }
+      money -= price;
+
+      var pool = [
+        { name: "🍀 Счастливая монетка", bonus: 15 },
+        { name: "🕶️ Очки Магната", bonus: 30 },
+        { name: "⌚ Золотые Ролексы", bonus: 50 },
+        { name: "🏎️ Ключи от Ламбы", bonus: 100 },
+        { name: "🛸 Чип Инопланетян", bonus: 250 }
+      ];
+      var mult = (tier === 'Легендарный') ? 4 : (tier === 'Эпический' ? 2 : 1);
+      var item = pool[Math.floor(Math.random() * pool.length)];
+      var finalBonus = item.bonus * mult;
+
+      artifactBonus += finalBonus;
+      myArtifacts.push(item.name + " (+" + finalBonus + "%)");
+
+      localStorage.setItem('m_art_bonus', artifactBonus);
+      localStorage.setItem('m_arts', JSON.stringify(myArtifacts));
+
+      refreshScreen();
+      syncWithServer();
+      alert('🎉 ВЫ ВЫБИЛИ АРТЕФАКТ:\n' + item.name + '\nВечный бонус к доходу: +' + finalBonus + '%!');
+    }
+
+    // ПРАНК-РЕКЛАМА
     function startPrankAd(giveBonus) {
       lastAdTime = Date.now();
       adWithReward = giveBonus;
@@ -786,7 +944,6 @@
       timerBox.style.display = 'block';
       var sec = 5;
       timerBox.innerHTML = 'Реклама: ' + sec + ' сек';
-
       document.getElementById('adOverlay').style.display = 'flex';
 
       clearInterval(adTimerInterval);
@@ -802,37 +959,30 @@
       }, 1000);
     }
 
-    // Убегающий крестик (троллинг друзей)
     function tryCloseAd() {
       var closeBtn = document.getElementById('adCloseBtn');
       var trollMsg = document.getElementById('adTrollMsg');
-
       if (adEscapeCount < 2) {
         adEscapeCount++;
-        var randTop = Math.floor(Math.random() * (window.innerHeight - 100)) + 30;
-        var randLeft = Math.floor(Math.random() * (window.innerWidth - 80)) + 20;
-        closeBtn.style.top = randTop + 'px';
-        closeBtn.style.left = randLeft + 'px';
+        closeBtn.style.top = (Math.floor(Math.random() * (window.innerHeight - 100)) + 30) + 'px';
+        closeBtn.style.left = (Math.floor(Math.random() * (window.innerWidth - 80)) + 20) + 'px';
         closeBtn.style.right = 'auto';
-        trollMsg.innerHTML = adEscapeCount === 1
-          ? '😂 Промахнулся по крестику! Попробуй ещё раз!'
-          : '🤪 Почти попал! Руки дрожат от богатства?';
+        trollMsg.innerHTML = '😂 Промахнулся по крестику! Попробуй ещё раз!';
         return;
       }
-
       document.getElementById('adOverlay').style.display = 'none';
       lastAdTime = Date.now();
       if (adWithReward) {
-        var reward = Math.max(300, (clickPower * 35 + autoIncome * 25) * (1 + prestige));
+        var reward = Math.max(500, (clickPower * 40 + autoIncome * 30) * getTotalMult());
         money += reward;
         refreshScreen();
         syncWithServer();
-        alert('🎉 Спасибо за просмотр очень важной рекламы!\nВаш бонус: +$' + formatNum(reward));
+        alert('🎉 Бонус за просмотр рекламы: +$' + formatNum(reward));
       }
     }
 
     function clickFakeAdBtn() {
-      document.getElementById('adTrollMsg').innerHTML = '😂 Ха-ха, попался! Жди таймер и лови крестик в углу!';
+      document.getElementById('adTrollMsg').innerHTML = '😂 Попался! Жди таймер и лови крестик!';
     }
 
     function updateComboState() {
@@ -854,108 +1004,86 @@
       var area = document.getElementById('clickArea');
       var el = document.createElement('div');
       el.className = isCrit ? 'floating-dollar crit' : 'floating-dollar';
-      el.innerHTML = (isCrit ? '💥 КРИТ +$' : '+$') + formatNum(gain);
-      var offset = Math.floor(Math.random() * 80) - 40;
-      el.style.left = (85 + offset) + 'px';
-      el.style.top = '35px';
+      el.innerHTML = (isCrit ? '💥 +$' : '+$') + formatNum(gain);
+      el.style.left = (78 + Math.floor(Math.random() * 70) - 35) + 'px';
+      el.style.top = '30px';
       area.appendChild(el);
-      setTimeout(function() { el.remove(); }, 750);
+      setTimeout(function() { el.remove(); }, 700);
     }
 
     function spawnAirdrop() {
       var box = document.getElementById('airdropBox');
-      var x = Math.floor(Math.random() * (window.innerWidth - 70)) + 15;
-      var y = Math.floor(Math.random() * (window.innerHeight - 200)) + 80;
-      box.style.left = x + 'px';
-      box.style.top = y + 'px';
+      box.style.left = (Math.floor(Math.random() * (window.innerWidth - 70)) + 15) + 'px';
+      box.style.top = (Math.floor(Math.random() * (window.innerHeight - 200)) + 80) + 'px';
       box.style.display = 'block';
-
-      setTimeout(function() {
-        box.style.display = 'none';
-      }, 6000);
+      setTimeout(function() { box.style.display = 'none'; }, 6000);
     }
 
     function catchAirdrop() {
-      var box = document.getElementById('airdropBox');
-      box.style.display = 'none';
-      var bonus = Math.max(250, (clickPower * 25 + autoIncome * 20) * (1 + prestige));
+      document.getElementById('airdropBox').style.display = 'none';
+      var bonus = Math.max(400, (clickPower * 30 + autoIncome * 25) * getTotalMult());
       money += bonus;
       refreshScreen();
       syncWithServer();
-      alert('🎁 ВЫ ПОЙМАЛИ СЕКРЕТНЫЙ КЕЙС!\nБонус: +$' + formatNum(bonus));
+      alert('🎁 ПОЙМАН СЕКРЕТНЫЙ ДРОП: +$' + formatNum(bonus));
     }
 
     function spinCasino(part) {
       var resBox = document.getElementById('casinoResult');
-      if (money < 10) {
-        resBox.style.color = '#e74c3c';
-        resBox.innerHTML = '❌ Нужно минимум $10 для ставки!';
-        return;
-      }
+      if (money < 10) return;
       var bet = Math.floor(money * part);
       money -= bet;
-
       var roll = Math.random();
-      if (roll < 0.07) {
-        var win5 = bet * 5;
-        money += win5;
+      if (roll < 0.08) {
+        money += bet * 5;
         resBox.style.color = '#f1c40f';
-        resBox.innerHTML = '🚨 ДЖЕКПОТ x5! Вы выиграли +$' + formatNum(win5) + '!';
+        resBox.innerHTML = '🚨 ДЖЕКПОТ x5! +$' + formatNum(bet * 5);
       } else if (roll < 0.48) {
-        var win2 = bet * 2;
-        money += win2;
+        money += bet * 2;
         resBox.style.color = '#2ecc71';
-        resBox.innerHTML = '🎉 ПОБЕДА x2! Вы выиграли +$' + formatNum(win2) + '!';
+        resBox.innerHTML = '🎉 ПОБЕДА x2! +$' + formatNum(bet * 2);
       } else {
         resBox.style.color = '#ff6b6b';
-        resBox.innerHTML = '💸 Не повезло... Потеряно $' + formatNum(bet);
+        resBox.innerHTML = '💸 Проигрыш $' + formatNum(bet);
       }
       refreshScreen();
       syncWithServer();
     }
 
     function doPrestige() {
-      if (money < 1000000) {
-        alert('Для Перерождения нужно накопить $1 000 000!');
+      if (money < 5000000) {
+        alert('Для Перерождения нужно накопить $5 000 000!');
         return;
       }
-      if (confirm('Сделать Перерождение? Вы получите +1 Кристалл Престижа (+100% ко всем доходам навсегда!), а деньги и бизнесы начнут с начала.')) {
+      if (confirm('Сделать Перестиж? Вы получите +100% к доходу навсегда (артефакты останутся)!')) {
         prestige += 1;
         money = 0;
         clickPower = 1;
         autoIncome = 0;
-        costs = baseCosts.slice();
-        counts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        for (var i = 0; i < shopItems.length; i++) {
+          costs[i] = shopItems[i].baseCost;
+          counts[i] = 0;
+        }
         localStorage.setItem('m_prestige', prestige);
         refreshScreen();
         syncWithServer();
       }
     }
 
-    function buyItem(idx) {
-      if (money >= costs[idx]) {
-        money -= costs[idx];
-        counts[idx] += 1;
-        if (types[idx] === 'click') {
-          clickPower += powers[idx];
-        } else {
-          autoIncome += powers[idx];
-        }
-        costs[idx] = Math.round(costs[idx] * 1.55);
-        refreshScreen();
-        syncWithServer();
-      }
-    }
-
     function openTab(tab) {
-      ['game', 'fun', 'top', 'prof'].forEach(function(t) {
+      ['game', 'trade', 'cases', 'top', 'prof'].forEach(function(t) {
         document.getElementById('sec-' + t).className = 'section';
         document.getElementById('btn-' + t).className = 'tab-btn';
       });
       document.getElementById('sec-' + tab).className = 'section active';
       document.getElementById('btn-' + tab).className = 'tab-btn active';
 
+      if (tab === 'trade') renderMarket();
       if (tab === 'top') loadRealPlayers();
+    }
+
+    function cleanKey(nick) {
+      return 'acc_' + nick.toLowerCase().replace(/[^a-zа-я0-9_]/gi, '');
     }
 
     function showStatus(text, isError) {
@@ -974,65 +1102,48 @@
         return;
       }
       var accId = cleanKey(nick);
-      showStatus('⏳ Проверка ника...', false);
-
       fetch(FIREBASE_URL + '/players/' + accId + '.json')
         .then(function(r) { return r.json(); })
         .then(function(existing) {
           if (existing && existing.pass) {
-            showStatus('❌ Ник занят! Если он ваш — нажмите «Войти».', true);
+            showStatus('❌ Ник занят! Нажмите «Войти».', true);
             return;
           }
-          playerId = accId;
-          playerName = nick;
-          playerPass = pass;
+          playerId = accId; playerName = nick; playerPass = pass;
           localStorage.setItem('m_uid', playerId);
           localStorage.setItem('m_name', playerName);
           localStorage.setItem('m_pass', playerPass);
-          refreshScreen();
-          syncWithServer();
-          showStatus('✅ Аккаунт создан и сохранен!', false);
+          refreshScreen(); syncWithServer();
+          showStatus('✅ Аккаунт успешно зарегистрирован!', false);
         });
     }
 
     function loginAccount() {
       var nick = document.getElementById('authNick').value.trim();
       var pass = document.getElementById('authPass').value.trim();
-      if (!nick || !pass) {
-        showStatus('⚠️ Введите ник и пароль!', true);
-        return;
-      }
       var accId = cleanKey(nick);
-      showStatus('⏳ Вход...', false);
-
       fetch(FIREBASE_URL + '/players/' + accId + '.json')
         .then(function(r) { return r.json(); })
         .then(function(data) {
-          if (!data) {
-            showStatus('❌ Аккаунт не найден!', true);
+          if (!data || (data.pass && data.pass !== pass)) {
+            showStatus('❌ Неверный ник или пароль!', true);
             return;
           }
-          if (data.pass && data.pass !== pass) {
-            showStatus('❌ Неверный пароль!', true);
-            return;
-          }
-          playerId = accId;
-          playerName = data.name || nick;
-          playerPass = pass;
+          playerId = accId; playerName = data.name || nick; playerPass = pass;
           money = Number(data.money) || 0;
           clickPower = Number(data.clickPower) || 1;
           autoIncome = Number(data.autoIncome) || 0;
           prestige = Number(data.prestige) || 0;
-          if (Array.isArray(data.costs) && data.costs.length === 10) costs = data.costs;
-          if (Array.isArray(data.counts) && data.counts.length === 10) counts = data.counts;
+          artifactBonus = Number(data.artifactBonus) || 0;
+          bossLevel = Number(data.bossLevel) || 1;
+          if (Array.isArray(data.costs) && data.costs.length === shopItems.length) costs = data.costs;
+          if (Array.isArray(data.counts) && data.counts.length === shopItems.length) counts = data.counts;
 
           localStorage.setItem('m_uid', playerId);
           localStorage.setItem('m_name', playerName);
           localStorage.setItem('m_pass', playerPass);
-          localStorage.setItem('m_prestige', prestige);
-
           refreshScreen();
-          showStatus('✅ Прогресс успешно загружен!', false);
+          showStatus('✅ Весь прогресс восстановлен!', false);
         });
     }
 
@@ -1047,6 +1158,9 @@
           clickPower: clickPower,
           autoIncome: autoIncome,
           prestige: prestige,
+          artifactBonus: artifactBonus,
+          bossLevel: bossLevel,
+          rank: getRankTitle(money),
           costs: costs,
           counts: counts,
           updated: Date.now()
@@ -1059,10 +1173,7 @@
       fetch(FIREBASE_URL + '/players.json')
         .then(function(res) { return res.json(); })
         .then(function(data) {
-          if (!data || data.error) {
-            box.innerHTML = '<div style="padding:15px;">Пока нет данных. Сделайте клик!</div>';
-            return;
-          }
+          if (!data) return;
           var list = [];
           for (var key in data) {
             if (data[key] && typeof data[key].money === 'number') {
@@ -1070,7 +1181,8 @@
                 id: key,
                 name: data[key].name || 'Аноним',
                 money: data[key].money,
-                prestige: data[key].prestige || 0
+                prestige: data[key].prestige || 0,
+                boss: data[key].bossLevel || 1
               });
             }
           }
@@ -1080,37 +1192,57 @@
           for (var i = 0; i < list.length; i++) {
             var isMe = (list[i].id === playerId);
             var rowClass = isMe ? 'leader-row me' : 'leader-row';
-            var tag = isMe ? ' (Вы)' : '';
             var crown = list[i].prestige > 0 ? ' 👑' + list[i].prestige : '';
             var medal = (i === 0) ? '🥇 ' : (i === 1) ? '🥈 ' : (i === 2) ? '🥉 ' : '#' + (i + 1) + ' ';
-            html += '<div class="' + rowClass + '"><span>' + medal + list[i].name + crown + tag + '</span><span style="color:#2ecc71; font-weight:bold;">$' + formatNum(list[i].money) + '</span></div>';
+            html += '<div class="' + rowClass + '">' +
+              '<span>' + medal + list[i].name + crown + ' <small style="color:#888;">[Босс #' + list[i].boss + ']</small></span>' +
+              '<span style="color:#2ecc71; font-weight:bold;">$' + formatNum(list[i].money) + '</span></div>';
           }
           box.innerHTML = html;
         });
     }
 
     function refreshScreen() {
-      var pMult = 1 + prestige;
+      var mult = getTotalMult();
       document.getElementById('money').innerHTML = formatNum(money);
-      document.getElementById('clickPower').innerHTML = formatNum(clickPower * pMult);
-      document.getElementById('autoIncome').innerHTML = formatNum(autoIncome * pMult);
-      document.getElementById('prestigeCnt').innerHTML = prestige;
-      document.getElementById('prestigeBonus').innerHTML = prestige * 100;
-      document.getElementById('playerName').innerHTML = playerName + (prestige > 0 ? ' 👑' + prestige : '');
+      document.getElementById('clickPower').innerHTML = formatNum(clickPower * mult);
+      document.getElementById('autoIncome').innerHTML = formatNum(autoIncome * mult);
+      document.getElementById('totalMultText').innerHTML = Math.round((mult - 1) * 100);
+      document.getElementById('rankBadge').innerHTML = 'Звание: ' + getRankTitle(money);
+      document.getElementById('playerName').innerHTML = playerName;
+      document.getElementById('bossLvlText').innerHTML = bossLevel;
 
-      for (var i = 0; i < 10; i++) {
+      // Обновление Босса
+      var bName = bossNames[(bossLevel - 1) % bossNames.length];
+      document.getElementById('bossName').innerHTML = '👾 Босс #' + bossLevel + ': ' + bName;
+      document.getElementById('bossReward').innerHTML = formatNum(Math.floor(bossMaxHp * 0.6));
+      var hpPercent = Math.max(0, Math.min(100, (bossHp / bossMaxHp) * 100));
+      document.getElementById('bossHpFill').style.width = hpPercent + '%';
+      document.getElementById('bossHpText').innerHTML = formatNum(Math.max(0, bossHp)) + ' / ' + formatNum(bossMaxHp) + ' HP';
+
+      for (var i = 0; i < shopItems.length; i++) {
         document.getElementById('cost' + i).innerHTML = formatNum(costs[i]);
         document.getElementById('cnt' + i).innerHTML = counts[i];
         var btn = document.getElementById('upBtn' + i);
-        btn.className = (money >= costs[i]) ? 'upgrade-btn affordable' : 'upgrade-btn';
-        localStorage.setItem('m_cost' + i, costs[i]);
-        localStorage.setItem('m_cnt' + i, counts[i]);
+        if (btn) btn.className = (money >= costs[i]) ? 'upgrade-btn affordable' : 'upgrade-btn';
+        localStorage.setItem('m2_cost' + i, costs[i]);
+        localStorage.setItem('m2_cnt' + i, counts[i]);
+      }
+
+      if (myArtifacts.length > 0) {
+        var artHtml = '';
+        for (var k = Math.max(0, myArtifacts.length - 6); k < myArtifacts.length; k++) {
+          artHtml += '<span class="artifact-badge">' + myArtifacts[k] + '</span>';
+        }
+        document.getElementById('artifactList').innerHTML = artHtml;
       }
 
       localStorage.setItem('m_money', money);
       localStorage.setItem('m_click', clickPower);
       localStorage.setItem('m_auto', autoIncome);
     }
+
+    initShopHTML();
 
     setInterval(function() {
       if (comboEnergy > 0) {
@@ -1120,8 +1252,10 @@
     }, 300);
 
     setInterval(function() {
-      if (autoIncome > 0) {
-        money += autoIncome * (1 + prestige);
+      var passGain = autoIncome * getTotalMult();
+      if (passGain > 0) {
+        money += passGain;
+        damageBoss(passGain);
         refreshScreen();
       }
       syncWithServer();
@@ -1130,7 +1264,8 @@
       }
     }, 1500);
 
-    setInterval(spawnAirdrop, 30000);
+    setInterval(updateMarket, 2500);
+    setInterval(spawnAirdrop, 35000);
 
     refreshScreen();
     syncWithServer();
