@@ -42,7 +42,7 @@
       color: #000;
       font-weight: 900;
       font-size: 12px;
-      padding: 7px 12px;
+      padding: 8px 12px;
       border-radius: 12px;
       margin: 0 auto 10px auto;
       max-width: 460px;
@@ -534,7 +534,7 @@
       to { transform: scale(1); }
     }
 
-    /* Скины, Питомцы и Кейсы */
+    /* Скины, Питомцы, Кейсы и Медали */
     .case-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -558,6 +558,29 @@
       border-radius: 10px;
       font-size: 11px;
       margin: 3px;
+      font-weight: bold;
+    }
+    .ach-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .ach-card {
+      background: #121722;
+      border: 1px solid #262f3f;
+      border-radius: 12px;
+      padding: 8px 10px;
+      font-size: 11px;
+      color: #6e7681;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ach-card.unlocked {
+      border-color: #f1c40f;
+      background: rgba(241, 196, 15, 0.1);
+      color: #fff;
       font-weight: bold;
     }
 
@@ -604,6 +627,7 @@
       border-bottom: 1px solid #1f2633;
       font-size: 12px;
       gap: 6px;
+      flex-wrap: wrap;
     }
     .leader-row.me {
       background: rgba(46, 204, 113, 0.16);
@@ -614,6 +638,7 @@
       display: flex;
       gap: 4px;
       align-items: center;
+      flex-wrap: wrap;
     }
     .pvp-btn {
       border: none;
@@ -625,6 +650,8 @@
     }
     .btn-steal { background: #e74c3c; color: #fff; }
     .btn-gift { background: #3498db; color: #fff; }
+    .btn-admin-take { background: #f39c12; color: #000; }
+    .btn-admin-wipe { background: #8e44ad; color: #fff; }
 
     /* ОКНО РЕКЛАМЫ */
     .ad-overlay {
@@ -785,7 +812,6 @@
   <!-- ВКЛАДКА 2: КРИПТО-БИРЖА И ВЗЛОМ МАТРИЦЫ -->
   <div id="sec-trade" class="section">
     
-    <!-- Мини-игра Взлом Матрицы -->
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#2ecc71;">💻 Кибер-Взлом Матрицы (Мини-Игра)</h3>
       <p style="font-size:12px; color:#8b949e; margin:0 0 10px 0;">
@@ -799,15 +825,23 @@
     <div id="coinsContainer"></div>
   </div>
 
-  <!-- ВКЛАДКА 3: СИНДИКАТЫ, СКИНЫ, ПИТОМЦЫ И КЕЙСЫ -->
+  <!-- ВКЛАДКА 3: СИНДИКАТЫ, СКИНЫ, ПИТОМЦЫ, КЕЙСЫ И ДОСТИЖЕНИЯ -->
   <div id="sec-cases" class="section">
+
+    <!-- Достижения и Медали -->
+    <div class="card-box">
+      <h3 style="margin:0 0 4px 0; color:#f1c40f;">🏅 Медали Империи (+25% за каждую)</h3>
+      <div class="ach-grid">
+        <div id="ach0" class="ach-card"><span>👆</span> 100 Кликов</div>
+        <div id="ach1" class="ach-card"><span>💰</span> Первые $100K</div>
+        <div id="ach2" class="ach-card"><span>⚔️</span> Босс #5 убит</div>
+        <div id="ach3" class="ach-card"><span>👑</span> Миллиардер ($1B)</div>
+      </div>
+    </div>
 
     <!-- Выбор Клана (Синдиката) -->
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#f39c12;">🏰 Вступить в Синдикат (+50% к доходу)</h3>
-      <p style="font-size:12px; color:#8b949e; margin:0;">
-        Выберите свой клан! Его значок увидят все друзья в таблице лидеров и чате:
-      </p>
       <div class="case-grid">
         <div class="case-item" onclick="joinClan('🐺 МАФИЯ')">
           <div style="font-size:26px;">🐺</div>
@@ -899,7 +933,7 @@
 
     <!-- Рулетка и Престиж -->
     <div class="card-box">
-      <h3 style="margin:0 0 6px 0; color:#2ecc71;">🎰 Рулетка Фортуны</h3>
+      <h3 style="margin:0 0 6px 0; color:#2ecc71;">🎰 Рулетка Фортуны (Джекпот до x10!)</h3>
       <div style="display:flex; gap:8px; margin-top:8px;">
         <button class="btn-buy-coin" onclick="spinCasino(0.25)">Ставка 25%</button>
         <button class="btn-buy-coin" onclick="spinCasino(0.5)">Ставка 50%</button>
@@ -919,16 +953,16 @@
     </div>
   </div>
 
-  <!-- ВКЛАДКА 4: МИРОВОЙ РЕЙД-БОСС, ЧАТ И PVP-ТОП -->
+  <!-- ВКЛАДКА 4: МИРОВОЙ РЕЙД-БОСС (1 ТРИЛЛИОН HP), ЧАТ И PVP-ТОП -->
   <div id="sec-top" class="section">
     
     <!-- ОБЩИЙ МИРОВОЙ БОСС ДЛЯ ВСЕХ ИГРОКОВ -->
     <div class="world-raid-box">
       <div style="font-weight:900; font-size:14px; color:#e056fd; margin-bottom:4px;">
-        🐉 МИРОВОЙ РЕЙД-БОСС (ОБЩИЙ ОНЛАЙН)
+        🐉 ВСЕЛЕНСКИЙ ЛЕВИАФАН (МИРОВОЙ БОСС)
       </div>
       <div style="font-size:11px; color:#ccc; margin-bottom:8px;">
-        Бейте его вместе с друзьями! При добивании куш получают все!
+        Мега-босс на 1 ТРИЛЛИОН HP! Бейте его всем сервером!
       </div>
       <div class="boss-hp-bg" style="height:18px; margin-bottom:8px;">
         <div id="worldBossFill" class="boss-hp-fill" style="background:linear-gradient(90deg, #e056fd, #f39c12);"></div>
@@ -957,7 +991,7 @@
       </div>
     </div>
 
-    <div class="shop-title" style="margin-bottom:8px;">⚔️ ИГРОКИ ОНЛАЙН (ГРАБЬ ИЛИ ПЕРЕВОДИ!)</div>
+    <div class="shop-title" style="margin-bottom:8px;">⚔️ ИГРОКИ ОНЛАЙН (ГРАБЬ ИЛИ УПРАВЛЯЙ!)</div>
     <div class="leaderboard-box" id="topList">
       <div style="padding:15px; color:#888;">Загрузка игроков...</div>
     </div>
@@ -990,11 +1024,15 @@
 
     <!-- СКРЫТАЯ ПАНЕЛЬ СОЗДАТЕЛЯ (открывается по коду CREATOR777) -->
     <div id="adminPanel" class="card-box" style="display:none; border:2px solid #e056fd;">
-      <h3 style="margin:0 0 8px 0; color:#e056fd;">👑 ПАНЕЛЬ СОЗДАТЕЛЯ ИГРЫ</h3>
+      <h3 style="margin:0 0 8px 0; color:#e056fd;">👑 ПУЛЬТ СОЗДАТЕЛЯ ИГРЫ</h3>
+      <p style="font-size:11px; color:#aaa; margin-top:0;">
+        Подсказка: в списке «PvP Рейд» напротив каждого игрока у вас теперь появились кнопки <b>«⚖️ Снять $»</b> и <b>«💀 В ноль»</b>!
+      </p>
       <div style="display:flex; flex-direction:column; gap:8px;">
-        <button class="btn-login" onclick="adminAddMoney()">💰 Выдать себе +$100 000 000</button>
+        <button class="btn-login" onclick="adminAddMoney()">💰 Выдать себе +$1 000 000 000</button>
+        <button class="btn-buy-coin" style="background:#f1c40f;" onclick="adminGiftAll()">🌧️ Золотой Дождь (+$1M ВСЕМ игрокам)</button>
         <button class="btn-register" onclick="adminBroadcast()">📢 Отправить объявление на весь сервер</button>
-        <button class="btn-sell-coin" style="background:#f39c12; color:#000;" onclick="adminSpawnWorldBoss()">🐉 Возродить Мирового Босса</button>
+        <button class="btn-sell-coin" style="background:#e056fd; color:#000;" onclick="adminSpawnWorldBoss()">🐉 Сбросить Босса (1 ТРИЛЛИОН HP)</button>
       </div>
     </div>
   </div>
@@ -1017,6 +1055,7 @@
 
     var soundEnabled = true;
     var audioCtx = null;
+    var isAdmin = (localStorage.getItem('m_admin') === '1');
 
     function playTone(freq, type, duration) {
       if (!soundEnabled) return;
@@ -1071,6 +1110,7 @@
     var prestige = Number(localStorage.getItem('m_prestige')) || 0;
     var artifactBonus = Number(localStorage.getItem('m_art_bonus')) || 0;
     var myArtifacts = JSON.parse(localStorage.getItem('m_arts') || "[]");
+    var totalClicks = Number(localStorage.getItem('m_tot_clicks')) || 0;
 
     var petIcons = ["", "🐱", "🐉", "🦅"];
     var petBonuses = [0, 50, 200, 700];
@@ -1090,13 +1130,14 @@
     var playerName = localStorage.getItem('m_name') || ("Гость_" + Math.floor(Math.random() * 899 + 100));
     var playerPass = localStorage.getItem('m_pass') || "";
 
+    // УВЕЛИЧЕННОЕ ХП ЛИЧНЫХ БОССОВ
     var bossNames = [
       "Налоговый Инспектор", "Уличный Коллектор", "Мамкин Хакер", "Жадный Банкир",
       "Крипто-Мошенник", "Волк с Уолл-Стрит", "Теневой Олигарх", "Глава Корпорации",
       "ИИ-Сингулярность", "Архитектор Матрицы"
     ];
     var bossLevel = Number(localStorage.getItem('m_boss_lvl')) || 1;
-    var bossMaxHp = Math.floor(250 * Math.pow(2.35, bossLevel - 1));
+    var bossMaxHp = Math.floor(2500 * Math.pow(3.1, bossLevel - 1));
     var bossHp = Number(localStorage.getItem('m_boss_hp')) || bossMaxHp;
 
     var coins = [
@@ -1126,18 +1167,33 @@
       localStorage.setItem('m_uid', playerId);
     }
 
+    if (isAdmin) {
+      document.getElementById('adminPanel').style.display = 'block';
+    }
+
     function formatNum(n) {
       return Math.floor(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    }
+
+    function getAchBonus() {
+      var b = 0;
+      if (totalClicks >= 100) b += 25;
+      if (money >= 100000) b += 25;
+      if (bossLevel >= 5) b += 25;
+      if (money >= 1000000000) b += 25;
+      return b;
     }
 
     function getTotalMult() {
       var petB = petBonuses[currentPet] || 0;
       var clanB = playerClan ? 50 : 0;
+      var achB = getAchBonus();
       var rush = goldRushActive ? 3 : 1;
-      return (1 + prestige + ((artifactBonus + petB + skinBonus + clanB) / 100)) * rush;
+      return (1 + prestige + ((artifactBonus + petB + skinBonus + clanB + achB) / 100)) * rush;
     }
 
     function getRankTitle(m) {
+      if (isAdmin) return "👑 СОЗДАТЕЛЬ ИГРЫ";
       if (m < 500) return "Новичок";
       if (m < 5000) return "Уличный темщик";
       if (m < 50000) return "Крипто-Хомяк";
@@ -1147,19 +1203,18 @@
       return "Бог Матрицы 🌌";
     }
 
-    // ОФЛАЙН ДОХОД ЗА ВРЕМЯ ОТСУТСТВИЯ
     function checkOfflineEarnings() {
       var lastSeen = Number(localStorage.getItem('m_last_seen'));
       var now = Date.now();
       if (lastSeen && autoIncome > 0) {
         var diffSec = Math.floor((now - lastSeen) / 1000);
         if (diffSec > 60) {
-          var cappedSec = Math.min(diffSec, 28800); // до 8 часов
+          var cappedSec = Math.min(diffSec, 28800);
           var earned = Math.floor(cappedSec * autoIncome * getTotalMult() * 0.5);
           if (earned > 0) {
             money += earned;
             setTimeout(function() {
-              alert('💤 ОФЛАЙН-МАЙНИНГ:\nПока вас не было (' + Math.floor(diffSec / 60) + ' мин), ваша империя заработала: +$' + formatNum(earned) + '!');
+              alert('💤 ОФЛАЙН-МАЙНИНГ:\nПока вас не было (' + Math.floor(diffSec / 60) + ' мин), ваша империя принесла: +$' + formatNum(earned) + '!');
             }, 600);
           }
         }
@@ -1167,7 +1222,6 @@
       localStorage.setItem('m_last_seen', now);
     }
 
-    // МИНИ-ИГРА ВЗЛОМ МАТРИЦЫ
     var hackInterval = null;
     function startHackMiniGame() {
       var arena = document.getElementById('hackArena');
@@ -1177,7 +1231,6 @@
       btn.disabled = true;
       btn.innerHTML = '⏳ ИДЕТ ВЗЛОМ... ЛОВИ ВИРУСЫ!';
 
-      var timeLeft = 10;
       hackInterval = setInterval(function() {
         var node = document.createElement('div');
         node.className = 'hack-node';
@@ -1185,7 +1238,7 @@
         node.style.left = Math.floor(Math.random() * 82 + 5) + '%';
         node.style.top = Math.floor(Math.random() * 72 + 10) + '%';
         node.onclick = function() {
-          var prize = Math.max(150, (clickPower * 12 + autoIncome * 8) * getTotalMult());
+          var prize = Math.max(250, (clickPower * 15 + autoIncome * 10) * getTotalMult());
           money += prize;
           playTone(780, 'square', 0.08);
           node.remove();
@@ -1193,7 +1246,7 @@
         };
         arena.appendChild(node);
         setTimeout(function() { if (node.parentNode) node.remove(); }, 1100);
-      }, 420);
+      }, 400);
 
       setTimeout(function() {
         clearInterval(hackInterval);
@@ -1205,7 +1258,6 @@
       }, 10000);
     }
 
-    // КЛАНЫ
     function joinClan(cName) {
       playerClan = cName;
       localStorage.setItem('m_clan', playerClan);
@@ -1215,9 +1267,9 @@
       alert('🏰 Вы вступили в синдикат «' + cName + '» (+50% ко всем доходам)!');
     }
 
-    // МИРОВОЙ РЕЙД-БОСС (FIREBASE)
-    var worldBossMax = 50000000;
-    var worldBossHp = 50000000;
+    // МИРОВОЙ РЕЙД-БОСС НА 1 ТРИЛЛИОН HP (1 000 000 000 000)
+    var worldBossMax = 1000000000000;
+    var worldBossHp = 1000000000000;
 
     function loadWorldBoss() {
       fetch(FIREBASE_URL + '/worldBoss.json')
@@ -1231,7 +1283,7 @@
             });
           } else {
             worldBossHp = data.hp;
-            worldBossMax = data.max || 50000000;
+            worldBossMax = data.max || 1000000000000;
           }
           var pct = Math.max(0, Math.min(100, (worldBossHp / worldBossMax) * 100));
           document.getElementById('worldBossFill').style.width = pct + '%';
@@ -1240,16 +1292,16 @@
     }
 
     function attackWorldBoss() {
-      var dmg = Math.max(1000, (clickPower * 25 + autoIncome * 15) * getTotalMult());
+      var dmg = Math.max(5000, (clickPower * 30 + autoIncome * 20) * getTotalMult());
       playTone(300, 'sawtooth', 0.15);
       worldBossHp = Math.max(0, worldBossHp - dmg);
 
       if (worldBossHp <= 0) {
-        var megaReward = Math.max(500000, dmg * 20);
+        var megaReward = Math.max(50000000, dmg * 35);
         money += megaReward;
-        worldBossHp = worldBossMax * 2;
-        worldBossMax = worldBossHp;
-        postSystemChat('🐉 МИРОВОЙ БОСС ПОВЕРЖЕН! ' + playerName + ' нанес финальный удар и сорвал куш $' + formatNum(megaReward) + '!');
+        worldBossMax = worldBossMax * 3;
+        worldBossHp = worldBossMax;
+        postSystemChat('🐉 МИРОВОЙ ЛЕВИАФАН ПОВЕРЖЕН! ' + playerName + ' нанес финальный удар и получил $' + formatNum(megaReward) + '!');
         alert('🎉 ВЫ ДОБИЛИ МИРОВОГО БОССА!\nВаша награда: +$' + formatNum(megaReward));
       }
 
@@ -1262,14 +1314,17 @@
       syncWithServer();
     }
 
-    // ПРОМОКОДЫ И СЕКРЕТНАЯ АДМИНКА
+    // ПРОМОКОДЫ И АДМИН-ФУНКЦИИ СОЗДАТЕЛЯ
     function activatePromo() {
       var code = document.getElementById('promoInput').value.trim().toUpperCase();
       document.getElementById('promoInput').value = '';
 
       if (code === 'CREATOR777') {
+        isAdmin = true;
+        localStorage.setItem('m_admin', '1');
         document.getElementById('adminPanel').style.display = 'block';
-        alert('👑 ДОСТУП СОЗДАТЕЛЯ ОТКРЫТ!\nСекретная панель управления сервером появилась ниже.');
+        refreshScreen();
+        alert('👑 РЕЖИМ СОЗДАТЕЛЯ АКТИВИРОВАН!\nТеперь в разделе «PvP Рейд» вы можете снимать деньги с любого игрока или обнулять их баланс!');
         return;
       }
       if (code === 'START2026') {
@@ -1284,14 +1339,64 @@
         alert('🎉 Промокод активирован! Получено +$50 000!');
         return;
       }
-      alert('❌ Неверный или просроченный промокод!');
+      alert('❌ Неверный промокод!');
     }
 
     function adminAddMoney() {
-      money += 100000000;
+      money += 1000000000;
       refreshScreen();
       syncWithServer();
-      alert('💰 +$100 000 000 зачислено!');
+      alert('💰 +$1 000 000 000 зачислено Создателю!');
+    }
+
+    // СНЯТИЕ ДЕНЕГ С ЛЮБОГО ПОЛЬЗОВАТЕЛЯ (ДЛЯ СОЗДАТЕЛЯ)
+    function adminTakeMoney(targetId, targetName, currentTargetMoney) {
+      var str = prompt('👑 СОЗДАТЕЛЬ: Сколько долларов СНЯТЬ со счета игрока ' + targetName + '?\n(У него сейчас: $' + formatNum(currentTargetMoney) + ')');
+      var takeVal = Math.floor(Number(str));
+      if (!takeVal || takeVal <= 0) return;
+
+      var newBal = Math.max(0, currentTargetMoney - takeVal);
+      fetch(FIREBASE_URL + '/players/' + targetId + '/money.json', {
+        method: 'PUT',
+        body: JSON.stringify(newBal)
+      }).then(function() {
+        postSystemChat('⚖️ СОЗДАТЕЛЬ оштрафовал игрока ' + targetName + ' и снял с его баланса $' + formatNum(takeVal) + '!');
+        loadRealPlayers();
+        alert('✅ Со счета ' + targetName + ' успешно списано $' + formatNum(takeVal) + '!');
+      });
+    }
+
+    // ПОЛНОЕ ОБНУЛЕНИЕ ИГРОКА (ДЛЯ СОЗДАТЕЛЯ)
+    function adminWipePlayer(targetId, targetName) {
+      if (!confirm('👑 Вы уверены, что хотите полностью ОБНУЛИТЬ баланс игрока ' + targetName + ' до $0?')) return;
+      fetch(FIREBASE_URL + '/players/' + targetId + '/money.json', {
+        method: 'PUT',
+        body: JSON.stringify(0)
+      }).then(function() {
+        postSystemChat('💀 КАРА СОЗДАТЕЛЯ: Баланс игрока ' + targetName + ' был полностью обнулен!');
+        loadRealPlayers();
+      });
+    }
+
+    // РАЗДАТЬ ВСЕМ ИГРОКАМ ПО $1 000 000
+    function adminGiftAll() {
+      fetch(FIREBASE_URL + '/players.json')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (!data) return;
+          for (var k in data) {
+            if (data[k] && typeof data[k].money === 'number') {
+              fetch(FIREBASE_URL + '/players/' + k + '/money.json', {
+                method: 'PUT',
+                body: JSON.stringify(data[k].money + 1000000)
+              });
+            }
+          }
+          money += 1000000;
+          refreshScreen();
+          postSystemChat('🌧️ ЗОЛОТОЙ ДОЖДЬ! Создатель игры подарил ВСЕМ игрокам по +$1 000 000!');
+          alert('🌧️ Всем игрокам сервера начислено по $1 000 000!');
+        });
     }
 
     function adminBroadcast() {
@@ -1306,13 +1411,13 @@
     }
 
     function adminSpawnWorldBoss() {
-      worldBossMax = 100000000;
-      worldBossHp = 100000000;
+      worldBossMax = 1000000000000;
+      worldBossHp = 1000000000000;
       fetch(FIREBASE_URL + '/worldBoss.json', {
         method: 'PUT',
         body: JSON.stringify({ hp: worldBossHp, max: worldBossMax })
       }).then(function() { loadWorldBoss(); });
-      postSystemChat('🐉 СОЗДАТЕЛЬ возродил Мирового Рейд-Босса (100 000 000 HP)!');
+      postSystemChat('🐉 СОЗДАТЕЛЬ возродил Вселенского Левиафана (1 000 000 000 000 HP)!');
     }
 
     function checkGlobalAlert() {
@@ -1325,6 +1430,18 @@
             banner.innerHTML = String(data.text).replace(/</g, '&lt;');
           } else {
             banner.style.display = 'none';
+          }
+        }).catch(function() {});
+    }
+
+    // ВАЖНО: Синхронизация с облаком (если Создатель снял с игрока деньги, телефон игрока сразу это принимает!)
+    function pullServerBalanceCheck() {
+      fetch(FIREBASE_URL + '/players/' + playerId + '/money.json')
+        .then(function(r) { return r.json(); })
+        .then(function(srvMoney) {
+          if (typeof srvMoney === 'number' && srvMoney < money - (autoIncome * getTotalMult() * 5 + 500)) {
+            money = srvMoney;
+            refreshScreen();
           }
         }).catch(function() {});
     }
@@ -1511,6 +1628,9 @@
     }
 
     function tapCoin() {
+      totalClicks++;
+      localStorage.setItem('m_tot_clicks', totalClicks);
+
       comboEnergy = Math.min(100, comboEnergy + 7);
       updateComboState();
 
@@ -1548,7 +1668,7 @@
         var reward = Math.floor(bossMaxHp * 0.65);
         money += reward;
         bossLevel++;
-        bossMaxHp = Math.floor(250 * Math.pow(2.35, bossLevel - 1));
+        bossMaxHp = Math.floor(2500 * Math.pow(3.1, bossLevel - 1));
         bossHp = bossMaxHp;
         localStorage.setItem('m_boss_lvl', bossLevel);
         playTone(880, 'square', 0.25);
@@ -1603,11 +1723,12 @@
 
       var cTag = playerClan ? ('[' + playerClan + '] ') : '';
       var pIco = petIcons[currentPet] ? (petIcons[currentPet] + ' ') : '';
+      var admTag = isAdmin ? '👑 ' : '';
       fetch(FIREBASE_URL + '/chat.json', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          user: cTag + pIco + playerName,
+          user: admTag + cTag + pIco + playerName,
           text: txt,
           time: Date.now()
         })
@@ -1628,7 +1749,7 @@
             if (data[k] && data[k].text) {
               var safeUser = String(data[k].user || 'Гость').replace(/</g, '&lt;');
               var safeText = String(data[k].text).replace(/</g, '&lt;');
-              var uColor = (safeUser.indexOf('СИСТЕМА') !== -1 || safeUser.indexOf('СОЗДАТЕЛЬ') !== -1) ? '#f1c40f' : '#58a6ff';
+              var uColor = (safeUser.indexOf('СИСТЕМА') !== -1 || safeUser.indexOf('СОЗДАТЕЛЬ') !== -1 || safeUser.indexOf('👑') !== -1) ? '#f1c40f' : '#58a6ff';
               html += '<div class="chat-msg"><b style="color:' + uColor + ';">' + safeUser + ':</b> ' + safeText + '</div>';
             }
           }
@@ -1853,7 +1974,11 @@
       var bet = Math.floor(money * part);
       money -= bet;
       var roll = Math.random();
-      if (roll < 0.08) {
+      if (roll < 0.04) {
+        money += bet * 10;
+        resBox.style.color = '#e056fd';
+        resBox.innerHTML = '💎 МЕГА-ДЖЕКПОТ x10! +$' + formatNum(bet * 10);
+      } else if (roll < 0.12) {
         money += bet * 5;
         resBox.style.color = '#f1c40f';
         resBox.innerHTML = '🚨 ДЖЕКПОТ x5! +$' + formatNum(bet * 5);
@@ -2034,13 +2159,17 @@
             var medal = (i === 0) ? '🥇 ' : (i === 1) ? '🥈 ' : (i === 2) ? '🥉 ' : '#' + (i + 1) + ' ';
             var safeName = String(p.name).replace(/'/g, "");
 
-            var actionsHtml = '';
+            var actionsHtml = '<div class="pvp-actions">';
             if (!isMe) {
-              actionsHtml = '<div class="pvp-actions">' +
-                '<button class="pvp-btn btn-gift" onclick="giftPlayer(\'' + p.id + '\', \'' + safeName + '\', ' + p.money + ')">💸</button>' +
-                '<button class="pvp-btn btn-steal" onclick="robPlayer(\'' + p.id + '\', \'' + safeName + '\', ' + p.money + ', ' + p.shield + ')">🗡️ Грабь</button>' +
-                '</div>';
+              actionsHtml += '<button class="pvp-btn btn-gift" onclick="giftPlayer(\'' + p.id + '\', \'' + safeName + '\', ' + p.money + ')">💸</button>' +
+                '<button class="pvp-btn btn-steal" onclick="robPlayer(\'' + p.id + '\', \'' + safeName + '\', ' + p.money + ', ' + p.shield + ')">🗡️ Грабь</button>';
             }
+            // СЕКРЕТНЫЕ КНОПКИ СОЗДАТЕЛЯ ДЛЯ СНЯТИЯ ДЕНЕГ И ОБНУЛЕНИЯ
+            if (isAdmin) {
+              actionsHtml += '<button class="pvp-btn btn-admin-take" onclick="adminTakeMoney(\'' + p.id + '\', \'' + safeName + '\', ' + p.money + ')">⚖️ Снять $</button>' +
+                '<button class="pvp-btn btn-admin-wipe" onclick="adminWipePlayer(\'' + p.id + '\', \'' + safeName + '\')">💀 В ноль</button>';
+            }
+            actionsHtml += '</div>';
 
             html += '<div class="' + rowClass + '">' +
               '<div style="text-align:left;">' + medal + cBadge + pIcon + p.name + crown +
@@ -2063,6 +2192,12 @@
       document.getElementById('clanTagText').innerHTML = playerClan ? ('[' + playerClan + ']') : '';
       document.getElementById('mainBtn').innerHTML = btnSkin;
       document.getElementById('shieldLvlText').innerHTML = shieldLevel;
+
+      // Обновление медалей
+      document.getElementById('ach0').className = (totalClicks >= 100) ? 'ach-card unlocked' : 'ach-card';
+      document.getElementById('ach1').className = (money >= 100000) ? 'ach-card unlocked' : 'ach-card';
+      document.getElementById('ach2').className = (bossLevel >= 5) ? 'ach-card unlocked' : 'ach-card';
+      document.getElementById('ach3').className = (money >= 1000000000) ? 'ach-card unlocked' : 'ach-card';
 
       var bName = bossNames[(bossLevel - 1) % bossNames.length];
       document.getElementById('bossName').innerHTML = '👾 Босс #' + bossLevel + ': ' + bName;
@@ -2120,6 +2255,7 @@
     }, 1000);
 
     setInterval(function() {
+      pullServerBalanceCheck();
       syncWithServer();
       checkGlobalAlert();
       if (document.getElementById('sec-top').className.indexOf('active') !== -1) {
