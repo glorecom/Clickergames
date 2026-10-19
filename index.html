@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Денежный Кликер — PvP Syndicate</title>
+  <title>Денежный Кликер — Финальная Империя</title>
   <style>
     * {
       box-sizing: border-box;
@@ -15,28 +15,55 @@
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #06080d;
+      background: #05070b;
       background-image: 
-        radial-gradient(at 0% 0%, rgba(46, 204, 113, 0.16) 0px, transparent 50%),
-        radial-gradient(at 100% 20%, rgba(52, 152, 219, 0.15) 0px, transparent 50%),
-        radial-gradient(at 50% 100%, rgba(155, 89, 182, 0.15) 0px, transparent 50%);
+        radial-gradient(at 0% 0%, rgba(46, 204, 113, 0.18) 0px, transparent 50%),
+        radial-gradient(at 100% 20%, rgba(52, 152, 219, 0.16) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(224, 86, 253, 0.15) 0px, transparent 50%);
       color: #ffffff;
       text-align: center;
       margin: 0;
-      padding: 10px 10px 88px 10px;
+      padding: 10px 10px 92px 10px;
       overflow-x: hidden;
       min-height: 100vh;
+    }
+    body.shake {
+      animation: screenShake 0.15s ease-in-out;
+    }
+    @keyframes screenShake {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(-4px, 3px); }
+      75% { transform: translate(4px, -3px); }
+    }
+
+    /* Глобальный баннер от Создателя */
+    .global-alert {
+      background: linear-gradient(90deg, #e056fd, #f39c12, #2ecc71);
+      color: #000;
+      font-weight: 900;
+      font-size: 12px;
+      padding: 7px 12px;
+      border-radius: 12px;
+      margin: 0 auto 10px auto;
+      max-width: 460px;
+      display: none;
+      box-shadow: 0 0 20px rgba(243, 156, 18, 0.6);
+      animation: pulseAlert 1.5s infinite;
+    }
+    @keyframes pulseAlert {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
     }
 
     /* Шапка профиля */
     .header {
-      background: rgba(18, 24, 36, 0.88);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(16, 22, 34, 0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       padding: 14px;
       border-radius: 22px;
       margin-bottom: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,255,255,0.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.12);
       border: 1px solid rgba(255, 255, 255, 0.08);
       max-width: 460px;
       margin-left: auto;
@@ -70,7 +97,7 @@
     .user-badge {
       font-size: 12px;
       color: #58a6ff;
-      font-weight: 700;
+      font-weight: 800;
     }
     .balance {
       font-size: 36px;
@@ -78,7 +105,7 @@
       background: linear-gradient(180deg, #ffffff 0%, #2ecc71 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 15px rgba(46, 204, 113, 0.35));
+      filter: drop-shadow(0 0 15px rgba(46, 204, 113, 0.4));
       margin: 2px 0;
     }
     .stats {
@@ -86,7 +113,7 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 6px;
       margin-top: 8px;
-      background: rgba(9, 12, 18, 0.65);
+      background: rgba(8, 11, 16, 0.7);
       padding: 8px;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,0.05);
@@ -108,15 +135,15 @@
       transform: translateX(-50%);
       width: calc(100% - 20px);
       max-width: 460px;
-      background: rgba(16, 21, 31, 0.96);
+      background: rgba(14, 19, 28, 0.96);
       backdrop-filter: blur(15px);
       -webkit-backdrop-filter: blur(15px);
       display: flex;
       gap: 4px;
       padding: 6px;
       border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.85);
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.9);
       z-index: 900;
     }
     .tab-btn {
@@ -137,9 +164,9 @@
     }
     .tab-btn span.ico { font-size: 18px; }
     .tab-btn.active {
-      background: linear-gradient(135deg, rgba(46, 204, 113, 0.25), rgba(39, 174, 96, 0.1));
+      background: linear-gradient(135deg, rgba(46, 204, 113, 0.28), rgba(39, 174, 96, 0.1));
       color: #2ecc71;
-      border: 1px solid rgba(46, 204, 113, 0.4);
+      border: 1px solid rgba(46, 204, 113, 0.45);
     }
 
     .section {
@@ -153,12 +180,12 @@
 
     /* КАРТОЧКА БОССА */
     .boss-card {
-      background: linear-gradient(135deg, rgba(58, 22, 36, 0.9), rgba(20, 24, 34, 0.9));
-      border: 1px solid rgba(255, 71, 87, 0.5);
+      background: linear-gradient(135deg, rgba(58, 22, 36, 0.92), rgba(18, 22, 32, 0.92));
+      border: 1px solid rgba(255, 71, 87, 0.55);
       border-radius: 18px;
       padding: 12px 14px;
       margin-bottom: 10px;
-      box-shadow: 0 6px 20px rgba(255, 71, 87, 0.15);
+      box-shadow: 0 6px 20px rgba(255, 71, 87, 0.18);
     }
     .boss-header {
       display: flex;
@@ -251,21 +278,21 @@
       transition: width 0.1s ease;
     }
 
-    /* Кнопка клика */
+    /* Кнопка клика и частицы */
     .click-area {
       position: relative;
       margin: 6px 0 10px 0;
       display: inline-block;
     }
     .click-btn {
-      width: 160px;
-      height: 160px;
+      width: 162px;
+      height: 162px;
       border-radius: 50%;
       background: radial-gradient(circle at 30% 30%, #4cd137, #27ae60, #145a32);
-      border: 6px solid rgba(46, 204, 113, 0.5);
+      border: 6px solid rgba(46, 204, 113, 0.55);
       color: white;
       font-size: 64px;
-      box-shadow: 0 0 35px rgba(46, 204, 113, 0.4), inset 0 -8px 18px rgba(0,0,0,0.45);
+      box-shadow: 0 0 38px rgba(46, 204, 113, 0.45), inset 0 -8px 18px rgba(0,0,0,0.45);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -284,6 +311,20 @@
     }
     .click-btn:active, .click-btn.pop {
       transform: scale(0.89);
+    }
+
+    .spark {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 998;
+      animation: sparkFly 0.55s ease-out forwards;
+    }
+    @keyframes sparkFly {
+      0% { opacity: 1; transform: translate(0, 0) scale(1); }
+      100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.2); }
     }
 
     .watch-ad-btn {
@@ -409,10 +450,10 @@
 
     /* Карточки разделов */
     .card-box {
-      background: rgba(22, 27, 38, 0.9);
+      background: rgba(20, 26, 38, 0.92);
       padding: 14px;
       border-radius: 18px;
-      border: 1px solid #262f3f;
+      border: 1px solid #283246;
       margin-bottom: 12px;
       text-align: left;
     }
@@ -428,7 +469,7 @@
       text-align: center;
     }
     .coin-card {
-      background: #1a212e;
+      background: #181f2c;
       border: 1px solid #2b3548;
       border-radius: 14px;
       padding: 12px;
@@ -449,7 +490,7 @@
       align-items: flex-end;
       gap: 4px;
       height: 42px;
-      background: #0e1218;
+      background: #0d1117;
       padding: 6px;
       border-radius: 8px;
       margin-bottom: 8px;
@@ -470,6 +511,29 @@
       padding: 9px; border-radius: 8px; font-weight: 900; font-size: 12px; cursor: pointer;
     }
 
+    /* Мини-игра Взлом Матрицы */
+    .hack-arena {
+      position: relative;
+      width: 100%;
+      height: 150px;
+      background: #070b10;
+      border: 1px solid #2ecc71;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 10px;
+      display: none;
+    }
+    .hack-node {
+      position: absolute;
+      font-size: 28px;
+      cursor: pointer;
+      animation: popNode 0.2s ease-out;
+    }
+    @keyframes popNode {
+      from { transform: scale(0); }
+      to { transform: scale(1); }
+    }
+
     /* Скины, Питомцы и Кейсы */
     .case-grid {
       display: grid;
@@ -485,10 +549,6 @@
       text-align: center;
       cursor: pointer;
     }
-    .case-item.active-skin {
-      border-color: #2ecc71;
-      box-shadow: 0 0 12px rgba(46, 204, 113, 0.35);
-    }
     .artifact-badge {
       display: inline-block;
       background: #1f2735;
@@ -501,9 +561,18 @@
       font-weight: bold;
     }
 
-    /* ЧАТ И PVP РЕЙТИНГ */
+    /* ЧАТ, МИРОВОЙ БОСС И PVP РЕЙТИНГ */
+    .world-raid-box {
+      background: linear-gradient(135deg, #301134, #141824);
+      border: 2px solid #e056fd;
+      border-radius: 18px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 0 25px rgba(224, 86, 253, 0.25);
+      text-align: center;
+    }
     .chat-box {
-      background: #0e1218;
+      background: #0d1117;
       border: 1px solid #262f3f;
       border-radius: 12px;
       height: 150px;
@@ -522,7 +591,7 @@
       gap: 6px;
     }
     .leaderboard-box {
-      background: rgba(22, 27, 38, 0.9);
+      background: rgba(20, 26, 38, 0.92);
       border-radius: 16px;
       border: 1px solid #262f3f;
       overflow: hidden;
@@ -618,6 +687,9 @@
 </head>
 <body>
 
+  <!-- Глобальное объявление от Админа -->
+  <div id="globalAlertBanner" class="global-alert"></div>
+
   <!-- ОКНО ШУТОЧНОЙ РЕКЛАМЫ -->
   <div id="adOverlay" class="ad-overlay">
     <div class="ad-badge">Реклама • 18+</div>
@@ -639,7 +711,7 @@
   <div class="header">
     <div class="top-bar-info">
       <span id="rankBadge" class="rank-badge">Новичок</span>
-      <span class="user-badge"><span id="petIcon"></span> <span id="playerName">Гость</span></span>
+      <span class="user-badge"><span id="clanTagText"></span> <span id="petIcon"></span> <span id="playerName">Гость</span></span>
       <button id="soundToggleBtn" class="sound-btn" onclick="toggleSound()">🔊</button>
     </div>
     <div class="balance">$<span id="money">0</span></div>
@@ -710,21 +782,51 @@
     </div>
   </div>
 
-  <!-- ВКЛАДКА 2: КРИПТО-БИРЖА -->
+  <!-- ВКЛАДКА 2: КРИПТО-БИРЖА И ВЗЛОМ МАТРИЦЫ -->
   <div id="sec-trade" class="section">
+    
+    <!-- Мини-игра Взлом Матрицы -->
+    <div class="card-box">
+      <h3 style="margin:0 0 6px 0; color:#2ecc71;">💻 Кибер-Взлом Матрицы (Мини-Игра)</h3>
+      <p style="font-size:12px; color:#8b949e; margin:0 0 10px 0;">
+        Нажимайте на появляющиеся вирусы 👾 за 10 секунд! Каждый пойманный узел приносит мгновенный куш!
+      </p>
+      <button id="startHackBtn" class="btn-login" style="width:100%;" onclick="startHackMiniGame()">⚡ ЗАПУСТИТЬ ВЗЛОМ (10 СЕК)</button>
+      <div id="hackArena" class="hack-arena"></div>
+    </div>
+
     <div id="marketNews" class="news-ticker">📰 Рынок спокоен: Трейдеры ждут новостей...</div>
     <div id="coinsContainer"></div>
   </div>
 
-  <!-- ВКЛАДКА 3: СКИНЫ, ПИТОМЦЫ, КЕЙСЫ И ПРЕСТИЖ -->
+  <!-- ВКЛАДКА 3: СИНДИКАТЫ, СКИНЫ, ПИТОМЦЫ И КЕЙСЫ -->
   <div id="sec-cases" class="section">
-    
+
+    <!-- Выбор Клана (Синдиката) -->
+    <div class="card-box">
+      <h3 style="margin:0 0 6px 0; color:#f39c12;">🏰 Вступить в Синдикат (+50% к доходу)</h3>
+      <p style="font-size:12px; color:#8b949e; margin:0;">
+        Выберите свой клан! Его значок увидят все друзья в таблице лидеров и чате:
+      </p>
+      <div class="case-grid">
+        <div class="case-item" onclick="joinClan('🐺 МАФИЯ')">
+          <div style="font-size:26px;">🐺</div>
+          <div style="font-weight:bold; font-size:11px;">Мафия</div>
+        </div>
+        <div class="case-item" onclick="joinClan('⚡ КИБЕР')">
+          <div style="font-size:26px;">⚡</div>
+          <div style="font-weight:bold; font-size:11px;">Кибер-Панки</div>
+        </div>
+        <div class="case-item" onclick="joinClan('👁️ ОРДЕН')">
+          <div style="font-size:26px;">👁️</div>
+          <div style="font-weight:bold; font-size:11px;">Иллюминаты</div>
+        </div>
+      </div>
+    </div>
+
     <!-- Магазин Скинов Кнопки -->
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#2ecc71;">🎨 Скины для Кнопки Клика</h3>
-      <p style="font-size:12px; color:#8b949e; margin:0;">
-        Меняйте внешний вид главной кнопки и получайте бонус к силе клика!
-      </p>
       <div class="case-grid">
         <div class="case-item" onclick="selectSkin('🪙', 15000, 25)">
           <div style="font-size:28px;">🪙</div>
@@ -817,9 +919,26 @@
     </div>
   </div>
 
-  <!-- ВКЛАДКА 4: ОНЛАЙН ЧАТ, ЗАЩИТА И PVP-РЕЙТИНГ -->
+  <!-- ВКЛАДКА 4: МИРОВОЙ РЕЙД-БОСС, ЧАТ И PVP-ТОП -->
   <div id="sec-top" class="section">
     
+    <!-- ОБЩИЙ МИРОВОЙ БОСС ДЛЯ ВСЕХ ИГРОКОВ -->
+    <div class="world-raid-box">
+      <div style="font-weight:900; font-size:14px; color:#e056fd; margin-bottom:4px;">
+        🐉 МИРОВОЙ РЕЙД-БОСС (ОБЩИЙ ОНЛАЙН)
+      </div>
+      <div style="font-size:11px; color:#ccc; margin-bottom:8px;">
+        Бейте его вместе с друзьями! При добивании куш получают все!
+      </div>
+      <div class="boss-hp-bg" style="height:18px; margin-bottom:8px;">
+        <div id="worldBossFill" class="boss-hp-fill" style="background:linear-gradient(90deg, #e056fd, #f39c12);"></div>
+        <div id="worldBossText" class="boss-hp-text">Загрузка HP...</div>
+      </div>
+      <button class="btn-sell-coin" style="width:100%; background:linear-gradient(90deg,#e056fd,#8e44ad);" onclick="attackWorldBoss()">
+        ⚔️ НАНЕСТИ КОМАНДНЫЙ УДАР!
+      </button>
+    </div>
+
     <!-- Защита от ограблений друзей -->
     <div class="card-box" style="display:flex; justify-content:space-between; align-items:center;">
       <div>
@@ -830,7 +949,7 @@
     </div>
 
     <div class="card-box">
-      <h3 style="margin:0 0 8px 0; color:#58a6ff;">💬 Живой Чат и Лог Ограблений</h3>
+      <h3 style="margin:0 0 8px 0; color:#58a6ff;">💬 Живой Чат и Лог Событий</h3>
       <div id="chatMessages" class="chat-box">Загрузка чата...</div>
       <div class="chat-input-row">
         <input type="text" id="chatInput" class="input-field" style="margin:0;" placeholder="Написать всем..." maxlength="60">
@@ -844,7 +963,7 @@
     </div>
   </div>
 
-  <!-- ВКЛАДКА 5: АККАУНТ -->
+  <!-- ВКЛАДКА 5: АККАУНТ, ПРОМОКОДЫ И СЕКРЕТНАЯ АДМИНКА -->
   <div id="sec-prof" class="section">
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#f1c40f;">🔐 Вход и Сохранение</h3>
@@ -859,6 +978,25 @@
       </div>
       <div id="authStatus" class="status-msg"></div>
     </div>
+
+    <!-- Промокоды -->
+    <div class="card-box">
+      <h3 style="margin:0 0 6px 0; color:#2ecc71;">🎁 Секретные Промокоды</h3>
+      <div class="chat-input-row">
+        <input type="text" id="promoInput" class="input-field" style="margin:0;" placeholder="Введите промокод...">
+        <button class="btn-login" style="flex:0 0 100px;" onclick="activatePromo()">Активировать</button>
+      </div>
+    </div>
+
+    <!-- СКРЫТАЯ ПАНЕЛЬ СОЗДАТЕЛЯ (открывается по коду CREATOR777) -->
+    <div id="adminPanel" class="card-box" style="display:none; border:2px solid #e056fd;">
+      <h3 style="margin:0 0 8px 0; color:#e056fd;">👑 ПАНЕЛЬ СОЗДАТЕЛЯ ИГРЫ</h3>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <button class="btn-login" onclick="adminAddMoney()">💰 Выдать себе +$100 000 000</button>
+        <button class="btn-register" onclick="adminBroadcast()">📢 Отправить объявление на весь сервер</button>
+        <button class="btn-sell-coin" style="background:#f39c12; color:#000;" onclick="adminSpawnWorldBoss()">🐉 Возродить Мирового Босса</button>
+      </div>
+    </div>
   </div>
 
   <div class="footer-version">
@@ -869,15 +1007,14 @@
   <div class="bottom-nav">
     <button id="btn-game" class="tab-btn active" onclick="openTab('game')"><span class="ico">⚔️</span>Босс</button>
     <button id="btn-trade" class="tab-btn" onclick="openTab('trade')"><span class="ico">📈</span>Биржа</button>
-    <button id="btn-cases" class="tab-btn" onclick="openTab('cases')"><span class="ico">🐾</span>Скины</button>
-    <button id="btn-top" class="tab-btn" onclick="openTab('top')"><span class="ico">🏆</span>PvP Топ</button>
+    <button id="btn-cases" class="tab-btn" onclick="openTab('cases')"><span class="ico">🐾</span>Кланы</button>
+    <button id="btn-top" class="tab-btn" onclick="openTab('top')"><span class="ico">🏆</span>PvP Рейд</button>
     <button id="btn-prof" class="tab-btn" onclick="openTab('prof')"><span class="ico">🔐</span>Профиль</button>
   </div>
 
   <script>
     var FIREBASE_URL = "https://clicker-8ad8b-default-rtdb.firebaseio.com";
 
-    // Генератор звуков (Web Audio API без внешних файлов)
     var soundEnabled = true;
     var audioCtx = null;
 
@@ -939,6 +1076,7 @@
     var petBonuses = [0, 50, 200, 700];
     var currentPet = Number(localStorage.getItem('m_pet')) || 0;
 
+    var playerClan = localStorage.getItem('m_clan') || "";
     var btnSkin = localStorage.getItem('m_skin') || '💵';
     var skinBonus = Number(localStorage.getItem('m_skin_b')) || 0;
     var shieldLevel = Number(localStorage.getItem('m_shield')) || 0;
@@ -994,8 +1132,9 @@
 
     function getTotalMult() {
       var petB = petBonuses[currentPet] || 0;
+      var clanB = playerClan ? 50 : 0;
       var rush = goldRushActive ? 3 : 1;
-      return (1 + prestige + ((artifactBonus + petB + skinBonus) / 100)) * rush;
+      return (1 + prestige + ((artifactBonus + petB + skinBonus + clanB) / 100)) * rush;
     }
 
     function getRankTitle(m) {
@@ -1006,6 +1145,188 @@
       if (m < 5000000) return "Волк с Уолл-Стрит";
       if (m < 100000000) return "Кибер-Олигарх";
       return "Бог Матрицы 🌌";
+    }
+
+    // ОФЛАЙН ДОХОД ЗА ВРЕМЯ ОТСУТСТВИЯ
+    function checkOfflineEarnings() {
+      var lastSeen = Number(localStorage.getItem('m_last_seen'));
+      var now = Date.now();
+      if (lastSeen && autoIncome > 0) {
+        var diffSec = Math.floor((now - lastSeen) / 1000);
+        if (diffSec > 60) {
+          var cappedSec = Math.min(diffSec, 28800); // до 8 часов
+          var earned = Math.floor(cappedSec * autoIncome * getTotalMult() * 0.5);
+          if (earned > 0) {
+            money += earned;
+            setTimeout(function() {
+              alert('💤 ОФЛАЙН-МАЙНИНГ:\nПока вас не было (' + Math.floor(diffSec / 60) + ' мин), ваша империя заработала: +$' + formatNum(earned) + '!');
+            }, 600);
+          }
+        }
+      }
+      localStorage.setItem('m_last_seen', now);
+    }
+
+    // МИНИ-ИГРА ВЗЛОМ МАТРИЦЫ
+    var hackInterval = null;
+    function startHackMiniGame() {
+      var arena = document.getElementById('hackArena');
+      var btn = document.getElementById('startHackBtn');
+      arena.style.display = 'block';
+      arena.innerHTML = '';
+      btn.disabled = true;
+      btn.innerHTML = '⏳ ИДЕТ ВЗЛОМ... ЛОВИ ВИРУСЫ!';
+
+      var timeLeft = 10;
+      hackInterval = setInterval(function() {
+        var node = document.createElement('div');
+        node.className = 'hack-node';
+        node.innerHTML = '👾';
+        node.style.left = Math.floor(Math.random() * 82 + 5) + '%';
+        node.style.top = Math.floor(Math.random() * 72 + 10) + '%';
+        node.onclick = function() {
+          var prize = Math.max(150, (clickPower * 12 + autoIncome * 8) * getTotalMult());
+          money += prize;
+          playTone(780, 'square', 0.08);
+          node.remove();
+          refreshScreen();
+        };
+        arena.appendChild(node);
+        setTimeout(function() { if (node.parentNode) node.remove(); }, 1100);
+      }, 420);
+
+      setTimeout(function() {
+        clearInterval(hackInterval);
+        arena.style.display = 'none';
+        btn.disabled = false;
+        btn.innerHTML = '⚡ ЗАПУСТИТЬ ВЗЛОМ (10 СЕК)';
+        syncWithServer();
+        alert('💻 Взлом завершен! Все перехваченные средства зачислены на баланс.');
+      }, 10000);
+    }
+
+    // КЛАНЫ
+    function joinClan(cName) {
+      playerClan = cName;
+      localStorage.setItem('m_clan', playerClan);
+      playTone(600, 'triangle', 0.2);
+      refreshScreen();
+      syncWithServer();
+      alert('🏰 Вы вступили в синдикат «' + cName + '» (+50% ко всем доходам)!');
+    }
+
+    // МИРОВОЙ РЕЙД-БОСС (FIREBASE)
+    var worldBossMax = 50000000;
+    var worldBossHp = 50000000;
+
+    function loadWorldBoss() {
+      fetch(FIREBASE_URL + '/worldBoss.json')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (!data || typeof data.hp !== 'number' || data.hp <= 0) {
+            worldBossHp = worldBossMax;
+            fetch(FIREBASE_URL + '/worldBoss.json', {
+              method: 'PUT',
+              body: JSON.stringify({ hp: worldBossMax, max: worldBossMax })
+            });
+          } else {
+            worldBossHp = data.hp;
+            worldBossMax = data.max || 50000000;
+          }
+          var pct = Math.max(0, Math.min(100, (worldBossHp / worldBossMax) * 100));
+          document.getElementById('worldBossFill').style.width = pct + '%';
+          document.getElementById('worldBossText').innerHTML = formatNum(worldBossHp) + ' / ' + formatNum(worldBossMax) + ' HP';
+        }).catch(function() {});
+    }
+
+    function attackWorldBoss() {
+      var dmg = Math.max(1000, (clickPower * 25 + autoIncome * 15) * getTotalMult());
+      playTone(300, 'sawtooth', 0.15);
+      worldBossHp = Math.max(0, worldBossHp - dmg);
+
+      if (worldBossHp <= 0) {
+        var megaReward = Math.max(500000, dmg * 20);
+        money += megaReward;
+        worldBossHp = worldBossMax * 2;
+        worldBossMax = worldBossHp;
+        postSystemChat('🐉 МИРОВОЙ БОСС ПОВЕРЖЕН! ' + playerName + ' нанес финальный удар и сорвал куш $' + formatNum(megaReward) + '!');
+        alert('🎉 ВЫ ДОБИЛИ МИРОВОГО БОССА!\nВаша награда: +$' + formatNum(megaReward));
+      }
+
+      fetch(FIREBASE_URL + '/worldBoss.json', {
+        method: 'PUT',
+        body: JSON.stringify({ hp: Math.floor(worldBossHp), max: Math.floor(worldBossMax) })
+      }).then(function() { loadWorldBoss(); });
+
+      refreshScreen();
+      syncWithServer();
+    }
+
+    // ПРОМОКОДЫ И СЕКРЕТНАЯ АДМИНКА
+    function activatePromo() {
+      var code = document.getElementById('promoInput').value.trim().toUpperCase();
+      document.getElementById('promoInput').value = '';
+
+      if (code === 'CREATOR777') {
+        document.getElementById('adminPanel').style.display = 'block';
+        alert('👑 ДОСТУП СОЗДАТЕЛЯ ОТКРЫТ!\nСекретная панель управления сервером появилась ниже.');
+        return;
+      }
+      if (code === 'START2026') {
+        if (localStorage.getItem('promo_start')) {
+          alert('Вы уже активировали этот промокод!');
+          return;
+        }
+        localStorage.setItem('promo_start', '1');
+        money += 50000;
+        refreshScreen();
+        syncWithServer();
+        alert('🎉 Промокод активирован! Получено +$50 000!');
+        return;
+      }
+      alert('❌ Неверный или просроченный промокод!');
+    }
+
+    function adminAddMoney() {
+      money += 100000000;
+      refreshScreen();
+      syncWithServer();
+      alert('💰 +$100 000 000 зачислено!');
+    }
+
+    function adminBroadcast() {
+      var msg = prompt('Введите текст объявления, который появится у всех игроков сверху экрана:');
+      if (!msg) return;
+      fetch(FIREBASE_URL + '/globalAlert.json', {
+        method: 'PUT',
+        body: JSON.stringify({ text: '📢 СОЗДАТЕЛЬ: ' + msg, time: Date.now() })
+      });
+      postSystemChat('👑 СОЗДАТЕЛЬ: ' + msg);
+      alert('📢 Объявление отправлено на экраны всех игроков!');
+    }
+
+    function adminSpawnWorldBoss() {
+      worldBossMax = 100000000;
+      worldBossHp = 100000000;
+      fetch(FIREBASE_URL + '/worldBoss.json', {
+        method: 'PUT',
+        body: JSON.stringify({ hp: worldBossHp, max: worldBossMax })
+      }).then(function() { loadWorldBoss(); });
+      postSystemChat('🐉 СОЗДАТЕЛЬ возродил Мирового Рейд-Босса (100 000 000 HP)!');
+    }
+
+    function checkGlobalAlert() {
+      fetch(FIREBASE_URL + '/globalAlert.json')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var banner = document.getElementById('globalAlertBanner');
+          if (data && data.text && (Date.now() - data.time < 120000)) {
+            banner.style.display = 'block';
+            banner.innerHTML = String(data.text).replace(/</g, '&lt;');
+          } else {
+            banner.style.display = 'none';
+          }
+        }).catch(function() {});
     }
 
     function setBuyMult(m) {
@@ -1033,9 +1354,7 @@
         alert('Не хватает денег на этот скин!');
         return;
       }
-      if (btnSkin !== emoji) {
-        money -= price;
-      }
+      if (btnSkin !== emoji) money -= price;
       btnSkin = emoji;
       skinBonus = bonusVal;
       localStorage.setItem('m_skin', btnSkin);
@@ -1059,16 +1378,15 @@
       syncWithServer();
     }
 
-    // PVP ОГРАБЛЕНИЕ ДРУГА В РЕЙТИНГЕ
     function robPlayer(targetId, targetName, targetMoney, targetShield) {
       var now = Date.now();
       if (now - lastRobTime < 45000) {
         var wait = Math.ceil((45000 - (now - lastRobTime)) / 1000);
-        alert('⏳ Полиция на хвосте! Подождите ещё ' + wait + ' сек перед новым ограблением.');
+        alert('⏳ Полиция на хвосте! Подождите ещё ' + wait + ' сек.');
         return;
       }
       if (targetMoney < 500) {
-        alert('У этого игрока слишком мало денег для грабежа!');
+        alert('У этого игрока слишком мало денег!');
         return;
       }
       lastRobTime = now;
@@ -1078,10 +1396,10 @@
         var fine = Math.floor(money * 0.05);
         money = Math.max(0, money - fine);
         playTone(180, 'sawtooth', 0.3);
-        postSystemChat('🚓 ' + playerName + ' пытался ограбить ' + targetName + ', но сработала сигнализация! Штраф: $' + formatNum(fine));
+        postSystemChat('🚓 ' + playerName + ' пытался ограбить ' + targetName + ', но попался! Штраф: $' + formatNum(fine));
         refreshScreen();
         syncWithServer();
-        alert('🚨 ПРОВАЛ! Сработала броня сейфа ' + targetName + '!\nВы заплатили штраф $' + formatNum(fine));
+        alert('🚨 ПРОВАЛ! Сработала броня сейфа ' + targetName + '!\nШтраф: $' + formatNum(fine));
         return;
       }
 
@@ -1089,50 +1407,39 @@
       money += stolen;
       playTone(750, 'square', 0.25);
 
-      // Списываем украденное у жертвы в базе
       fetch(FIREBASE_URL + '/players/' + targetId + '/money.json', {
         method: 'PUT',
         body: JSON.stringify(Math.max(0, targetMoney - stolen))
       });
 
-      postSystemChat('🥷 ОГРАБЛЕНИЕ! ' + playerName + ' взломал сейф ' + targetName + ' и украл $' + formatNum(stolen) + '!');
+      postSystemChat('🥷 ОГРАБЛЕНИЕ! ' + playerName + ' взломал сейф ' + targetName + ' и унес $' + formatNum(stolen) + '!');
       refreshScreen();
       syncWithServer();
       loadRealPlayers();
       alert('🥷 УСПЕХ! Вы ограбили ' + targetName + ' на $' + formatNum(stolen) + '!');
     }
 
-    // ПЕРЕВОД ДЕНЕГ ДРУГУ
     function giftPlayer(targetId, targetName, targetMoney) {
       var amountStr = prompt('Сколько долларов перевести игроку ' + targetName + '?');
       var amount = Math.floor(Number(amountStr));
-      if (!amount || amount <= 0) return;
-      if (amount > money) {
-        alert('У вас нет столько денег!');
-        return;
-      }
+      if (!amount || amount <= 0 || amount > money) return;
       money -= amount;
       fetch(FIREBASE_URL + '/players/' + targetId + '/money.json', {
         method: 'PUT',
         body: JSON.stringify(targetMoney + amount)
       });
 
-      postSystemChat('💸 ПЕРЕВОД: ' + playerName + ' отправил $' + formatNum(amount) + ' игроку ' + targetName + '!');
+      postSystemChat('💸 ПЕРЕВОД: ' + playerName + ' перевел $' + formatNum(amount) + ' игроку ' + targetName + '!');
       refreshScreen();
       syncWithServer();
       loadRealPlayers();
-      alert('✅ Вы успешно перевели $' + formatNum(amount) + ' игроку ' + targetName + '!');
     }
 
     function postSystemChat(msgText) {
       fetch(FIREBASE_URL + '/chat.json', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user: "⚡ СИСТЕМА",
-          text: msgText,
-          time: Date.now()
-        })
+        body: JSON.stringify({ user: "⚡ СИСТЕМА", text: msgText, time: Date.now() })
       }).then(function() { loadChat(); });
     }
 
@@ -1185,6 +1492,24 @@
       tapCoin();
     }, { passive: false });
 
+    function spawnSparks() {
+      var area = document.getElementById('clickArea');
+      var colors = ['#2ecc71', '#f1c40f', '#58a6ff', '#e056fd'];
+      for (var i = 0; i < 6; i++) {
+        var sp = document.createElement('div');
+        sp.className = 'spark';
+        sp.style.background = colors[Math.floor(Math.random() * colors.length)];
+        sp.style.left = '80px';
+        sp.style.top = '80px';
+        var angle = Math.random() * Math.PI * 2;
+        var dist = Math.random() * 65 + 25;
+        sp.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+        sp.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+        area.appendChild(sp);
+        setTimeout(function(el) { el.remove(); }, 550, sp);
+      }
+    }
+
     function tapCoin() {
       comboEnergy = Math.min(100, comboEnergy + 7);
       updateComboState();
@@ -1192,7 +1517,13 @@
       var isCrit = Math.random() < 0.10;
       var gain = clickPower * comboMultiplier * getTotalMult() * (isCrit ? 10 : 1);
 
-      playTone(isCrit ? 720 : 440, isCrit ? 'triangle' : 'sine', 0.07);
+      playTone(isCrit ? 740 : 440, isCrit ? 'triangle' : 'sine', 0.07);
+
+      if (isCrit) {
+        document.body.classList.remove('shake');
+        void document.body.offsetWidth;
+        document.body.classList.add('shake');
+      }
 
       money += gain;
       damageBoss(gain);
@@ -1200,6 +1531,7 @@
       mainBtn.classList.add('pop');
       setTimeout(function() { mainBtn.classList.remove('pop'); }, 55);
 
+      spawnSparks();
       spawnDollar(gain, isCrit);
       refreshScreen();
       syncWithServer();
@@ -1269,12 +1601,13 @@
       if (!txt) return;
       inp.value = '';
 
+      var cTag = playerClan ? ('[' + playerClan + '] ') : '';
       var pIco = petIcons[currentPet] ? (petIcons[currentPet] + ' ') : '';
       fetch(FIREBASE_URL + '/chat.json', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          user: pIco + playerName,
+          user: cTag + pIco + playerName,
           text: txt,
           time: Date.now()
         })
@@ -1295,7 +1628,7 @@
             if (data[k] && data[k].text) {
               var safeUser = String(data[k].user || 'Гость').replace(/</g, '&lt;');
               var safeText = String(data[k].text).replace(/</g, '&lt;');
-              var uColor = (safeUser.indexOf('СИСТЕМА') !== -1) ? '#f1c40f' : '#58a6ff';
+              var uColor = (safeUser.indexOf('СИСТЕМА') !== -1 || safeUser.indexOf('СОЗДАТЕЛЬ') !== -1) ? '#f1c40f' : '#58a6ff';
               html += '<div class="chat-msg"><b style="color:' + uColor + ';">' + safeUser + ':</b> ' + safeText + '</div>';
             }
           }
@@ -1568,6 +1901,7 @@
       if (tab === 'top') {
         loadRealPlayers();
         loadChat();
+        loadWorldBoss();
       }
     }
 
@@ -1627,6 +1961,7 @@
           bossLevel = Number(data.bossLevel) || 1;
           currentPet = Number(data.pet) || 0;
           shieldLevel = Number(data.shield) || 0;
+          playerClan = data.clan || "";
           if (Array.isArray(data.costs) && data.costs.length === shopItems.length) costs = data.costs;
           if (Array.isArray(data.counts) && data.counts.length === shopItems.length) counts = data.counts;
 
@@ -1635,12 +1970,14 @@
           localStorage.setItem('m_pass', playerPass);
           localStorage.setItem('m_pet', currentPet);
           localStorage.setItem('m_shield', shieldLevel);
+          localStorage.setItem('m_clan', playerClan);
           refreshScreen();
           showStatus('✅ Весь прогресс восстановлен!', false);
         });
     }
 
     function syncWithServer() {
+      localStorage.setItem('m_last_seen', Date.now());
       fetch(FIREBASE_URL + '/players/' + playerId + '.json', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -1655,6 +1992,7 @@
           bossLevel: bossLevel,
           pet: currentPet,
           shield: shieldLevel,
+          clan: playerClan,
           costs: costs,
           counts: counts,
           updated: Date.now()
@@ -1678,7 +2016,8 @@
                 prestige: data[key].prestige || 0,
                 boss: data[key].bossLevel || 1,
                 pet: data[key].pet || 0,
-                shield: data[key].shield || 0
+                shield: data[key].shield || 0,
+                clan: data[key].clan || ''
               });
             }
           }
@@ -1691,6 +2030,7 @@
             var rowClass = isMe ? 'leader-row me' : 'leader-row';
             var crown = p.prestige > 0 ? ' 👑' + p.prestige : '';
             var pIcon = petIcons[p.pet] ? (petIcons[p.pet] + ' ') : '';
+            var cBadge = p.clan ? ('<span style="color:#f39c12; font-size:10px;">[' + p.clan + ']</span> ') : '';
             var medal = (i === 0) ? '🥇 ' : (i === 1) ? '🥈 ' : (i === 2) ? '🥉 ' : '#' + (i + 1) + ' ';
             var safeName = String(p.name).replace(/'/g, "");
 
@@ -1703,7 +2043,7 @@
             }
 
             html += '<div class="' + rowClass + '">' +
-              '<div style="text-align:left;">' + medal + pIcon + p.name + crown +
+              '<div style="text-align:left;">' + medal + cBadge + pIcon + p.name + crown +
               ' <div style="color:#2ecc71; font-weight:bold;">$' + formatNum(p.money) + ' <small style="color:#8b949e;">[Босс #' + p.boss + ']</small></div></div>' +
               actionsHtml + '</div>';
           }
@@ -1720,6 +2060,7 @@
       document.getElementById('rankBadge').innerHTML = getRankTitle(money);
       document.getElementById('playerName').innerHTML = playerName;
       document.getElementById('petIcon').innerHTML = petIcons[currentPet] || '';
+      document.getElementById('clanTagText').innerHTML = playerClan ? ('[' + playerClan + ']') : '';
       document.getElementById('mainBtn').innerHTML = btnSkin;
       document.getElementById('shieldLvlText').innerHTML = shieldLevel;
 
@@ -1753,6 +2094,7 @@
     }
 
     initShopHTML();
+    checkOfflineEarnings();
 
     setInterval(function() {
       if (autoDroneActive) {
@@ -1779,9 +2121,11 @@
 
     setInterval(function() {
       syncWithServer();
+      checkGlobalAlert();
       if (document.getElementById('sec-top').className.indexOf('active') !== -1) {
         loadRealPlayers();
         loadChat();
+        loadWorldBoss();
       }
     }, 2500);
 
