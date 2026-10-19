@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Денежный Кликер — Cyber Empire</title>
+  <title>Денежный Кликер — PvP Syndicate</title>
   <style>
     * {
       box-sizing: border-box;
@@ -15,27 +15,28 @@
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #07090e;
+      background: #06080d;
       background-image: 
-        radial-gradient(at 0% 0%, rgba(46, 204, 113, 0.15) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(155, 89, 182, 0.15) 0px, transparent 50%);
+        radial-gradient(at 0% 0%, rgba(46, 204, 113, 0.16) 0px, transparent 50%),
+        radial-gradient(at 100% 20%, rgba(52, 152, 219, 0.15) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(155, 89, 182, 0.15) 0px, transparent 50%);
       color: #ffffff;
       text-align: center;
       margin: 0;
-      padding: 10px 10px 85px 10px;
+      padding: 10px 10px 88px 10px;
       overflow-x: hidden;
       min-height: 100vh;
     }
 
-    /* Стеклянная шапка профиля */
+    /* Шапка профиля */
     .header {
-      background: rgba(20, 26, 38, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(18, 24, 36, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       padding: 14px;
       border-radius: 22px;
       margin-bottom: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,255,255,0.1);
       border: 1px solid rgba(255, 255, 255, 0.08);
       max-width: 460px;
       margin-left: auto;
@@ -55,7 +56,16 @@
       padding: 3px 9px;
       border-radius: 20px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+    }
+    .sound-btn {
+      background: #1f2735;
+      border: 1px solid #333e52;
+      color: #fff;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      font-size: 13px;
+      cursor: pointer;
     }
     .user-badge {
       font-size: 12px;
@@ -76,10 +86,10 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 6px;
       margin-top: 8px;
-      background: rgba(9, 12, 18, 0.6);
+      background: rgba(9, 12, 18, 0.65);
       padding: 8px;
       border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.05);
       font-size: 11px;
       color: #8b949e;
     }
@@ -98,7 +108,7 @@
       transform: translateX(-50%);
       width: calc(100% - 20px);
       max-width: 460px;
-      background: rgba(18, 23, 33, 0.95);
+      background: rgba(16, 21, 31, 0.96);
       backdrop-filter: blur(15px);
       -webkit-backdrop-filter: blur(15px);
       display: flex;
@@ -198,8 +208,6 @@
       padding: 8px 6px;
       border-radius: 14px;
       cursor: pointer;
-      position: relative;
-      overflow: hidden;
       transition: transform 0.1s, border-color 0.2s;
     }
     .skill-btn.ready {
@@ -256,7 +264,7 @@
       background: radial-gradient(circle at 30% 30%, #4cd137, #27ae60, #145a32);
       border: 6px solid rgba(46, 204, 113, 0.5);
       color: white;
-      font-size: 62px;
+      font-size: 64px;
       box-shadow: 0 0 35px rgba(46, 204, 113, 0.4), inset 0 -8px 18px rgba(0,0,0,0.45);
       cursor: pointer;
       display: inline-flex;
@@ -278,7 +286,6 @@
       transform: scale(0.89);
     }
 
-    /* Кнопка вызова рекламы */
     .watch-ad-btn {
       display: block;
       margin: 0 auto 14px auto;
@@ -293,7 +300,6 @@
       box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
     }
 
-    /* Всплывающий урон */
     .floating-dollar {
       position: absolute;
       font-size: 20px;
@@ -315,7 +321,7 @@
       100% { opacity: 0; transform: translate(-50%, -80px) scale(1.15); }
     }
 
-    /* Магазин с множителем закупки */
+    /* Магазин */
     .shop-header-row {
       display: flex;
       justify-content: space-between;
@@ -358,13 +364,11 @@
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
-      transition: transform 0.1s;
     }
     .upgrade-btn.affordable {
       border-color: #2ecc71;
       background: linear-gradient(90deg, rgba(22, 27, 38, 0.95) 0%, rgba(46, 204, 113, 0.16) 100%);
     }
-    .upgrade-btn:active { transform: scale(0.98); }
     .item-left {
       display: flex;
       align-items: center;
@@ -403,7 +407,7 @@
       color: #090b0f;
     }
 
-    /* Универсальные карточки */
+    /* Карточки разделов */
     .card-box {
       background: rgba(22, 27, 38, 0.9);
       padding: 14px;
@@ -466,22 +470,25 @@
       padding: 9px; border-radius: 8px; font-weight: 900; font-size: 12px; cursor: pointer;
     }
 
-    /* КЕЙСЫ И ПИТОМЦЫ */
+    /* Скины, Питомцы и Кейсы */
     .case-grid {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 8px;
       margin-top: 10px;
     }
     .case-item {
-      flex: 1;
       background: linear-gradient(145deg, #212838, #141822);
       border: 1px solid #364156;
       border-radius: 14px;
-      padding: 12px 6px;
+      padding: 10px 6px;
       text-align: center;
       cursor: pointer;
     }
-    .case-item:active { transform: scale(0.96); }
+    .case-item.active-skin {
+      border-color: #2ecc71;
+      box-shadow: 0 0 12px rgba(46, 204, 113, 0.35);
+    }
     .artifact-badge {
       display: inline-block;
       background: #1f2735;
@@ -494,9 +501,9 @@
       font-weight: bold;
     }
 
-    /* ОНЛАЙН ЧАТ И ТОП */
+    /* ЧАТ И PVP РЕЙТИНГ */
     .chat-box {
-      background: #0f131a;
+      background: #0e1218;
       border: 1px solid #262f3f;
       border-radius: 12px;
       height: 150px;
@@ -524,17 +531,33 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 11px 14px;
+      padding: 10px 12px;
       border-bottom: 1px solid #1f2633;
-      font-size: 13px;
+      font-size: 12px;
+      gap: 6px;
     }
     .leader-row.me {
-      background: rgba(46, 204, 113, 0.18);
+      background: rgba(46, 204, 113, 0.16);
       border-left: 4px solid #2ecc71;
       font-weight: bold;
     }
+    .pvp-actions {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .pvp-btn {
+      border: none;
+      padding: 5px 7px;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .btn-steal { background: #e74c3c; color: #fff; }
+    .btn-gift { background: #3498db; color: #fff; }
 
-    /* МОДАЛЬНОЕ ОКНО ФЕЙКОВОЙ РЕКЛАМЫ */
+    /* ОКНО РЕКЛАМЫ */
     .ad-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -617,6 +640,7 @@
     <div class="top-bar-info">
       <span id="rankBadge" class="rank-badge">Новичок</span>
       <span class="user-badge"><span id="petIcon"></span> <span id="playerName">Гость</span></span>
+      <button id="soundToggleBtn" class="sound-btn" onclick="toggleSound()">🔊</button>
     </div>
     <div class="balance">$<span id="money">0</span></div>
     <div class="stats">
@@ -629,7 +653,6 @@
   <!-- ВКЛАДКА 1: БОСС, СКИЛЛЫ, КЛИКЕР И МАГАЗИН -->
   <div id="sec-game" class="section active">
     
-    <!-- Карточка Босса -->
     <div class="boss-card">
       <div class="boss-header">
         <span id="bossName">👾 Босс #1: Налоговый Инспектор</span>
@@ -641,7 +664,6 @@
       </div>
     </div>
 
-    <!-- 3 Активных Скилла -->
     <div class="skills-row">
       <button id="skBtn0" class="skill-btn ready" onclick="useSkill(0)">
         <span class="skill-title">🤖 Авто-Дрон</span>
@@ -657,7 +679,6 @@
       </button>
     </div>
 
-    <!-- Комбо -->
     <div class="combo-wrap">
       <div class="combo-label">
         <span>🔥 ЯРОСТЬ КЛИКА</span>
@@ -676,7 +697,6 @@
       📺 СМОТРЕТЬ РЕКЛАМУ (+МЕГА БОНУС 💰)
     </button>
 
-    <!-- Магазин с кнопками x1 / x10 / MAX -->
     <div class="shop-box">
       <div class="shop-header-row">
         <div class="shop-title">🛒 МАГАЗИН ИМПЕРИИ</div>
@@ -690,39 +710,64 @@
     </div>
   </div>
 
-  <!-- ВКЛАДКА 2: ЖИВАЯ КРИПТО-БИРЖА -->
+  <!-- ВКЛАДКА 2: КРИПТО-БИРЖА -->
   <div id="sec-trade" class="section">
     <div id="marketNews" class="news-ticker">📰 Рынок спокоен: Трейдеры ждут новостей...</div>
     <div id="coinsContainer"></div>
   </div>
 
-  <!-- ВКЛАДКА 3: ПИТОМЦЫ, КЕЙСЫ И ПРЕСТИЖ -->
+  <!-- ВКЛАДКА 3: СКИНЫ, ПИТОМЦЫ, КЕЙСЫ И ПРЕСТИЖ -->
   <div id="sec-cases" class="section">
     
+    <!-- Магазин Скинов Кнопки -->
+    <div class="card-box">
+      <h3 style="margin:0 0 6px 0; color:#2ecc71;">🎨 Скины для Кнопки Клика</h3>
+      <p style="font-size:12px; color:#8b949e; margin:0;">
+        Меняйте внешний вид главной кнопки и получайте бонус к силе клика!
+      </p>
+      <div class="case-grid">
+        <div class="case-item" onclick="selectSkin('🪙', 15000, 25)">
+          <div style="font-size:28px;">🪙</div>
+          <div style="font-weight:bold; font-size:11px;">Биткоин</div>
+          <div style="font-size:10px; color:#2ecc71;">+25% доход</div>
+          <div style="color:#f1c40f; font-weight:900; font-size:11px; margin-top:3px;">$15 000</div>
+        </div>
+        <div class="case-item" onclick="selectSkin('💎', 250000, 100)">
+          <div style="font-size:28px;">💎</div>
+          <div style="font-weight:bold; font-size:11px;">Алмаз</div>
+          <div style="font-size:10px; color:#2ecc71;">+100% доход</div>
+          <div style="color:#f1c40f; font-weight:900; font-size:11px; margin-top:3px;">$250 000</div>
+        </div>
+        <div class="case-item" onclick="selectSkin('🕳️', 5000000, 350)">
+          <div style="font-size:28px;">🕳️</div>
+          <div style="font-weight:bold; font-size:11px;">Сингулярность</div>
+          <div style="font-size:10px; color:#2ecc71;">+350% доход</div>
+          <div style="color:#e056fd; font-weight:900; font-size:11px; margin-top:3px;">$5 000 000</div>
+        </div>
+      </div>
+    </div>
+
     <!-- Питомцы -->
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#58a6ff;">🐾 Призыв Питомца-Компаньона</h3>
-      <p style="font-size:12px; color:#8b949e; margin:0;">
-        Питомцы дают огромный бонус к доходу и отображаются возле вашего ника в рейтинге!
-      </p>
       <div class="case-grid">
         <div class="case-item" onclick="buyPet(0, 25000)">
-          <div style="font-size:30px;">🐱</div>
+          <div style="font-size:28px;">🐱</div>
           <div style="font-weight:bold; font-size:12px;">Кибер-Кот</div>
           <div style="font-size:10px; color:#aaa;">+50% доход</div>
-          <div style="color:#2ecc71; font-weight:900; font-size:12px; margin-top:4px;">$25 000</div>
+          <div style="color:#2ecc71; font-weight:900; font-size:11px; margin-top:4px;">$25 000</div>
         </div>
         <div class="case-item" onclick="buyPet(1, 500000)">
-          <div style="font-size:30px;">🐉</div>
+          <div style="font-size:28px;">🐉</div>
           <div style="font-weight:bold; font-size:12px;">Дракон</div>
           <div style="font-size:10px; color:#aaa;">+200% доход</div>
-          <div style="color:#f1c40f; font-weight:900; font-size:12px; margin-top:4px;">$500 000</div>
+          <div style="color:#f1c40f; font-weight:900; font-size:11px; margin-top:4px;">$500 000</div>
         </div>
         <div class="case-item" onclick="buyPet(2, 15000000)">
-          <div style="font-size:30px;">🦅</div>
+          <div style="font-size:28px;">🦅</div>
           <div style="font-weight:bold; font-size:12px;">Феникс</div>
           <div style="font-size:10px; color:#aaa;">+700% доход</div>
-          <div style="color:#e056fd; font-weight:900; font-size:12px; margin-top:4px;">$15 000 000</div>
+          <div style="color:#e056fd; font-weight:900; font-size:11px; margin-top:4px;">$15 000 000</div>
         </div>
       </div>
     </div>
@@ -732,17 +777,17 @@
       <h3 style="margin:0 0 6px 0; color:#f1c40f;">📦 Кейсы с Артефактами</h3>
       <div class="case-grid">
         <div class="case-item" onclick="openCase(5000, 'Обычный')">
-          <div style="font-size:28px;">🧰</div>
+          <div style="font-size:26px;">🧰</div>
           <div style="font-weight:bold; font-size:12px;">Бронзовый</div>
           <div style="color:#2ecc71; font-weight:900; font-size:11px;">$5 000</div>
         </div>
         <div class="case-item" onclick="openCase(75000, 'Эпический')">
-          <div style="font-size:28px;">💎</div>
+          <div style="font-size:26px;">💎</div>
           <div style="font-weight:bold; font-size:12px;">Алмазный</div>
           <div style="color:#f1c40f; font-weight:900; font-size:11px;">$75 000</div>
         </div>
         <div class="case-item" onclick="openCase(1000000, 'Легендарный')">
-          <div style="font-size:28px;">👑</div>
+          <div style="font-size:26px;">👑</div>
           <div style="font-weight:bold; font-size:12px;">Королевский</div>
           <div style="color:#e056fd; font-weight:900; font-size:11px;">$1 000 000</div>
         </div>
@@ -764,7 +809,7 @@
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#e056fd;">👑 Перерождение (Престиж)</h3>
       <p style="font-size:12px; color:#8b949e; margin:0;">
-        Сбросьте деньги и бизнесы ради <b>+100% к доходу навсегда</b> (Артефакты и Питомцы сохраняются!).
+        Сбросьте деньги и бизнесы ради <b>+100% к доходу навсегда</b>!
       </p>
       <button class="btn-register" style="width:100%; margin-top:10px; background:#8e44ad;" onclick="doPrestige()">
         👑 Сделать Престиж (Нужно $5 000 000)
@@ -772,18 +817,28 @@
     </div>
   </div>
 
-  <!-- ВКЛАДКА 4: ОНЛАЙН РЕЙТИНГ И ЖИВОЙ ЧАТ -->
+  <!-- ВКЛАДКА 4: ОНЛАЙН ЧАТ, ЗАЩИТА И PVP-РЕЙТИНГ -->
   <div id="sec-top" class="section">
+    
+    <!-- Защита от ограблений друзей -->
+    <div class="card-box" style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <div style="font-weight:bold; font-size:13px; color:#f1c40f;">🛡️ Броня Сейфа (Ур. <span id="shieldLvlText">0</span>)</div>
+        <div style="font-size:11px; color:#8b949e;">Защищает ваши деньги от грабежей друзей</div>
+      </div>
+      <button class="btn-buy-coin" style="flex:0 0 110px;" onclick="buyShield()">Улучшить ($20K)</button>
+    </div>
+
     <div class="card-box">
-      <h3 style="margin:0 0 8px 0; color:#58a6ff;">💬 Онлайн-Чат Игроков</h3>
+      <h3 style="margin:0 0 8px 0; color:#58a6ff;">💬 Живой Чат и Лог Ограблений</h3>
       <div id="chatMessages" class="chat-box">Загрузка чата...</div>
       <div class="chat-input-row">
         <input type="text" id="chatInput" class="input-field" style="margin:0;" placeholder="Написать всем..." maxlength="60">
-        <button class="btn-login" style="flex:0 0 90px;" onclick="sendChatMsg()">Отпр.</button>
+        <button class="btn-login" style="flex:0 0 85px;" onclick="sendChatMsg()">Отпр.</button>
       </div>
     </div>
 
-    <div class="shop-title" style="margin-bottom:8px;">🏆 ЖИВОЙ РЕЙТИНГ БОГАЧЕЙ</div>
+    <div class="shop-title" style="margin-bottom:8px;">⚔️ ИГРОКИ ОНЛАЙН (ГРАБЬ ИЛИ ПЕРЕВОДИ!)</div>
     <div class="leaderboard-box" id="topList">
       <div style="padding:15px; color:#888;">Загрузка игроков...</div>
     </div>
@@ -794,7 +849,7 @@
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#f1c40f;">🔐 Вход и Сохранение</h3>
       <p style="font-size:12px; color:#8b949e; margin-top:0; margin-bottom:12px;">
-        Привяжите пароль к нику, чтобы ваш прогресс, питомцы и артефакты были в безопасности.
+        Привяжите пароль к нику, чтобы ваш прогресс был защищен в облаке.
       </p>
       <input type="text" id="authNick" class="input-field" placeholder="Ваш никнейм..." maxlength="14">
       <input type="password" id="authPass" class="input-field" placeholder="Ваш пароль..." maxlength="20">
@@ -814,13 +869,39 @@
   <div class="bottom-nav">
     <button id="btn-game" class="tab-btn active" onclick="openTab('game')"><span class="ico">⚔️</span>Босс</button>
     <button id="btn-trade" class="tab-btn" onclick="openTab('trade')"><span class="ico">📈</span>Биржа</button>
-    <button id="btn-cases" class="tab-btn" onclick="openTab('cases')"><span class="ico">🐾</span>Питомцы</button>
-    <button id="btn-top" class="tab-btn" onclick="openTab('top')"><span class="ico">🏆</span>Онлайн</button>
+    <button id="btn-cases" class="tab-btn" onclick="openTab('cases')"><span class="ico">🐾</span>Скины</button>
+    <button id="btn-top" class="tab-btn" onclick="openTab('top')"><span class="ico">🏆</span>PvP Топ</button>
     <button id="btn-prof" class="tab-btn" onclick="openTab('prof')"><span class="ico">🔐</span>Профиль</button>
   </div>
 
   <script>
     var FIREBASE_URL = "https://clicker-8ad8b-default-rtdb.firebaseio.com";
+
+    // Генератор звуков (Web Audio API без внешних файлов)
+    var soundEnabled = true;
+    var audioCtx = null;
+
+    function playTone(freq, type, duration) {
+      if (!soundEnabled) return;
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.type = type || 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('soundToggleBtn').innerHTML = soundEnabled ? '🔊' : '🔇';
+    }
 
     var shopItems = [
       { icon: "💪", name: "Тренировка пальца", desc: "+1$ к клику", type: "click", power: 1, baseCost: 15 },
@@ -854,14 +935,16 @@
     var artifactBonus = Number(localStorage.getItem('m_art_bonus')) || 0;
     var myArtifacts = JSON.parse(localStorage.getItem('m_arts') || "[]");
 
-    // Питомцы
     var petIcons = ["", "🐱", "🐉", "🦅"];
     var petBonuses = [0, 50, 200, 700];
     var currentPet = Number(localStorage.getItem('m_pet')) || 0;
 
-    var buyMult = 1;
+    var btnSkin = localStorage.getItem('m_skin') || '💵';
+    var skinBonus = Number(localStorage.getItem('m_skin_b')) || 0;
+    var shieldLevel = Number(localStorage.getItem('m_shield')) || 0;
+    var lastRobTime = 0;
 
-    // Активные скиллы
+    var buyMult = 1;
     var skillCd = [0, 0, 0];
     var autoDroneActive = false;
     var goldRushActive = false;
@@ -912,7 +995,7 @@
     function getTotalMult() {
       var petB = petBonuses[currentPet] || 0;
       var rush = goldRushActive ? 3 : 1;
-      return (1 + prestige + ((artifactBonus + petB) / 100)) * rush;
+      return (1 + prestige + ((artifactBonus + petB + skinBonus) / 100)) * rush;
     }
 
     function getRankTitle(m) {
@@ -945,9 +1028,117 @@
       document.getElementById('shopList').innerHTML = html;
     }
 
-    // ИСПОЛЬЗОВАНИЕ АКТИВНЫХ СКИЛЛОВ
+    function selectSkin(emoji, price, bonusVal) {
+      if (money < price && btnSkin !== emoji) {
+        alert('Не хватает денег на этот скин!');
+        return;
+      }
+      if (btnSkin !== emoji) {
+        money -= price;
+      }
+      btnSkin = emoji;
+      skinBonus = bonusVal;
+      localStorage.setItem('m_skin', btnSkin);
+      localStorage.setItem('m_skin_b', skinBonus);
+      playTone(620, 'triangle', 0.2);
+      refreshScreen();
+      syncWithServer();
+      alert('🎨 Скин «' + emoji + '» установлен! Бонус: +' + bonusVal + '%!');
+    }
+
+    function buyShield() {
+      if (money < 20000) {
+        alert('Нужно $20 000 для укрепления сейфа!');
+        return;
+      }
+      money -= 20000;
+      shieldLevel += 1;
+      localStorage.setItem('m_shield', shieldLevel);
+      playTone(500, 'sine', 0.15);
+      refreshScreen();
+      syncWithServer();
+    }
+
+    // PVP ОГРАБЛЕНИЕ ДРУГА В РЕЙТИНГЕ
+    function robPlayer(targetId, targetName, targetMoney, targetShield) {
+      var now = Date.now();
+      if (now - lastRobTime < 45000) {
+        var wait = Math.ceil((45000 - (now - lastRobTime)) / 1000);
+        alert('⏳ Полиция на хвосте! Подождите ещё ' + wait + ' сек перед новым ограблением.');
+        return;
+      }
+      if (targetMoney < 500) {
+        alert('У этого игрока слишком мало денег для грабежа!');
+        return;
+      }
+      lastRobTime = now;
+
+      var failChance = Math.min(0.75, 0.30 + (targetShield || 0) * 0.08);
+      if (Math.random() < failChance) {
+        var fine = Math.floor(money * 0.05);
+        money = Math.max(0, money - fine);
+        playTone(180, 'sawtooth', 0.3);
+        postSystemChat('🚓 ' + playerName + ' пытался ограбить ' + targetName + ', но сработала сигнализация! Штраф: $' + formatNum(fine));
+        refreshScreen();
+        syncWithServer();
+        alert('🚨 ПРОВАЛ! Сработала броня сейфа ' + targetName + '!\nВы заплатили штраф $' + formatNum(fine));
+        return;
+      }
+
+      var stolen = Math.floor(targetMoney * 0.07);
+      money += stolen;
+      playTone(750, 'square', 0.25);
+
+      // Списываем украденное у жертвы в базе
+      fetch(FIREBASE_URL + '/players/' + targetId + '/money.json', {
+        method: 'PUT',
+        body: JSON.stringify(Math.max(0, targetMoney - stolen))
+      });
+
+      postSystemChat('🥷 ОГРАБЛЕНИЕ! ' + playerName + ' взломал сейф ' + targetName + ' и украл $' + formatNum(stolen) + '!');
+      refreshScreen();
+      syncWithServer();
+      loadRealPlayers();
+      alert('🥷 УСПЕХ! Вы ограбили ' + targetName + ' на $' + formatNum(stolen) + '!');
+    }
+
+    // ПЕРЕВОД ДЕНЕГ ДРУГУ
+    function giftPlayer(targetId, targetName, targetMoney) {
+      var amountStr = prompt('Сколько долларов перевести игроку ' + targetName + '?');
+      var amount = Math.floor(Number(amountStr));
+      if (!amount || amount <= 0) return;
+      if (amount > money) {
+        alert('У вас нет столько денег!');
+        return;
+      }
+      money -= amount;
+      fetch(FIREBASE_URL + '/players/' + targetId + '/money.json', {
+        method: 'PUT',
+        body: JSON.stringify(targetMoney + amount)
+      });
+
+      postSystemChat('💸 ПЕРЕВОД: ' + playerName + ' отправил $' + formatNum(amount) + ' игроку ' + targetName + '!');
+      refreshScreen();
+      syncWithServer();
+      loadRealPlayers();
+      alert('✅ Вы успешно перевели $' + formatNum(amount) + ' игроку ' + targetName + '!');
+    }
+
+    function postSystemChat(msgText) {
+      fetch(FIREBASE_URL + '/chat.json', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user: "⚡ СИСТЕМА",
+          text: msgText,
+          time: Date.now()
+        })
+      }).then(function() { loadChat(); });
+    }
+
     function useSkill(idx) {
       if (skillCd[idx] > 0) return;
+      playTone(680, 'triangle', 0.2);
 
       if (idx === 0) {
         autoDroneActive = true;
@@ -1001,6 +1192,8 @@
       var isCrit = Math.random() < 0.10;
       var gain = clickPower * comboMultiplier * getTotalMult() * (isCrit ? 10 : 1);
 
+      playTone(isCrit ? 720 : 440, isCrit ? 'triangle' : 'sine', 0.07);
+
       money += gain;
       damageBoss(gain);
 
@@ -1026,6 +1219,7 @@
         bossMaxHp = Math.floor(250 * Math.pow(2.35, bossLevel - 1));
         bossHp = bossMaxHp;
         localStorage.setItem('m_boss_lvl', bossLevel);
+        playTone(880, 'square', 0.25);
         spawnDollar(reward, true);
       }
       localStorage.setItem('m_boss_hp', Math.floor(bossHp));
@@ -1046,12 +1240,12 @@
         bought++;
       }
       if (bought > 0) {
+        playTone(540, 'sine', 0.1);
         refreshScreen();
         syncWithServer();
       }
     }
 
-    // ПОКУПКА ПИТОМЦЕВ
     function buyPet(petIdx, price) {
       if (currentPet >= petIdx + 1) {
         alert('У вас уже есть этот или более крутой питомец!');
@@ -1066,10 +1260,9 @@
       localStorage.setItem('m_pet', currentPet);
       refreshScreen();
       syncWithServer();
-      alert('🐾 Вы призвали нового питомца: ' + petIcons[currentPet] + '!\nВаш доход навсегда вырос!');
+      alert('🐾 Вы призвали нового питомца: ' + petIcons[currentPet] + '!');
     }
 
-    // ОНЛАЙН ЧАТ ИГРОКОВ
     function sendChatMsg() {
       var inp = document.getElementById('chatInput');
       var txt = inp.value.trim();
@@ -1085,9 +1278,7 @@
           text: txt,
           time: Date.now()
         })
-      }).then(function() {
-        loadChat();
-      });
+      }).then(function() { loadChat(); });
     }
 
     function loadChat() {
@@ -1104,7 +1295,8 @@
             if (data[k] && data[k].text) {
               var safeUser = String(data[k].user || 'Гость').replace(/</g, '&lt;');
               var safeText = String(data[k].text).replace(/</g, '&lt;');
-              html += '<div class="chat-msg"><b style="color:#58a6ff;">' + safeUser + ':</b> ' + safeText + '</div>';
+              var uColor = (safeUser.indexOf('СИСТЕМА') !== -1) ? '#f1c40f' : '#58a6ff';
+              html += '<div class="chat-msg"><b style="color:' + uColor + ';">' + safeUser + ':</b> ' + safeText + '</div>';
             }
           }
           box.innerHTML = html;
@@ -1112,7 +1304,6 @@
         }).catch(function() {});
     }
 
-    // БИРЖА КРИПТОВАЛЮТ
     function updateMarket() {
       var newsList = [
         "🚀 Илон Маск твитнул про крипту!",
@@ -1350,7 +1541,7 @@
         alert('Для Перерождения нужно накопить $5 000 000!');
         return;
       }
-      if (confirm('Сделать Престиж? Вы получите +100% к доходу навсегда (артефакты и питомцы останутся)!')) {
+      if (confirm('Сделать Престиж? Вы получите +100% к доходу навсегда!')) {
         prestige += 1;
         money = 0;
         clickPower = 1;
@@ -1435,6 +1626,7 @@
           artifactBonus = Number(data.artifactBonus) || 0;
           bossLevel = Number(data.bossLevel) || 1;
           currentPet = Number(data.pet) || 0;
+          shieldLevel = Number(data.shield) || 0;
           if (Array.isArray(data.costs) && data.costs.length === shopItems.length) costs = data.costs;
           if (Array.isArray(data.counts) && data.counts.length === shopItems.length) counts = data.counts;
 
@@ -1442,6 +1634,7 @@
           localStorage.setItem('m_name', playerName);
           localStorage.setItem('m_pass', playerPass);
           localStorage.setItem('m_pet', currentPet);
+          localStorage.setItem('m_shield', shieldLevel);
           refreshScreen();
           showStatus('✅ Весь прогресс восстановлен!', false);
         });
@@ -1461,6 +1654,7 @@
           artifactBonus: artifactBonus,
           bossLevel: bossLevel,
           pet: currentPet,
+          shield: shieldLevel,
           costs: costs,
           counts: counts,
           updated: Date.now()
@@ -1483,7 +1677,8 @@
                 money: data[key].money,
                 prestige: data[key].prestige || 0,
                 boss: data[key].bossLevel || 1,
-                pet: data[key].pet || 0
+                pet: data[key].pet || 0,
+                shield: data[key].shield || 0
               });
             }
           }
@@ -1491,14 +1686,26 @@
 
           var html = '';
           for (var i = 0; i < list.length; i++) {
-            var isMe = (list[i].id === playerId);
+            var p = list[i];
+            var isMe = (p.id === playerId);
             var rowClass = isMe ? 'leader-row me' : 'leader-row';
-            var crown = list[i].prestige > 0 ? ' 👑' + list[i].prestige : '';
-            var pIcon = petIcons[list[i].pet] ? (petIcons[list[i].pet] + ' ') : '';
+            var crown = p.prestige > 0 ? ' 👑' + p.prestige : '';
+            var pIcon = petIcons[p.pet] ? (petIcons[p.pet] + ' ') : '';
             var medal = (i === 0) ? '🥇 ' : (i === 1) ? '🥈 ' : (i === 2) ? '🥉 ' : '#' + (i + 1) + ' ';
+            var safeName = String(p.name).replace(/'/g, "");
+
+            var actionsHtml = '';
+            if (!isMe) {
+              actionsHtml = '<div class="pvp-actions">' +
+                '<button class="pvp-btn btn-gift" onclick="giftPlayer(\'' + p.id + '\', \'' + safeName + '\', ' + p.money + ')">💸</button>' +
+                '<button class="pvp-btn btn-steal" onclick="robPlayer(\'' + p.id + '\', \'' + safeName + '\', ' + p.money + ', ' + p.shield + ')">🗡️ Грабь</button>' +
+                '</div>';
+            }
+
             html += '<div class="' + rowClass + '">' +
-              '<span>' + medal + pIcon + list[i].name + crown + ' <small style="color:#8b949e;">[Босс #' + list[i].boss + ']</small></span>' +
-              '<span style="color:#2ecc71; font-weight:bold;">$' + formatNum(list[i].money) + '</span></div>';
+              '<div style="text-align:left;">' + medal + pIcon + p.name + crown +
+              ' <div style="color:#2ecc71; font-weight:bold;">$' + formatNum(p.money) + ' <small style="color:#8b949e;">[Босс #' + p.boss + ']</small></div></div>' +
+              actionsHtml + '</div>';
           }
           box.innerHTML = html;
         });
@@ -1513,6 +1720,8 @@
       document.getElementById('rankBadge').innerHTML = getRankTitle(money);
       document.getElementById('playerName').innerHTML = playerName;
       document.getElementById('petIcon').innerHTML = petIcons[currentPet] || '';
+      document.getElementById('mainBtn').innerHTML = btnSkin;
+      document.getElementById('shieldLvlText').innerHTML = shieldLevel;
 
       var bName = bossNames[(bossLevel - 1) % bossNames.length];
       document.getElementById('bossName').innerHTML = '👾 Босс #' + bossLevel + ': ' + bName;
@@ -1545,7 +1754,6 @@
 
     initShopHTML();
 
-    // Авто-дрон и остывание комбо
     setInterval(function() {
       if (autoDroneActive) {
         tapCoin();
@@ -1555,7 +1763,6 @@
       }
     }, 200);
 
-    // Таймер перезарядки скиллов и авто-доход
     setInterval(function() {
       for (var i = 0; i < 3; i++) {
         if (skillCd[i] > 0) skillCd[i]--;
@@ -1576,7 +1783,7 @@
         loadRealPlayers();
         loadChat();
       }
-    }, 2000);
+    }, 2500);
 
     setInterval(updateMarket, 2500);
     setInterval(spawnAirdrop, 35000);
