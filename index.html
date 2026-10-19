@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Денежный Кликер — Империя Онлайн</title>
+  <title>Денежный Кликер — Cyber Empire</title>
   <style>
     * {
       box-sizing: border-box;
@@ -15,110 +15,140 @@
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: radial-gradient(circle at top, #1b2838 0%, #090b0f 100%);
+      background: #07090e;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(46, 204, 113, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(155, 89, 182, 0.15) 0px, transparent 50%);
       color: #ffffff;
       text-align: center;
       margin: 0;
-      padding: 8px;
+      padding: 10px 10px 85px 10px;
       overflow-x: hidden;
       min-height: 100vh;
     }
 
-    /* Шапка баланса и ранга */
+    /* Стеклянная шапка профиля */
     .header {
-      background: linear-gradient(145deg, rgba(28, 37, 50, 0.95), rgba(14, 18, 24, 0.95));
-      padding: 12px;
-      border-radius: 18px;
-      margin-bottom: 10px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+      background: rgba(20, 26, 38, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 14px;
+      border-radius: 22px;
+      margin-bottom: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.1);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      max-width: 450px;
+      max-width: 460px;
       margin-left: auto;
       margin-right: auto;
     }
+    .top-bar-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
     .rank-badge {
-      display: inline-block;
       background: linear-gradient(90deg, #f39c12, #e67e22);
       color: #000;
       font-weight: 900;
-      font-size: 11px;
-      padding: 3px 10px;
-      border-radius: 12px;
+      font-size: 10px;
+      padding: 3px 9px;
+      border-radius: 20px;
       text-transform: uppercase;
-      margin-bottom: 4px;
+      letter-spacing: 0.5px;
     }
-    .balance {
-      font-size: 34px;
-      font-weight: 900;
-      color: #2ecc71;
-      text-shadow: 0 0 18px rgba(46, 204, 113, 0.45);
-    }
-    .stats {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      color: #b0b8c4;
-      font-size: 11px;
-      margin-top: 6px;
-      background: rgba(0, 0, 0, 0.45);
-      padding: 6px 8px;
-      border-radius: 10px;
-      flex-wrap: wrap;
-    }
-    .stats b { color: #fff; }
     .user-badge {
       font-size: 12px;
       color: #58a6ff;
-      margin-top: 6px;
-      font-weight: 600;
+      font-weight: 700;
+    }
+    .balance {
+      font-size: 36px;
+      font-weight: 900;
+      background: linear-gradient(180deg, #ffffff 0%, #2ecc71 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 15px rgba(46, 204, 113, 0.35));
+      margin: 2px 0;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-top: 8px;
+      background: rgba(9, 12, 18, 0.6);
+      padding: 8px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.04);
+      font-size: 11px;
+      color: #8b949e;
+    }
+    .stats div b {
+      display: block;
+      color: #fff;
+      font-size: 13px;
+      margin-top: 2px;
     }
 
-    /* Навигация (5 вкладок) */
-    .tabs {
+    /* Нижняя плавающая навигация */
+    .bottom-nav {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 20px);
+      max-width: 460px;
+      background: rgba(18, 23, 33, 0.95);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
       display: flex;
       gap: 4px;
-      justify-content: center;
-      margin-bottom: 12px;
-      max-width: 450px;
-      margin-left: auto;
-      margin-right: auto;
+      padding: 6px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.85);
+      z-index: 900;
     }
     .tab-btn {
-      background: #161a22;
-      color: #8b949e;
-      border: 1px solid #282f3d;
-      padding: 9px 4px;
-      border-radius: 10px;
-      font-size: 11px;
+      background: transparent;
+      color: #7d8590;
+      border: none;
+      padding: 8px 4px;
+      border-radius: 14px;
+      font-size: 10px;
       font-weight: 800;
       cursor: pointer;
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
       transition: all 0.2s;
     }
+    .tab-btn span.ico { font-size: 18px; }
     .tab-btn.active {
-      background: linear-gradient(135deg, #2ecc71, #27ae60);
-      color: #090b0f;
-      border-color: #2ecc71;
-      box-shadow: 0 4px 12px rgba(46, 204, 113, 0.35);
+      background: linear-gradient(135deg, rgba(46, 204, 113, 0.25), rgba(39, 174, 96, 0.1));
+      color: #2ecc71;
+      border: 1px solid rgba(46, 204, 113, 0.4);
     }
 
     .section {
       display: none;
-      max-width: 450px;
+      max-width: 460px;
       margin: 0 auto;
     }
     .section.active {
       display: block;
     }
 
-    /* БЛОК БОССА */
+    /* КАРТОЧКА БОССА */
     .boss-card {
-      background: linear-gradient(135deg, #2c1624, #151821);
-      border: 1px solid #e74c3c;
-      border-radius: 16px;
-      padding: 10px 14px;
+      background: linear-gradient(135deg, rgba(58, 22, 36, 0.9), rgba(20, 24, 34, 0.9));
+      border: 1px solid rgba(255, 71, 87, 0.5);
+      border-radius: 18px;
+      padding: 12px 14px;
       margin-bottom: 10px;
-      box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
+      box-shadow: 0 6px 20px rgba(255, 71, 87, 0.15);
     }
     .boss-header {
       display: flex;
@@ -131,36 +161,67 @@
     }
     .boss-hp-bg {
       width: 100%;
-      height: 14px;
-      background: #0d0f12;
+      height: 16px;
+      background: #090b0f;
       border-radius: 10px;
       overflow: hidden;
-      border: 1px solid #442228;
+      border: 1px solid #4a1c24;
       position: relative;
     }
     .boss-hp-fill {
       height: 100%;
       width: 100%;
       background: linear-gradient(90deg, #ff4757, #ff6b81);
-      transition: width 0.1s;
+      transition: width 0.12s;
     }
     .boss-hp-text {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       font-size: 10px;
       font-weight: 900;
-      line-height: 13px;
+      line-height: 15px;
       color: #fff;
       text-shadow: 0 1px 3px #000;
     }
 
+    /* АКТИВНЫЕ СКИЛЛЫ */
+    .skills-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .skill-btn {
+      flex: 1;
+      background: linear-gradient(145deg, #1b2230, #121722);
+      border: 1px solid #2e384d;
+      color: #fff;
+      padding: 8px 6px;
+      border-radius: 14px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.1s, border-color 0.2s;
+    }
+    .skill-btn.ready {
+      border-color: #58a6ff;
+      box-shadow: 0 0 12px rgba(88, 166, 255, 0.25);
+    }
+    .skill-btn.active-buff {
+      border-color: #f1c40f;
+      background: linear-gradient(145deg, #3a2e14, #1b1710);
+      box-shadow: 0 0 15px rgba(241, 196, 15, 0.5);
+    }
+    .skill-btn:active { transform: scale(0.95); }
+    .skill-title { font-size: 11px; font-weight: 800; display: block; }
+    .skill-sub { font-size: 10px; color: #8b949e; display: block; margin-top: 2px; }
+
     /* Шкала КОМБО */
     .combo-wrap {
-      max-width: 280px;
+      max-width: 300px;
       margin: 0 auto 8px auto;
     }
     .combo-label {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 800;
       color: #f39c12;
       margin-bottom: 3px;
@@ -170,15 +231,15 @@
     .combo-bar-bg {
       width: 100%;
       height: 8px;
-      background: #1b2028;
+      background: #141923;
       border-radius: 10px;
       overflow: hidden;
-      border: 1px solid #2d3440;
+      border: 1px solid #283040;
     }
     .combo-bar-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #2ecc71, #f1c40f, #e74c3c, #9b59b6);
+      background: linear-gradient(90deg, #2ecc71, #f1c40f, #ff4757, #e056fd);
       transition: width 0.1s ease;
     }
 
@@ -189,14 +250,14 @@
       display: inline-block;
     }
     .click-btn {
-      width: 155px;
-      height: 155px;
+      width: 160px;
+      height: 160px;
       border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #3bee86, #27ae60, #186a3b);
-      border: 5px solid rgba(46, 204, 113, 0.4);
+      background: radial-gradient(circle at 30% 30%, #4cd137, #27ae60, #145a32);
+      border: 6px solid rgba(46, 204, 113, 0.5);
       color: white;
-      font-size: 60px;
-      box-shadow: 0 10px 30px rgba(46, 204, 113, 0.45), inset 0 -6px 15px rgba(0,0,0,0.4);
+      font-size: 62px;
+      box-shadow: 0 0 35px rgba(46, 204, 113, 0.4), inset 0 -8px 18px rgba(0,0,0,0.45);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -204,17 +265,17 @@
       transition: transform 0.05s, box-shadow 0.2s, background 0.3s;
     }
     .click-btn.frenzy-2 {
-      background: radial-gradient(circle at 30% 30%, #f1c40f, #e67e22, #d35400);
-      box-shadow: 0 0 35px rgba(241, 196, 15, 0.7);
+      background: radial-gradient(circle at 30% 30%, #fbc531, #e67e22, #c23616);
+      box-shadow: 0 0 45px rgba(241, 196, 15, 0.75);
       border-color: #fff3cd;
     }
     .click-btn.frenzy-5 {
-      background: radial-gradient(circle at 30% 30%, #e056fd, #be2edd, #686de0);
-      box-shadow: 0 0 45px rgba(224, 86, 253, 0.9);
+      background: radial-gradient(circle at 30% 30%, #e056fd, #8e44ad, #3742fa);
+      box-shadow: 0 0 55px rgba(224, 86, 253, 0.95);
       border-color: #ffffff;
     }
     .click-btn:active, .click-btn.pop {
-      transform: scale(0.9);
+      transform: scale(0.89);
     }
 
     /* Кнопка вызова рекламы */
@@ -224,7 +285,7 @@
       background: linear-gradient(135deg, #ff416c, #ff4b2b);
       color: #fff;
       border: 1px solid #ff758c;
-      padding: 8px 16px;
+      padding: 8px 18px;
       border-radius: 25px;
       font-weight: 800;
       font-size: 12px;
@@ -232,7 +293,7 @@
       box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
     }
 
-    /* Всплывающий текст */
+    /* Всплывающий урон */
     .floating-dollar {
       position: absolute;
       font-size: 20px;
@@ -245,7 +306,7 @@
       animation: floatUp 0.7s ease-out forwards;
     }
     .floating-dollar.crit {
-      font-size: 25px;
+      font-size: 26px;
       color: #f1c40f;
       text-shadow: 0 0 15px rgba(241, 196, 15, 0.9);
     }
@@ -254,32 +315,56 @@
       100% { opacity: 0; transform: translate(-50%, -80px) scale(1.15); }
     }
 
-    /* Магазин */
-    .shop-box { text-align: left; }
+    /* Магазин с множителем закупки */
+    .shop-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 6px 0 10px 0;
+    }
     .shop-title {
-      text-align: center;
       color: #f1c40f;
-      margin: 5px 0 10px 0;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 900;
+    }
+    .buy-mult-group {
+      display: flex;
+      gap: 4px;
+    }
+    .mult-btn {
+      background: #1a202c;
+      color: #8b949e;
+      border: 1px solid #2d3748;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .mult-btn.active {
+      background: #f1c40f;
+      color: #000;
+      border-color: #f1c40f;
     }
     .upgrade-btn {
       width: 100%;
-      background: #161a22;
-      border: 1px solid #262c38;
+      background: rgba(22, 27, 38, 0.9);
+      border: 1px solid #262f3f;
       color: white;
       padding: 10px 12px;
       margin-bottom: 7px;
-      border-radius: 13px;
+      border-radius: 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
+      transition: transform 0.1s;
     }
     .upgrade-btn.affordable {
       border-color: #2ecc71;
-      background: linear-gradient(90deg, #161a22 0%, rgba(46, 204, 113, 0.14) 100%);
+      background: linear-gradient(90deg, rgba(22, 27, 38, 0.95) 0%, rgba(46, 204, 113, 0.16) 100%);
     }
+    .upgrade-btn:active { transform: scale(0.98); }
     .item-left {
       display: flex;
       align-items: center;
@@ -288,16 +373,16 @@
     }
     .item-icon {
       font-size: 22px;
-      background: #212733;
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
+      background: #1f2735;
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
     .lvl-tag {
-      background: #2b3343;
+      background: #283246;
       color: #58a6ff;
       font-size: 10px;
       padding: 2px 6px;
@@ -305,7 +390,7 @@
       margin-left: 4px;
     }
     .price {
-      background: #212733;
+      background: #1f2735;
       color: #f1c40f;
       font-weight: 800;
       padding: 7px 10px;
@@ -318,12 +403,12 @@
       color: #090b0f;
     }
 
-    /* КРИПТО-БИРЖА */
+    /* Универсальные карточки */
     .card-box {
-      background: #161a22;
+      background: rgba(22, 27, 38, 0.9);
       padding: 14px;
-      border-radius: 16px;
-      border: 1px solid #262c38;
+      border-radius: 18px;
+      border: 1px solid #262f3f;
       margin-bottom: 12px;
       text-align: left;
     }
@@ -339,8 +424,8 @@
       text-align: center;
     }
     .coin-card {
-      background: #1c222d;
-      border: 1px solid #2d3646;
+      background: #1a212e;
+      border: 1px solid #2b3548;
       border-radius: 14px;
       padding: 12px;
       margin-bottom: 10px;
@@ -351,31 +436,27 @@
       align-items: center;
       margin-bottom: 8px;
     }
-    .coin-name { font-weight: 900; font-size: 15px; }
-    .coin-price { font-weight: 900; font-size: 16px; }
+    .coin-name { font-weight: 900; font-size: 14px; }
+    .coin-price { font-weight: 900; font-size: 15px; }
     .up { color: #2ecc71; }
     .down { color: #ff4757; }
     .chart-bars {
       display: flex;
       align-items: flex-end;
       gap: 4px;
-      height: 40px;
-      background: #11151c;
+      height: 42px;
+      background: #0e1218;
       padding: 6px;
       border-radius: 8px;
       margin-bottom: 8px;
     }
     .bar {
       flex: 1;
-      background: #58a6ff;
       border-radius: 3px;
       min-height: 4px;
       transition: height 0.3s;
     }
-    .trade-btns {
-      display: flex;
-      gap: 8px;
-    }
+    .trade-btns { display: flex; gap: 8px; }
     .btn-buy-coin {
       flex: 1; background: #2ecc71; color: #000; border: none;
       padding: 9px; border-radius: 8px; font-weight: 900; font-size: 12px; cursor: pointer;
@@ -385,7 +466,7 @@
       padding: 9px; border-radius: 8px; font-weight: 900; font-size: 12px; cursor: pointer;
     }
 
-    /* КЕЙСЫ И АРТЕФАКТЫ */
+    /* КЕЙСЫ И ПИТОМЦЫ */
     .case-grid {
       display: flex;
       gap: 8px;
@@ -393,22 +474,63 @@
     }
     .case-item {
       flex: 1;
-      background: linear-gradient(145deg, #232a38, #161a22);
-      border: 1px solid #3a4459;
+      background: linear-gradient(145deg, #212838, #141822);
+      border: 1px solid #364156;
       border-radius: 14px;
-      padding: 12px 8px;
+      padding: 12px 6px;
       text-align: center;
       cursor: pointer;
     }
+    .case-item:active { transform: scale(0.96); }
     .artifact-badge {
       display: inline-block;
-      background: #232a38;
+      background: #1f2735;
       border: 1px solid #f1c40f;
       color: #fff;
-      padding: 6px 10px;
+      padding: 5px 9px;
       border-radius: 10px;
+      font-size: 11px;
+      margin: 3px;
+      font-weight: bold;
+    }
+
+    /* ОНЛАЙН ЧАТ И ТОП */
+    .chat-box {
+      background: #0f131a;
+      border: 1px solid #262f3f;
+      border-radius: 12px;
+      height: 150px;
+      overflow-y: auto;
+      padding: 8px 10px;
+      margin-bottom: 8px;
       font-size: 12px;
-      margin: 4px;
+    }
+    .chat-msg {
+      margin-bottom: 6px;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+    .chat-input-row {
+      display: flex;
+      gap: 6px;
+    }
+    .leaderboard-box {
+      background: rgba(22, 27, 38, 0.9);
+      border-radius: 16px;
+      border: 1px solid #262f3f;
+      overflow: hidden;
+    }
+    .leader-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 14px;
+      border-bottom: 1px solid #1f2633;
+      font-size: 13px;
+    }
+    .leader-row.me {
+      background: rgba(46, 204, 113, 0.18);
+      border-left: 4px solid #2ecc71;
       font-weight: bold;
     }
 
@@ -456,32 +578,19 @@
     }
     .ad-troll-msg { color: #ff6b6b; font-size: 13px; font-weight: bold; margin-top: 12px; min-height: 18px; }
 
-    /* Летающий Аирдроп */
     .airdrop {
       position: fixed; font-size: 44px; z-index: 9999; cursor: pointer;
       filter: drop-shadow(0 0 15px #f1c40f); display: none;
     }
-
-    /* Рейтинг */
-    .leaderboard-box {
-      background: #161a22; border-radius: 16px; border: 1px solid #262c38; overflow: hidden;
-    }
-    .leader-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 11px 14px; border-bottom: 1px solid #202632; font-size: 13px;
-    }
-    .leader-row.me {
-      background: rgba(46, 204, 113, 0.18); border-left: 4px solid #2ecc71; font-weight: bold;
-    }
     .input-field {
-      width: 100%; background: #0d0f12; border: 1px solid #30363d;
+      width: 100%; background: #0b0e14; border: 1px solid #2d3646;
       color: #fff; padding: 11px; border-radius: 10px; font-size: 14px; margin-bottom: 10px;
     }
     .auth-buttons { display: flex; gap: 10px; }
     .btn-login { flex: 1; background: #2ecc71; border: none; color: #000; padding: 12px; border-radius: 10px; font-weight: 800; cursor: pointer; }
     .btn-register { flex: 1; background: #3498db; border: none; color: #fff; padding: 12px; border-radius: 10px; font-weight: 800; cursor: pointer; }
     .status-msg { margin-top: 10px; padding: 10px; border-radius: 8px; font-size: 13px; display: none; }
-    .footer-version { margin-top: 25px; color: #555d69; font-size: 12px; padding-bottom: 15px; }
+    .footer-version { margin-top: 20px; color: #555d69; font-size: 12px; }
   </style>
 </head>
 <body>
@@ -505,26 +614,19 @@
 
   <!-- Верхняя панель -->
   <div class="header">
-    <div id="rankBadge" class="rank-badge">Звание: Новичок</div>
+    <div class="top-bar-info">
+      <span id="rankBadge" class="rank-badge">Новичок</span>
+      <span class="user-badge"><span id="petIcon"></span> <span id="playerName">Гость</span></span>
+    </div>
     <div class="balance">$<span id="money">0</span></div>
     <div class="stats">
-      <span>👆 Урон/Клик: <b>$<span id="clickPower">1</span></b></span>
-      <span>⚡ Авто/сек: <b>$<span id="autoIncome">0</span></b></span>
-      <span>💎 Бонус: <b>+<span id="totalMultText">0</span>%</b></span>
+      <div>👆 За клик<b id="clickPower">$1</b></div>
+      <div>⚡ Авто/сек<b id="autoIncome">$0</b></div>
+      <div>💎 Бонус<b>+<span id="totalMultText">0</span>%</b></div>
     </div>
-    <div class="user-badge">👤 <span id="playerName">Гость</span> | 👾 Босс #<span id="bossLvlText">1</span></div>
   </div>
 
-  <!-- 5 ВКЛАДОК ИГРЫ -->
-  <div class="tabs">
-    <button id="btn-game" class="tab-btn active" onclick="openTab('game')">⚔️ Босс</button>
-    <button id="btn-trade" class="tab-btn" onclick="openTab('trade')">📈 Биржа</button>
-    <button id="btn-cases" class="tab-btn" onclick="openTab('cases')">📦 Кейсы</button>
-    <button id="btn-top" class="tab-btn" onclick="openTab('top')">🏆 Топ</button>
-    <button id="btn-prof" class="tab-btn" onclick="openTab('prof')">🔐 Вход</button>
-  </div>
-
-  <!-- ВКЛАДКА 1: БИТВА С БОССОМ + КЛИКЕР + 15 СЛОТОВ МАГАЗИНА -->
+  <!-- ВКЛАДКА 1: БОСС, СКИЛЛЫ, КЛИКЕР И МАГАЗИН -->
   <div id="sec-game" class="section active">
     
     <!-- Карточка Босса -->
@@ -539,6 +641,23 @@
       </div>
     </div>
 
+    <!-- 3 Активных Скилла -->
+    <div class="skills-row">
+      <button id="skBtn0" class="skill-btn ready" onclick="useSkill(0)">
+        <span class="skill-title">🤖 Авто-Дрон</span>
+        <span id="skSub0" class="skill-sub">Готов (10с)</span>
+      </button>
+      <button id="skBtn1" class="skill-btn ready" onclick="useSkill(1)">
+        <span class="skill-title">🌟 Доход x3</span>
+        <span id="skSub1" class="skill-sub">Готов (15с)</span>
+      </button>
+      <button id="skBtn2" class="skill-btn ready" onclick="useSkill(2)">
+        <span class="skill-title">☄️ Удар -25% HP</span>
+        <span id="skSub2" class="skill-sub">Готов</span>
+      </button>
+    </div>
+
+    <!-- Комбо -->
     <div class="combo-wrap">
       <div class="combo-label">
         <span>🔥 ЯРОСТЬ КЛИКА</span>
@@ -557,8 +676,16 @@
       📺 СМОТРЕТЬ РЕКЛАМУ (+МЕГА БОНУС 💰)
     </button>
 
+    <!-- Магазин с кнопками x1 / x10 / MAX -->
     <div class="shop-box">
-      <div class="shop-title">🛒 МАГАЗИН ИМПЕРИИ (15 УРОВНЕЙ)</div>
+      <div class="shop-header-row">
+        <div class="shop-title">🛒 МАГАЗИН ИМПЕРИИ</div>
+        <div class="buy-mult-group">
+          <button id="bm1" class="mult-btn active" onclick="setBuyMult(1)">x1</button>
+          <button id="bm10" class="mult-btn" onclick="setBuyMult(10)">x10</button>
+          <button id="bmMax" class="mult-btn" onclick="setBuyMult(999)">MAX</button>
+        </div>
+      </div>
       <div id="shopList"></div>
     </div>
   </div>
@@ -569,36 +696,63 @@
     <div id="coinsContainer"></div>
   </div>
 
-  <!-- ВКЛАДКА 3: КЕЙСЫ, КАЗИНО И ПРЕСТИЖ -->
+  <!-- ВКЛАДКА 3: ПИТОМЦЫ, КЕЙСЫ И ПРЕСТИЖ -->
   <div id="sec-cases" class="section">
+    
+    <!-- Питомцы -->
     <div class="card-box">
-      <h3 style="margin:0 0 6px 0; color:#f1c40f;">📦 Секретные Кейсы с Артефактами</h3>
+      <h3 style="margin:0 0 6px 0; color:#58a6ff;">🐾 Призыв Питомца-Компаньона</h3>
       <p style="font-size:12px; color:#8b949e; margin:0;">
-        Выбивайте редкие предметы, которые <b>навсегда</b> умножают ваш доход и остаются даже после Престижа!
+        Питомцы дают огромный бонус к доходу и отображаются возле вашего ника в рейтинге!
       </p>
       <div class="case-grid">
-        <div class="case-item" onclick="openCase(5000, 'Обычный')">
-          <div style="font-size:32px;">🧰</div>
-          <div style="font-weight:bold; font-size:13px; margin:4px 0;">Бронзовый</div>
-          <div style="color:#2ecc71; font-weight:900; font-size:12px;">$5 000</div>
+        <div class="case-item" onclick="buyPet(0, 25000)">
+          <div style="font-size:30px;">🐱</div>
+          <div style="font-weight:bold; font-size:12px;">Кибер-Кот</div>
+          <div style="font-size:10px; color:#aaa;">+50% доход</div>
+          <div style="color:#2ecc71; font-weight:900; font-size:12px; margin-top:4px;">$25 000</div>
         </div>
-        <div class="case-item" onclick="openCase(75000, 'Эпический')">
-          <div style="font-size:32px;">💎</div>
-          <div style="font-weight:bold; font-size:13px; margin:4px 0;">Алмазный</div>
-          <div style="color:#f1c40f; font-weight:900; font-size:12px;">$75 000</div>
+        <div class="case-item" onclick="buyPet(1, 500000)">
+          <div style="font-size:30px;">🐉</div>
+          <div style="font-weight:bold; font-size:12px;">Дракон</div>
+          <div style="font-size:10px; color:#aaa;">+200% доход</div>
+          <div style="color:#f1c40f; font-weight:900; font-size:12px; margin-top:4px;">$500 000</div>
         </div>
-        <div class="case-item" onclick="openCase(1000000, 'Легендарный')">
-          <div style="font-size:32px;">👑</div>
-          <div style="font-weight:bold; font-size:13px; margin:4px 0;">Королевский</div>
-          <div style="color:#e056fd; font-weight:900; font-size:12px;">$1 000 000</div>
+        <div class="case-item" onclick="buyPet(2, 15000000)">
+          <div style="font-size:30px;">🦅</div>
+          <div style="font-weight:bold; font-size:12px;">Феникс</div>
+          <div style="font-size:10px; color:#aaa;">+700% доход</div>
+          <div style="color:#e056fd; font-weight:900; font-size:12px; margin-top:4px;">$15 000 000</div>
         </div>
       </div>
-      <div style="margin-top:12px; font-size:12px; color:#aaa;">Ваша коллекция артефактов:</div>
-      <div id="artifactList" style="margin-top:6px;">Пока пусто</div>
     </div>
 
+    <!-- Кейсы -->
     <div class="card-box">
-      <h3 style="margin:0 0 6px 0; color:#2ecc71;">🎰 Быстрая Рулетка</h3>
+      <h3 style="margin:0 0 6px 0; color:#f1c40f;">📦 Кейсы с Артефактами</h3>
+      <div class="case-grid">
+        <div class="case-item" onclick="openCase(5000, 'Обычный')">
+          <div style="font-size:28px;">🧰</div>
+          <div style="font-weight:bold; font-size:12px;">Бронзовый</div>
+          <div style="color:#2ecc71; font-weight:900; font-size:11px;">$5 000</div>
+        </div>
+        <div class="case-item" onclick="openCase(75000, 'Эпический')">
+          <div style="font-size:28px;">💎</div>
+          <div style="font-weight:bold; font-size:12px;">Алмазный</div>
+          <div style="color:#f1c40f; font-weight:900; font-size:11px;">$75 000</div>
+        </div>
+        <div class="case-item" onclick="openCase(1000000, 'Легендарный')">
+          <div style="font-size:28px;">👑</div>
+          <div style="font-weight:bold; font-size:12px;">Королевский</div>
+          <div style="color:#e056fd; font-weight:900; font-size:11px;">$1 000 000</div>
+        </div>
+      </div>
+      <div id="artifactList" style="margin-top:10px;">Коллекция пуста</div>
+    </div>
+
+    <!-- Рулетка и Престиж -->
+    <div class="card-box">
+      <h3 style="margin:0 0 6px 0; color:#2ecc71;">🎰 Рулетка Фортуны</h3>
       <div style="display:flex; gap:8px; margin-top:8px;">
         <button class="btn-buy-coin" onclick="spinCasino(0.25)">Ставка 25%</button>
         <button class="btn-buy-coin" onclick="spinCasino(0.5)">Ставка 50%</button>
@@ -610,7 +764,7 @@
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#e056fd;">👑 Перерождение (Престиж)</h3>
       <p style="font-size:12px; color:#8b949e; margin:0;">
-        Сбросьте деньги и бизнесы ради <b>+100% к доходу навсегда</b> (Артефакты сохраняются!).
+        Сбросьте деньги и бизнесы ради <b>+100% к доходу навсегда</b> (Артефакты и Питомцы сохраняются!).
       </p>
       <button class="btn-register" style="width:100%; margin-top:10px; background:#8e44ad;" onclick="doPrestige()">
         👑 Сделать Престиж (Нужно $5 000 000)
@@ -618,9 +772,18 @@
     </div>
   </div>
 
-  <!-- ВКЛАДКА 4: ОНЛАЙН РЕЙТИНГ -->
+  <!-- ВКЛАДКА 4: ОНЛАЙН РЕЙТИНГ И ЖИВОЙ ЧАТ -->
   <div id="sec-top" class="section">
-    <div class="shop-title">🏆 ЖИВОЙ ОНЛАЙН-РЕЙТИНГ</div>
+    <div class="card-box">
+      <h3 style="margin:0 0 8px 0; color:#58a6ff;">💬 Онлайн-Чат Игроков</h3>
+      <div id="chatMessages" class="chat-box">Загрузка чата...</div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" class="input-field" style="margin:0;" placeholder="Написать всем..." maxlength="60">
+        <button class="btn-login" style="flex:0 0 90px;" onclick="sendChatMsg()">Отпр.</button>
+      </div>
+    </div>
+
+    <div class="shop-title" style="margin-bottom:8px;">🏆 ЖИВОЙ РЕЙТИНГ БОГАЧЕЙ</div>
     <div class="leaderboard-box" id="topList">
       <div style="padding:15px; color:#888;">Загрузка игроков...</div>
     </div>
@@ -631,7 +794,7 @@
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#f1c40f;">🔐 Вход и Сохранение</h3>
       <p style="font-size:12px; color:#8b949e; margin-top:0; margin-bottom:12px;">
-        Привяжите пароль к нику, чтобы ваш прогресс, артефакты и акции были в безопасности.
+        Привяжите пароль к нику, чтобы ваш прогресс, питомцы и артефакты были в безопасности.
       </p>
       <input type="text" id="authNick" class="input-field" placeholder="Ваш никнейм..." maxlength="14">
       <input type="password" id="authPass" class="input-field" placeholder="Ваш пароль..." maxlength="20">
@@ -647,17 +810,25 @@
     бета тестирование версия 1.1
   </div>
 
+  <!-- Нижнее меню навигации -->
+  <div class="bottom-nav">
+    <button id="btn-game" class="tab-btn active" onclick="openTab('game')"><span class="ico">⚔️</span>Босс</button>
+    <button id="btn-trade" class="tab-btn" onclick="openTab('trade')"><span class="ico">📈</span>Биржа</button>
+    <button id="btn-cases" class="tab-btn" onclick="openTab('cases')"><span class="ico">🐾</span>Питомцы</button>
+    <button id="btn-top" class="tab-btn" onclick="openTab('top')"><span class="ico">🏆</span>Онлайн</button>
+    <button id="btn-prof" class="tab-btn" onclick="openTab('prof')"><span class="ico">🔐</span>Профиль</button>
+  </div>
+
   <script>
     var FIREBASE_URL = "https://clicker-8ad8b-default-rtdb.firebaseio.com";
 
-    // 15 УРОВНЕЙ ПРОКАЧКИ НА ДОЛГУЮ ИГРУ
     var shopItems = [
       { icon: "💪", name: "Тренировка пальца", desc: "+1$ к клику", type: "click", power: 1, baseCost: 15 },
       { icon: "🥤", name: "Лимонадный стенд", desc: "+2$ в сек", type: "auto", power: 2, baseCost: 50 },
       { icon: "💎", name: "Золотая перчатка", desc: "+6$ к клику", type: "click", power: 6, baseCost: 250 },
       { icon: "☕", name: "Сеть кофеен", desc: "+18$ в сек", type: "auto", power: 18, baseCost: 1100 },
       { icon: "⚡", name: "Кибер-имплант руки", desc: "+35$ к клику", type: "click", power: 35, baseCost: 4200 },
-      { icon: "🖥️", name: "Подпольная Майнинг-ферма", desc: "+95$ в сек", type: "auto", power: 95, baseCost: 15000 },
+      { icon: "🖥️", name: "Майнинг-ферма", desc: "+95$ в сек", type: "auto", power: 95, baseCost: 15000 },
       { icon: "🤖", name: "Нейросеть-Трейдер", desc: "+220$ к клику", type: "click", power: 220, baseCost: 55000 },
       { icon: "🏦", name: "Крипто-Биржа", desc: "+600$ в сек", type: "auto", power: 600, baseCost: 200000 },
       { icon: "🏭", name: "Гигафабрика роботов", desc: "+2 200$ в сек", type: "auto", power: 2200, baseCost: 850000 },
@@ -683,20 +854,30 @@
     var artifactBonus = Number(localStorage.getItem('m_art_bonus')) || 0;
     var myArtifacts = JSON.parse(localStorage.getItem('m_arts') || "[]");
 
+    // Питомцы
+    var petIcons = ["", "🐱", "🐉", "🦅"];
+    var petBonuses = [0, 50, 200, 700];
+    var currentPet = Number(localStorage.getItem('m_pet')) || 0;
+
+    var buyMult = 1;
+
+    // Активные скиллы
+    var skillCd = [0, 0, 0];
+    var autoDroneActive = false;
+    var goldRushActive = false;
+
     var playerName = localStorage.getItem('m_name') || ("Гость_" + Math.floor(Math.random() * 899 + 100));
     var playerPass = localStorage.getItem('m_pass') || "";
 
-    // СИСТЕМА БОССОВ
     var bossNames = [
       "Налоговый Инспектор", "Уличный Коллектор", "Мамкин Хакер", "Жадный Банкир",
       "Крипто-Мошенник", "Волк с Уолл-Стрит", "Теневой Олигарх", "Глава Корпорации",
       "ИИ-Сингулярность", "Архитектор Матрицы"
     ];
     var bossLevel = Number(localStorage.getItem('m_boss_lvl')) || 1;
-    var bossMaxHp = Math.floor(250 * Math.pow(2.4, bossLevel - 1));
+    var bossMaxHp = Math.floor(250 * Math.pow(2.35, bossLevel - 1));
     var bossHp = Number(localStorage.getItem('m_boss_hp')) || bossMaxHp;
 
-    // КРИПТО-БИРЖА
     var coins = [
       { id: 0, name: "🪙 BitCoin", price: 1000, min: 300, max: 3500, owned: Number(localStorage.getItem('c_own0')) || 0, history: [900, 950, 1000, 1050, 980, 1000, 1020, 1000] },
       { id: 1, name: "🐶 DogeMeme", price: 150, min: 25, max: 800, owned: Number(localStorage.getItem('c_own1')) || 0, history: [120, 140, 160, 130, 150, 170, 140, 150] },
@@ -706,7 +887,7 @@
     var comboEnergy = 0;
     var comboMultiplier = 1;
     var lastAdTime = Date.now();
-    var AD_COOLDOWN_MS = 180000; // 3 минуты
+    var AD_COOLDOWN_MS = 180000;
 
     var prankAds = [
       { emoji: "👆💪", title: "УВЕЛИЧЬ ПАЛЕЦ НА 5 СМ!", desc: "Секретная мазь для тапальщиков! Соседи в шоке, нужно всего лишь..." },
@@ -729,20 +910,28 @@
     }
 
     function getTotalMult() {
-      return 1 + prestige + (artifactBonus / 100);
+      var petB = petBonuses[currentPet] || 0;
+      var rush = goldRushActive ? 3 : 1;
+      return (1 + prestige + ((artifactBonus + petB) / 100)) * rush;
     }
 
     function getRankTitle(m) {
-      if (m < 500) return "Бомж с телефоном";
+      if (m < 500) return "Новичок";
       if (m < 5000) return "Уличный темщик";
-      if (m < 50000) return "Мамкин инвестор";
+      if (m < 50000) return "Крипто-Хомяк";
       if (m < 500000) return "Крипто-Барон";
       if (m < 5000000) return "Волк с Уолл-Стрит";
-      if (m < 100000000) return "Теневой Магнат";
-      return "Властелин Вселенной 🌌";
+      if (m < 100000000) return "Кибер-Олигарх";
+      return "Бог Матрицы 🌌";
     }
 
-    // Построение HTML магазина
+    function setBuyMult(m) {
+      buyMult = m;
+      document.getElementById('bm1').className = (m === 1) ? 'mult-btn active' : 'mult-btn';
+      document.getElementById('bm10').className = (m === 10) ? 'mult-btn active' : 'mult-btn';
+      document.getElementById('bmMax').className = (m === 999) ? 'mult-btn active' : 'mult-btn';
+    }
+
     function initShopHTML() {
       var html = '';
       for (var i = 0; i < shopItems.length; i++) {
@@ -756,6 +945,49 @@
       document.getElementById('shopList').innerHTML = html;
     }
 
+    // ИСПОЛЬЗОВАНИЕ АКТИВНЫХ СКИЛЛОВ
+    function useSkill(idx) {
+      if (skillCd[idx] > 0) return;
+
+      if (idx === 0) {
+        autoDroneActive = true;
+        skillCd[0] = 45;
+        document.getElementById('skBtn0').className = 'skill-btn active-buff';
+        setTimeout(function() { autoDroneActive = false; }, 10000);
+      } else if (idx === 1) {
+        goldRushActive = true;
+        skillCd[1] = 60;
+        document.getElementById('skBtn1').className = 'skill-btn active-buff';
+        refreshScreen();
+        setTimeout(function() { goldRushActive = false; refreshScreen(); }, 15000);
+      } else if (idx === 2) {
+        skillCd[2] = 50;
+        var strikeDmg = Math.floor(bossMaxHp * 0.25);
+        damageBoss(strikeDmg);
+        spawnDollar(strikeDmg, true);
+        refreshScreen();
+      }
+      updateSkillButtons();
+    }
+
+    function updateSkillButtons() {
+      for (var i = 0; i < 3; i++) {
+        var btn = document.getElementById('skBtn' + i);
+        var sub = document.getElementById('skSub' + i);
+        if (skillCd[i] > 0) {
+          if ((i === 0 && autoDroneActive) || (i === 1 && goldRushActive)) {
+            sub.innerHTML = '🔥 АКТИВЕН!';
+          } else {
+            btn.className = 'skill-btn';
+            sub.innerHTML = 'КД: ' + skillCd[i] + 'с';
+          }
+        } else {
+          btn.className = 'skill-btn ready';
+          sub.innerHTML = 'Готов!';
+        }
+      }
+    }
+
     var mainBtn = document.getElementById('mainBtn');
     mainBtn.addEventListener('touchstart', function(e) {
       e.preventDefault();
@@ -766,7 +998,7 @@
       comboEnergy = Math.min(100, comboEnergy + 7);
       updateComboState();
 
-      var isCrit = Math.random() < 0.09;
+      var isCrit = Math.random() < 0.10;
       var gain = clickPower * comboMultiplier * getTotalMult() * (isCrit ? 10 : 1);
 
       money += gain;
@@ -788,7 +1020,7 @@
     function damageBoss(dmg) {
       bossHp -= dmg;
       if (bossHp <= 0) {
-        var reward = Math.floor(bossMaxHp * 0.6);
+        var reward = Math.floor(bossMaxHp * 0.65);
         money += reward;
         bossLevel++;
         bossMaxHp = Math.floor(250 * Math.pow(2.35, bossLevel - 1));
@@ -800,7 +1032,9 @@
     }
 
     function buyItem(idx) {
-      if (money >= costs[idx]) {
+      var bought = 0;
+      var limit = (buyMult === 999) ? 100 : buyMult;
+      while (money >= costs[idx] && bought < limit) {
         money -= costs[idx];
         counts[idx] += 1;
         if (shopItems[idx].type === 'click') {
@@ -809,9 +1043,73 @@
           autoIncome += shopItems[idx].power;
         }
         costs[idx] = Math.round(costs[idx] * 1.55);
+        bought++;
+      }
+      if (bought > 0) {
         refreshScreen();
         syncWithServer();
       }
+    }
+
+    // ПОКУПКА ПИТОМЦЕВ
+    function buyPet(petIdx, price) {
+      if (currentPet >= petIdx + 1) {
+        alert('У вас уже есть этот или более крутой питомец!');
+        return;
+      }
+      if (money < price) {
+        alert('Не хватает денег на призыв этого питомца!');
+        return;
+      }
+      money -= price;
+      currentPet = petIdx + 1;
+      localStorage.setItem('m_pet', currentPet);
+      refreshScreen();
+      syncWithServer();
+      alert('🐾 Вы призвали нового питомца: ' + petIcons[currentPet] + '!\nВаш доход навсегда вырос!');
+    }
+
+    // ОНЛАЙН ЧАТ ИГРОКОВ
+    function sendChatMsg() {
+      var inp = document.getElementById('chatInput');
+      var txt = inp.value.trim();
+      if (!txt) return;
+      inp.value = '';
+
+      var pIco = petIcons[currentPet] ? (petIcons[currentPet] + ' ') : '';
+      fetch(FIREBASE_URL + '/chat.json', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user: pIco + playerName,
+          text: txt,
+          time: Date.now()
+        })
+      }).then(function() {
+        loadChat();
+      });
+    }
+
+    function loadChat() {
+      var box = document.getElementById('chatMessages');
+      fetch(FIREBASE_URL + '/chat.json?orderBy="$key"&limitToLast=15')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (!data) {
+            box.innerHTML = '<div style="color:#666;">Сообщений пока нет. Напишите первым!</div>';
+            return;
+          }
+          var html = '';
+          for (var k in data) {
+            if (data[k] && data[k].text) {
+              var safeUser = String(data[k].user || 'Гость').replace(/</g, '&lt;');
+              var safeText = String(data[k].text).replace(/</g, '&lt;');
+              html += '<div class="chat-msg"><b style="color:#58a6ff;">' + safeUser + ':</b> ' + safeText + '</div>';
+            }
+          }
+          box.innerHTML = html;
+          box.scrollTop = box.scrollHeight;
+        }).catch(function() {});
     }
 
     // БИРЖА КРИПТОВАЛЮТ
@@ -882,8 +1180,7 @@
     function sellCoin(idx) {
       var c = coins[idx];
       if (c.owned > 0) {
-        var revenue = c.owned * c.price;
-        money += revenue;
+        money += c.owned * c.price;
         c.owned = 0;
         localStorage.setItem('c_own' + idx, 0);
         refreshScreen();
@@ -892,7 +1189,6 @@
       }
     }
 
-    // ОТКРЫТИЕ КЕЙСОВ С АРТЕФАКТАМИ
     function openCase(price, tier) {
       if (money < price) {
         alert('Недостаточно денег для открытия этого кейса!');
@@ -922,7 +1218,6 @@
       alert('🎉 ВЫ ВЫБИЛИ АРТЕФАКТ:\n' + item.name + '\nВечный бонус к доходу: +' + finalBonus + '%!');
     }
 
-    // ПРАНК-РЕКЛАМА
     function startPrankAd(giveBonus) {
       lastAdTime = Date.now();
       adWithReward = giveBonus;
@@ -1055,7 +1350,7 @@
         alert('Для Перерождения нужно накопить $5 000 000!');
         return;
       }
-      if (confirm('Сделать Перестиж? Вы получите +100% к доходу навсегда (артефакты останутся)!')) {
+      if (confirm('Сделать Престиж? Вы получите +100% к доходу навсегда (артефакты и питомцы останутся)!')) {
         prestige += 1;
         money = 0;
         clickPower = 1;
@@ -1079,7 +1374,10 @@
       document.getElementById('btn-' + tab).className = 'tab-btn active';
 
       if (tab === 'trade') renderMarket();
-      if (tab === 'top') loadRealPlayers();
+      if (tab === 'top') {
+        loadRealPlayers();
+        loadChat();
+      }
     }
 
     function cleanKey(nick) {
@@ -1136,12 +1434,14 @@
           prestige = Number(data.prestige) || 0;
           artifactBonus = Number(data.artifactBonus) || 0;
           bossLevel = Number(data.bossLevel) || 1;
+          currentPet = Number(data.pet) || 0;
           if (Array.isArray(data.costs) && data.costs.length === shopItems.length) costs = data.costs;
           if (Array.isArray(data.counts) && data.counts.length === shopItems.length) counts = data.counts;
 
           localStorage.setItem('m_uid', playerId);
           localStorage.setItem('m_name', playerName);
           localStorage.setItem('m_pass', playerPass);
+          localStorage.setItem('m_pet', currentPet);
           refreshScreen();
           showStatus('✅ Весь прогресс восстановлен!', false);
         });
@@ -1160,7 +1460,7 @@
           prestige: prestige,
           artifactBonus: artifactBonus,
           bossLevel: bossLevel,
-          rank: getRankTitle(money),
+          pet: currentPet,
           costs: costs,
           counts: counts,
           updated: Date.now()
@@ -1182,7 +1482,8 @@
                 name: data[key].name || 'Аноним',
                 money: data[key].money,
                 prestige: data[key].prestige || 0,
-                boss: data[key].bossLevel || 1
+                boss: data[key].bossLevel || 1,
+                pet: data[key].pet || 0
               });
             }
           }
@@ -1193,9 +1494,10 @@
             var isMe = (list[i].id === playerId);
             var rowClass = isMe ? 'leader-row me' : 'leader-row';
             var crown = list[i].prestige > 0 ? ' 👑' + list[i].prestige : '';
+            var pIcon = petIcons[list[i].pet] ? (petIcons[list[i].pet] + ' ') : '';
             var medal = (i === 0) ? '🥇 ' : (i === 1) ? '🥈 ' : (i === 2) ? '🥉 ' : '#' + (i + 1) + ' ';
             html += '<div class="' + rowClass + '">' +
-              '<span>' + medal + list[i].name + crown + ' <small style="color:#888;">[Босс #' + list[i].boss + ']</small></span>' +
+              '<span>' + medal + pIcon + list[i].name + crown + ' <small style="color:#8b949e;">[Босс #' + list[i].boss + ']</small></span>' +
               '<span style="color:#2ecc71; font-weight:bold;">$' + formatNum(list[i].money) + '</span></div>';
           }
           box.innerHTML = html;
@@ -1205,17 +1507,16 @@
     function refreshScreen() {
       var mult = getTotalMult();
       document.getElementById('money').innerHTML = formatNum(money);
-      document.getElementById('clickPower').innerHTML = formatNum(clickPower * mult);
-      document.getElementById('autoIncome').innerHTML = formatNum(autoIncome * mult);
+      document.getElementById('clickPower').innerHTML = '$' + formatNum(clickPower * mult);
+      document.getElementById('autoIncome').innerHTML = '$' + formatNum(autoIncome * mult);
       document.getElementById('totalMultText').innerHTML = Math.round((mult - 1) * 100);
-      document.getElementById('rankBadge').innerHTML = 'Звание: ' + getRankTitle(money);
+      document.getElementById('rankBadge').innerHTML = getRankTitle(money);
       document.getElementById('playerName').innerHTML = playerName;
-      document.getElementById('bossLvlText').innerHTML = bossLevel;
+      document.getElementById('petIcon').innerHTML = petIcons[currentPet] || '';
 
-      // Обновление Босса
       var bName = bossNames[(bossLevel - 1) % bossNames.length];
       document.getElementById('bossName').innerHTML = '👾 Босс #' + bossLevel + ': ' + bName;
-      document.getElementById('bossReward').innerHTML = formatNum(Math.floor(bossMaxHp * 0.6));
+      document.getElementById('bossReward').innerHTML = formatNum(Math.floor(bossMaxHp * 0.65));
       var hpPercent = Math.max(0, Math.min(100, (bossHp / bossMaxHp) * 100));
       document.getElementById('bossHpFill').style.width = hpPercent + '%';
       document.getElementById('bossHpText').innerHTML = formatNum(Math.max(0, bossHp)) + ' / ' + formatNum(bossMaxHp) + ' HP';
@@ -1244,25 +1545,38 @@
 
     initShopHTML();
 
+    // Авто-дрон и остывание комбо
     setInterval(function() {
-      if (comboEnergy > 0) {
+      if (autoDroneActive) {
+        tapCoin();
+      } else if (comboEnergy > 0) {
         comboEnergy = Math.max(0, comboEnergy - 4);
         updateComboState();
       }
-    }, 300);
+    }, 200);
 
+    // Таймер перезарядки скиллов и авто-доход
     setInterval(function() {
+      for (var i = 0; i < 3; i++) {
+        if (skillCd[i] > 0) skillCd[i]--;
+      }
+      updateSkillButtons();
+
       var passGain = autoIncome * getTotalMult();
       if (passGain > 0) {
         money += passGain;
         damageBoss(passGain);
         refreshScreen();
       }
+    }, 1000);
+
+    setInterval(function() {
       syncWithServer();
       if (document.getElementById('sec-top').className.indexOf('active') !== -1) {
         loadRealPlayers();
+        loadChat();
       }
-    }, 1500);
+    }, 2000);
 
     setInterval(updateMarket, 2500);
     setInterval(spawnAirdrop, 35000);
