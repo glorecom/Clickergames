@@ -27,14 +27,6 @@
       overflow-x: hidden;
       min-height: 100vh;
     }
-    body.shake {
-      animation: screenShake 0.15s ease-in-out;
-    }
-    @keyframes screenShake {
-      0%, 100% { transform: translate(0, 0); }
-      25% { transform: translate(-4px, 3px); }
-      75% { transform: translate(4px, -3px); }
-    }
 
     /* Глобальный баннер от Создателя */
     .global-alert {
@@ -48,16 +40,11 @@
       max-width: 460px;
       display: none;
       box-shadow: 0 0 20px rgba(243, 156, 18, 0.6);
-      animation: pulseAlert 1.5s infinite;
-    }
-    @keyframes pulseAlert {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.02); }
     }
 
-    /* Шапка профиля */
+    /* Шапка профиля (фиксированная без скачков) */
     .header {
-      background: rgba(16, 22, 34, 0.9);
+      background: rgba(16, 22, 34, 0.92);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       padding: 14px;
@@ -74,6 +61,7 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 6px;
+      min-height: 28px;
     }
     .rank-badge {
       background: linear-gradient(90deg, #f39c12, #e67e22);
@@ -83,6 +71,7 @@
       padding: 3px 9px;
       border-radius: 20px;
       text-transform: uppercase;
+      white-space: nowrap;
     }
     .sound-btn {
       background: #1f2735;
@@ -93,21 +82,35 @@
       height: 28px;
       font-size: 13px;
       cursor: pointer;
+      flex-shrink: 0;
     }
     .user-badge {
       font-size: 12px;
       color: #58a6ff;
       font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 170px;
     }
+
+    /* Стабильный баланс без прыжков */
     .balance {
-      font-size: 36px;
+      font-size: clamp(24px, 7.5vw, 36px);
       font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 44px;
+      line-height: 44px;
       background: linear-gradient(180deg, #ffffff 0%, #2ecc71 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       filter: drop-shadow(0 0 15px rgba(46, 204, 113, 0.4));
       margin: 2px 0;
     }
+
     .stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -119,12 +122,16 @@
       border: 1px solid rgba(255,255,255,0.05);
       font-size: 11px;
       color: #8b949e;
+      font-variant-numeric: tabular-nums;
     }
     .stats div b {
       display: block;
       color: #fff;
-      font-size: 13px;
+      font-size: 12px;
       margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     /* Нижняя плавающая навигация */
@@ -186,12 +193,13 @@
       padding: 12px 14px;
       margin-bottom: 10px;
       box-shadow: 0 6px 20px rgba(255, 71, 87, 0.18);
+      font-variant-numeric: tabular-nums;
     }
     .boss-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 800;
       color: #ff7675;
       margin-bottom: 6px;
@@ -405,6 +413,7 @@
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
+      font-variant-numeric: tabular-nums;
     }
     .upgrade-btn.affordable {
       border-color: #2ecc71;
@@ -425,6 +434,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
     .lvl-tag {
       background: #283246;
@@ -474,6 +484,7 @@
       border-radius: 14px;
       padding: 12px;
       margin-bottom: 10px;
+      font-variant-numeric: tabular-nums;
     }
     .coin-top {
       display: flex;
@@ -593,6 +604,7 @@
       margin-bottom: 12px;
       box-shadow: 0 0 25px rgba(224, 86, 253, 0.25);
       text-align: center;
+      font-variant-numeric: tabular-nums;
     }
     .chat-box {
       background: #0d1117;
@@ -618,6 +630,7 @@
       border-radius: 16px;
       border: 1px solid #262f3f;
       overflow: hidden;
+      font-variant-numeric: tabular-nums;
     }
     .leader-row {
       display: flex;
@@ -734,7 +747,7 @@
   <!-- Секретный бонус -->
   <div id="airdropBox" class="airdrop" onclick="catchAirdrop()">🎁</div>
 
-  <!-- Верхняя панель -->
+  <!-- Верхняя панель (Стабильная) -->
   <div class="header">
     <div class="top-bar-info">
       <span id="rankBadge" class="rank-badge">Новичок</span>
@@ -759,7 +772,7 @@
       </div>
       <div class="boss-hp-bg">
         <div id="bossHpFill" class="boss-hp-fill"></div>
-        <div id="bossHpText" class="boss-hp-text">250 / 250 HP</div>
+        <div id="bossHpText" class="boss-hp-text">2500 / 2500 HP</div>
       </div>
     </div>
 
@@ -828,7 +841,6 @@
   <!-- ВКЛАДКА 3: СИНДИКАТЫ, СКИНЫ, ПИТОМЦЫ, КЕЙСЫ И ДОСТИЖЕНИЯ -->
   <div id="sec-cases" class="section">
 
-    <!-- Достижения и Медали -->
     <div class="card-box">
       <h3 style="margin:0 0 4px 0; color:#f1c40f;">🏅 Медали Империи (+25% за каждую)</h3>
       <div class="ach-grid">
@@ -839,7 +851,6 @@
       </div>
     </div>
 
-    <!-- Выбор Клана (Синдиката) -->
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#f39c12;">🏰 Вступить в Синдикат (+50% к доходу)</h3>
       <div class="case-grid">
@@ -858,7 +869,6 @@
       </div>
     </div>
 
-    <!-- Магазин Скинов Кнопки -->
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#2ecc71;">🎨 Скины для Кнопки Клика</h3>
       <div class="case-grid">
@@ -883,7 +893,6 @@
       </div>
     </div>
 
-    <!-- Питомцы -->
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#58a6ff;">🐾 Призыв Питомца-Компаньона</h3>
       <div class="case-grid">
@@ -908,7 +917,6 @@
       </div>
     </div>
 
-    <!-- Кейсы -->
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#f1c40f;">📦 Кейсы с Артефактами</h3>
       <div class="case-grid">
@@ -931,7 +939,6 @@
       <div id="artifactList" style="margin-top:10px;">Коллекция пуста</div>
     </div>
 
-    <!-- Рулетка и Престиж -->
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#2ecc71;">🎰 Рулетка Фортуны (Джекпот до x10!)</h3>
       <div style="display:flex; gap:8px; margin-top:8px;">
@@ -956,7 +963,6 @@
   <!-- ВКЛАДКА 4: МИРОВОЙ РЕЙД-БОСС (1 ТРИЛЛИОН HP), ЧАТ И PVP-ТОП -->
   <div id="sec-top" class="section">
     
-    <!-- ОБЩИЙ МИРОВОЙ БОСС ДЛЯ ВСЕХ ИГРОКОВ -->
     <div class="world-raid-box">
       <div style="font-weight:900; font-size:14px; color:#e056fd; margin-bottom:4px;">
         🐉 ВСЕЛЕНСКИЙ ЛЕВИАФАН (МИРОВОЙ БОСС)
@@ -973,7 +979,6 @@
       </button>
     </div>
 
-    <!-- Защита от ограблений друзей -->
     <div class="card-box" style="display:flex; justify-content:space-between; align-items:center;">
       <div>
         <div style="font-weight:bold; font-size:13px; color:#f1c40f;">🛡️ Броня Сейфа (Ур. <span id="shieldLvlText">0</span>)</div>
@@ -1013,7 +1018,6 @@
       <div id="authStatus" class="status-msg"></div>
     </div>
 
-    <!-- Промокоды -->
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#2ecc71;">🎁 Секретные Промокоды</h3>
       <div class="chat-input-row">
@@ -1026,7 +1030,7 @@
     <div id="adminPanel" class="card-box" style="display:none; border:2px solid #e056fd;">
       <h3 style="margin:0 0 8px 0; color:#e056fd;">👑 ПУЛЬТ СОЗДАТЕЛЯ ИГРЫ</h3>
       <p style="font-size:11px; color:#aaa; margin-top:0;">
-        Подсказка: в списке «PvP Рейд» напротив каждого игрока у вас теперь появились кнопки <b>«⚖️ Снять $»</b> и <b>«💀 В ноль»</b>!
+        Подсказка: в списке «PvP Рейд» напротив каждого игрока у вас теперь работают кнопки <b>«⚖️ Снять $»</b> и <b>«💀 В ноль»</b>!
       </p>
       <div style="display:flex; flex-direction:column; gap:8px;">
         <button class="btn-login" onclick="adminAddMoney()">💰 Выдать себе +$1 000 000 000</button>
@@ -1038,7 +1042,7 @@
   </div>
 
   <div class="footer-version">
-    бета тестирование версия 1.1
+    бета тестирование версия 1.1 • релиз
   </div>
 
   <!-- Нижнее меню навигации -->
@@ -1056,6 +1060,7 @@
     var soundEnabled = true;
     var audioCtx = null;
     var isAdmin = (localStorage.getItem('m_admin') === '1');
+    var syncTimer = null;
 
     function playTone(freq, type, duration) {
       if (!soundEnabled) return;
@@ -1130,7 +1135,6 @@
     var playerName = localStorage.getItem('m_name') || ("Гость_" + Math.floor(Math.random() * 899 + 100));
     var playerPass = localStorage.getItem('m_pass') || "";
 
-    // УВЕЛИЧЕННОЕ ХП ЛИЧНЫХ БОССОВ
     var bossNames = [
       "Налоговый Инспектор", "Уличный Коллектор", "Мамкин Хакер", "Жадный Банкир",
       "Крипто-Мошенник", "Волк с Уолл-Стрит", "Теневой Олигарх", "Глава Корпорации",
@@ -1193,7 +1197,7 @@
     }
 
     function getRankTitle(m) {
-      if (isAdmin) return "👑 СОЗДАТЕЛЬ ИГРЫ";
+      if (isAdmin) return "👑 СОЗДАТЕЛЬ";
       if (m < 500) return "Новичок";
       if (m < 5000) return "Уличный темщик";
       if (m < 50000) return "Крипто-Хомяк";
@@ -1253,7 +1257,7 @@
         arena.style.display = 'none';
         btn.disabled = false;
         btn.innerHTML = '⚡ ЗАПУСТИТЬ ВЗЛОМ (10 СЕК)';
-        syncWithServer();
+        syncWithServerNow();
         alert('💻 Взлом завершен! Все перехваченные средства зачислены на баланс.');
       }, 10000);
     }
@@ -1263,11 +1267,10 @@
       localStorage.setItem('m_clan', playerClan);
       playTone(600, 'triangle', 0.2);
       refreshScreen();
-      syncWithServer();
+      syncWithServerNow();
       alert('🏰 Вы вступили в синдикат «' + cName + '» (+50% ко всем доходам)!');
     }
 
-    // МИРОВОЙ РЕЙД-БОСС НА 1 ТРИЛЛИОН HP (1 000 000 000 000)
     var worldBossMax = 1000000000000;
     var worldBossHp = 1000000000000;
 
@@ -1311,10 +1314,9 @@
       }).then(function() { loadWorldBoss(); });
 
       refreshScreen();
-      syncWithServer();
+      syncWithServerNow();
     }
 
-    // ПРОМОКОДЫ И АДМИН-ФУНКЦИИ СОЗДАТЕЛЯ
     function activatePromo() {
       var code = document.getElementById('promoInput').value.trim().toUpperCase();
       document.getElementById('promoInput').value = '';
@@ -1335,7 +1337,7 @@
         localStorage.setItem('promo_start', '1');
         money += 50000;
         refreshScreen();
-        syncWithServer();
+        syncWithServerNow();
         alert('🎉 Промокод активирован! Получено +$50 000!');
         return;
       }
@@ -1345,40 +1347,46 @@
     function adminAddMoney() {
       money += 1000000000;
       refreshScreen();
-      syncWithServer();
+      syncWithServerNow();
       alert('💰 +$1 000 000 000 зачислено Создателю!');
     }
 
-    // СНЯТИЕ ДЕНЕГ С ЛЮБОГО ПОЛЬЗОВАТЕЛЯ (ДЛЯ СОЗДАТЕЛЯ)
+    // ТОЧНОЕ СНЯТИЕ ДЕНЕГ БЕЗ БАГОВ СИНХРОНИЗАЦИИ
     function adminTakeMoney(targetId, targetName, currentTargetMoney) {
       var str = prompt('👑 СОЗДАТЕЛЬ: Сколько долларов СНЯТЬ со счета игрока ' + targetName + '?\n(У него сейчас: $' + formatNum(currentTargetMoney) + ')');
       var takeVal = Math.floor(Number(str));
       if (!takeVal || takeVal <= 0) return;
 
-      var newBal = Math.max(0, currentTargetMoney - takeVal);
-      fetch(FIREBASE_URL + '/players/' + targetId + '/money.json', {
-        method: 'PUT',
-        body: JSON.stringify(newBal)
+      fetch(FIREBASE_URL + '/players/' + targetId + '.json', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          money: Math.max(0, currentTargetMoney - takeVal),
+          adminFine: takeVal
+        })
       }).then(function() {
-        postSystemChat('⚖️ СОЗДАТЕЛЬ оштрафовал игрока ' + targetName + ' и снял с его баланса $' + formatNum(takeVal) + '!');
+        postSystemChat('⚖️ СОЗДАТЕЛЬ оштрафовал игрока ' + targetName + ' на $' + formatNum(takeVal) + '!');
         loadRealPlayers();
-        alert('✅ Со счета ' + targetName + ' успешно списано $' + formatNum(takeVal) + '!');
+        alert('✅ Со счета ' + targetName + ' списано $' + formatNum(takeVal) + '!');
       });
     }
 
-    // ПОЛНОЕ ОБНУЛЕНИЕ ИГРОКА (ДЛЯ СОЗДАТЕЛЯ)
+    // ПОЛНОЕ ОБНУЛЕНИЕ ИГРОКА
     function adminWipePlayer(targetId, targetName) {
       if (!confirm('👑 Вы уверены, что хотите полностью ОБНУЛИТЬ баланс игрока ' + targetName + ' до $0?')) return;
-      fetch(FIREBASE_URL + '/players/' + targetId + '/money.json', {
-        method: 'PUT',
-        body: JSON.stringify(0)
+      fetch(FIREBASE_URL + '/players/' + targetId + '.json', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          money: 0,
+          adminWipe: true
+        })
       }).then(function() {
         postSystemChat('💀 КАРА СОЗДАТЕЛЯ: Баланс игрока ' + targetName + ' был полностью обнулен!');
         loadRealPlayers();
       });
     }
 
-    // РАЗДАТЬ ВСЕМ ИГРОКАМ ПО $1 000 000
     function adminGiftAll() {
       fetch(FIREBASE_URL + '/players.json')
         .then(function(r) { return r.json(); })
@@ -1386,16 +1394,18 @@
           if (!data) return;
           for (var k in data) {
             if (data[k] && typeof data[k].money === 'number') {
-              fetch(FIREBASE_URL + '/players/' + k + '/money.json', {
-                method: 'PUT',
-                body: JSON.stringify(data[k].money + 1000000)
+              fetch(FIREBASE_URL + '/players/' + k + '.json', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  money: data[k].money + 1000000,
+                  inboxGift: (Number(data[k].inboxGift) || 0) + 1000000
+                })
               });
             }
           }
-          money += 1000000;
-          refreshScreen();
           postSystemChat('🌧️ ЗОЛОТОЙ ДОЖДЬ! Создатель игры подарил ВСЕМ игрокам по +$1 000 000!');
-          alert('🌧️ Всем игрокам сервера начислено по $1 000 000!');
+          alert('🌧️ Всем игрокам сервера отправлено по $1 000 000!');
         });
     }
 
@@ -1434,14 +1444,33 @@
         }).catch(function() {});
     }
 
-    // ВАЖНО: Синхронизация с облаком (если Создатель снял с игрока деньги, телефон игрока сразу это принимает!)
-    function pullServerBalanceCheck() {
-      fetch(FIREBASE_URL + '/players/' + playerId + '/money.json')
+    // БЕЗОПАСНАЯ ПРОВЕРКА ВХОДЯЩИХ СОБЫТИЙ (БЕЗ СКАЧКОВ БАЛАНСА ПРИ КЛИКАХ!)
+    function checkIncomingEvents() {
+      fetch(FIREBASE_URL + '/players/' + playerId + '.json')
         .then(function(r) { return r.json(); })
-        .then(function(srvMoney) {
-          if (typeof srvMoney === 'number' && srvMoney < money - (autoIncome * getTotalMult() * 5 + 500)) {
-            money = srvMoney;
+        .then(function(data) {
+          if (!data) return;
+          var changed = false;
+
+          if (data.adminWipe) {
+            money = 0;
+            changed = true;
+            fetch(FIREBASE_URL + '/players/' + playerId + '/adminWipe.json', { method: 'DELETE' });
+          }
+          if (typeof data.adminFine === 'number' && data.adminFine > 0) {
+            money = Math.max(0, money - data.adminFine);
+            changed = true;
+            fetch(FIREBASE_URL + '/players/' + playerId + '/adminFine.json', { method: 'DELETE' });
+          }
+          if (typeof data.inboxGift === 'number' && data.inboxGift > 0) {
+            money += data.inboxGift;
+            changed = true;
+            fetch(FIREBASE_URL + '/players/' + playerId + '/inboxGift.json', { method: 'DELETE' });
+          }
+
+          if (changed) {
             refreshScreen();
+            syncWithServerNow();
           }
         }).catch(function() {});
     }
@@ -1478,7 +1507,7 @@
       localStorage.setItem('m_skin_b', skinBonus);
       playTone(620, 'triangle', 0.2);
       refreshScreen();
-      syncWithServer();
+      syncWithServerNow();
       alert('🎨 Скин «' + emoji + '» установлен! Бонус: +' + bonusVal + '%!');
     }
 
@@ -1492,7 +1521,7 @@
       localStorage.setItem('m_shield', shieldLevel);
       playTone(500, 'sine', 0.15);
       refreshScreen();
-      syncWithServer();
+      syncWithServerNow();
     }
 
     function robPlayer(targetId, targetName, targetMoney, targetShield) {
@@ -1515,7 +1544,7 @@
         playTone(180, 'sawtooth', 0.3);
         postSystemChat('🚓 ' + playerName + ' пытался ограбить ' + targetName + ', но попался! Штраф: $' + formatNum(fine));
         refreshScreen();
-        syncWithServer();
+        syncWithServerNow();
         alert('🚨 ПРОВАЛ! Сработала броня сейфа ' + targetName + '!\nШтраф: $' + formatNum(fine));
         return;
       }
@@ -1524,14 +1553,18 @@
       money += stolen;
       playTone(750, 'square', 0.25);
 
-      fetch(FIREBASE_URL + '/players/' + targetId + '/money.json', {
-        method: 'PUT',
-        body: JSON.stringify(Math.max(0, targetMoney - stolen))
+      fetch(FIREBASE_URL + '/players/' + targetId + '.json', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          money: Math.max(0, targetMoney - stolen),
+          adminFine: stolen
+        })
       });
 
       postSystemChat('🥷 ОГРАБЛЕНИЕ! ' + playerName + ' взломал сейф ' + targetName + ' и унес $' + formatNum(stolen) + '!');
       refreshScreen();
-      syncWithServer();
+      syncWithServerNow();
       loadRealPlayers();
       alert('🥷 УСПЕХ! Вы ограбили ' + targetName + ' на $' + formatNum(stolen) + '!');
     }
@@ -1541,14 +1574,18 @@
       var amount = Math.floor(Number(amountStr));
       if (!amount || amount <= 0 || amount > money) return;
       money -= amount;
-      fetch(FIREBASE_URL + '/players/' + targetId + '/money.json', {
-        method: 'PUT',
-        body: JSON.stringify(targetMoney + amount)
+      fetch(FIREBASE_URL + '/players/' + targetId + '.json', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          money: targetMoney + amount,
+          inboxGift: amount
+        })
       });
 
       postSystemChat('💸 ПЕРЕВОД: ' + playerName + ' перевел $' + formatNum(amount) + ' игроку ' + targetName + '!');
       refreshScreen();
-      syncWithServer();
+      syncWithServerNow();
       loadRealPlayers();
     }
 
@@ -1612,7 +1649,7 @@
     function spawnSparks() {
       var area = document.getElementById('clickArea');
       var colors = ['#2ecc71', '#f1c40f', '#58a6ff', '#e056fd'];
-      for (var i = 0; i < 6; i++) {
+      for (var i = 0; i < 5; i++) {
         var sp = document.createElement('div');
         sp.className = 'spark';
         sp.style.background = colors[Math.floor(Math.random() * colors.length)];
@@ -1639,12 +1676,6 @@
 
       playTone(isCrit ? 740 : 440, isCrit ? 'triangle' : 'sine', 0.07);
 
-      if (isCrit) {
-        document.body.classList.remove('shake');
-        void document.body.offsetWidth;
-        document.body.classList.add('shake');
-      }
-
       money += gain;
       damageBoss(gain);
 
@@ -1654,7 +1685,7 @@
       spawnSparks();
       spawnDollar(gain, isCrit);
       refreshScreen();
-      syncWithServer();
+      scheduleSync();
 
       if (Date.now() - lastAdTime >= AD_COOLDOWN_MS) {
         lastAdTime = Date.now();
@@ -1694,7 +1725,7 @@
       if (bought > 0) {
         playTone(540, 'sine', 0.1);
         refreshScreen();
-        syncWithServer();
+        syncWithServerNow();
       }
     }
 
@@ -1711,7 +1742,7 @@
       currentPet = petIdx + 1;
       localStorage.setItem('m_pet', currentPet);
       refreshScreen();
-      syncWithServer();
+      syncWithServerNow();
       alert('🐾 Вы призвали нового питомца: ' + petIcons[currentPet] + '!');
     }
 
@@ -1830,7 +1861,7 @@
         localStorage.setItem('c_own' + idx, 0);
         refreshScreen();
         renderMarket();
-        syncWithServer();
+        syncWithServerNow();
       }
     }
 
@@ -1859,7 +1890,7 @@
       localStorage.setItem('m_arts', JSON.stringify(myArtifacts));
 
       refreshScreen();
-      syncWithServer();
+      syncWithServerNow();
       alert('🎉 ВЫ ВЫБИЛИ АРТЕФАКТ:\n' + item.name + '\nВечный бонус к доходу: +' + finalBonus + '%!');
     }
 
@@ -1916,7 +1947,7 @@
         var reward = Math.max(500, (clickPower * 40 + autoIncome * 30) * getTotalMult());
         money += reward;
         refreshScreen();
-        syncWithServer();
+        syncWithServerNow();
         alert('🎉 Бонус за просмотр рекламы: +$' + formatNum(reward));
       }
     }
@@ -1964,7 +1995,7 @@
       var bonus = Math.max(400, (clickPower * 30 + autoIncome * 25) * getTotalMult());
       money += bonus;
       refreshScreen();
-      syncWithServer();
+      syncWithServerNow();
       alert('🎁 ПОЙМАН СЕКРЕТНЫЙ ДРОП: +$' + formatNum(bonus));
     }
 
@@ -1991,7 +2022,7 @@
         resBox.innerHTML = '💸 Проигрыш $' + formatNum(bet);
       }
       refreshScreen();
-      syncWithServer();
+      syncWithServerNow();
     }
 
     function doPrestige() {
@@ -2010,7 +2041,7 @@
         }
         localStorage.setItem('m_prestige', prestige);
         refreshScreen();
-        syncWithServer();
+        syncWithServerNow();
       }
     }
 
@@ -2061,7 +2092,7 @@
           localStorage.setItem('m_uid', playerId);
           localStorage.setItem('m_name', playerName);
           localStorage.setItem('m_pass', playerPass);
-          refreshScreen(); syncWithServer();
+          refreshScreen(); syncWithServerNow();
           showStatus('✅ Аккаунт успешно зарегистрирован!', false);
         });
     }
@@ -2101,10 +2132,16 @@
         });
     }
 
-    function syncWithServer() {
+    // Отложенная отправка при быстрых кликах (без спама и скачков)
+    function scheduleSync() {
+      clearTimeout(syncTimer);
+      syncTimer = setTimeout(syncWithServerNow, 800);
+    }
+
+    function syncWithServerNow() {
       localStorage.setItem('m_last_seen', Date.now());
       fetch(FIREBASE_URL + '/players/' + playerId + '.json', {
-        method: 'PUT',
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: playerName,
@@ -2164,7 +2201,6 @@
               actionsHtml += '<button class="pvp-btn btn-gift" onclick="giftPlayer(\'' + p.id + '\', \'' + safeName + '\', ' + p.money + ')">💸</button>' +
                 '<button class="pvp-btn btn-steal" onclick="robPlayer(\'' + p.id + '\', \'' + safeName + '\', ' + p.money + ', ' + p.shield + ')">🗡️ Грабь</button>';
             }
-            // СЕКРЕТНЫЕ КНОПКИ СОЗДАТЕЛЯ ДЛЯ СНЯТИЯ ДЕНЕГ И ОБНУЛЕНИЯ
             if (isAdmin) {
               actionsHtml += '<button class="pvp-btn btn-admin-take" onclick="adminTakeMoney(\'' + p.id + '\', \'' + safeName + '\', ' + p.money + ')">⚖️ Снять $</button>' +
                 '<button class="pvp-btn btn-admin-wipe" onclick="adminWipePlayer(\'' + p.id + '\', \'' + safeName + '\')">💀 В ноль</button>';
@@ -2193,7 +2229,6 @@
       document.getElementById('mainBtn').innerHTML = btnSkin;
       document.getElementById('shieldLvlText').innerHTML = shieldLevel;
 
-      // Обновление медалей
       document.getElementById('ach0').className = (totalClicks >= 100) ? 'ach-card unlocked' : 'ach-card';
       document.getElementById('ach1').className = (money >= 100000) ? 'ach-card unlocked' : 'ach-card';
       document.getElementById('ach2').className = (bossLevel >= 5) ? 'ach-card unlocked' : 'ach-card';
@@ -2255,21 +2290,21 @@
     }, 1000);
 
     setInterval(function() {
-      pullServerBalanceCheck();
-      syncWithServer();
+      checkIncomingEvents();
+      syncWithServerNow();
       checkGlobalAlert();
       if (document.getElementById('sec-top').className.indexOf('active') !== -1) {
         loadRealPlayers();
         loadChat();
         loadWorldBoss();
       }
-    }, 2500);
+    }, 3000);
 
     setInterval(updateMarket, 2500);
     setInterval(spawnAirdrop, 35000);
 
     refreshScreen();
-    syncWithServer();
+    syncWithServerNow();
   </script>
 </body>
 </html>
