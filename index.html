@@ -62,6 +62,7 @@
       align-items: center;
       margin-bottom: 6px;
       min-height: 28px;
+      gap: 6px;
     }
     .rank-badge {
       background: linear-gradient(90deg, #f39c12, #e67e22);
@@ -73,6 +74,11 @@
       text-transform: uppercase;
       white-space: nowrap;
     }
+    .audio-controls {
+      display: flex;
+      gap: 5px;
+      flex-shrink: 0;
+    }
     .sound-btn {
       background: #1f2735;
       border: 1px solid #333e52;
@@ -82,7 +88,14 @@
       height: 28px;
       font-size: 13px;
       cursor: pointer;
-      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    .sound-btn.active-music {
+      border-color: #2ecc71;
+      box-shadow: 0 0 10px rgba(46, 204, 113, 0.4);
     }
     .user-badge {
       font-size: 12px;
@@ -91,7 +104,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 170px;
+      max-width: 150px;
     }
 
     /* Стабильный баланс без прыжков */
@@ -747,12 +760,15 @@
   <!-- Секретный бонус -->
   <div id="airdropBox" class="airdrop" onclick="catchAirdrop()">🎁</div>
 
-  <!-- Верхняя панель (Стабильная) -->
+  <!-- Верхняя панель (Стабильная + Кнопки Музыки и Звука) -->
   <div class="header">
     <div class="top-bar-info">
       <span id="rankBadge" class="rank-badge">Новичок</span>
       <span class="user-badge"><span id="clanTagText"></span> <span id="petIcon"></span> <span id="playerName">Гость</span></span>
-      <button id="soundToggleBtn" class="sound-btn" onclick="toggleSound()">🔊</button>
+      <div class="audio-controls">
+        <button id="musicToggleBtn" class="sound-btn active-music" onclick="toggleMusic()" title="Фоновая музыка">🎵</button>
+        <button id="soundToggleBtn" class="sound-btn" onclick="toggleSound()" title="Звуки кликов">🔊</button>
+      </div>
     </div>
     <div class="balance">$<span id="money">0</span></div>
     <div class="stats">
@@ -1042,7 +1058,7 @@
   </div>
 
   <div class="footer-version">
-    бета тестирование версия 1.1 • релиз
+    бета тестирование версия 1.1 • релиз с музыкой
   </div>
 
   <!-- Нижнее меню навигации -->
@@ -1057,20 +1073,46 @@
   <script>
     var FIREBASE_URL = "https://clicker-8ad8b-default-rtdb.firebaseio.com";
 
+    // =========================================================================
+    // ВСТРОЕННЫЙ СИНТЕЗАТОР ФОНОВОЙ КИБЕРПАНК-МУЗЫКИ И ЗВУКОВ (WEB AUDIO API)
+    // =========================================================================
     var soundEnabled = true;
+    var musicEnabled = (localStorage.getItem('m_music') !== '0');
     var audioCtx = null;
-    var isAdmin = (localStorage.getItem('m_admin') === '1');
-    var syncTimer = null;
+    var bgmInterval = null;
+    var bgmStep = 0;
 
-    function playTone(freq, type, duration) {
+    // Ноты космического Synthwave-трека (ми-минор арпеджио + бас)
+    var melodyNotes = [
+      329.63, 392.00, 493.88, 659.25, 493.88, 392.00, 329.63, 293.66,
+      261.63, 329.63, 392.00, 523.25, 392.00, 329.63, 261.63, 246.94,
+      220.00, 261.63, 329.63, 440.00, 329.63, 261.63, 220.00, 196.00,
+      246.94, 293.66, 369.99, 493.88, 369.99, 493.88, 587.33, 659.25
+    ];
+    var bassNotes = [
+      82.41, 82.41, 65.41, 65.41, 55.00, 55.00, 61.74, 73.42
+    ];
+
+    function initAudio() {
+      if (!audioCtx) {
+        var AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) audioCtx = new AudioContextClass();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playTone(freq, type, duration, vol) {
       if (!soundEnabled) return;
       try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        initAudio();
+        if (!audioCtx) return;
         var osc = audioCtx.createOscillator();
         var gain = audioCtx.createGain();
         osc.type = type || 'sine';
         osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.setValueAtTime(vol || 0.07, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
@@ -1079,10 +1121,74 @@
       } catch (e) {}
     }
 
+    function playBgmStep() {
+      if (!musicEnabled) return;
+      try {
+        initAudio();
+        if (!audioCtx || audioCtx.state !== 'running') return;
+
+        var now = audioCtx.currentTime;
+
+        // Лид-мелодия (мягкий треугольный синт)
+        var noteFreq = melodyNotes[bgmStep % melodyNotes.length];
+        var oscLead = audioCtx.createOscillator();
+        var gainLead = audioCtx.createGain();
+        oscLead.type = 'triangle';
+        oscLead.frequency.setValueAtTime(noteFreq, now);
+        gainLead.gain.setValueAtTime(0.032, now);
+        gainLead.gain.exponentialRampToValueAtTime(0.001, now + 0.19);
+        oscLead.connect(gainLead);
+        gainLead.connect(audioCtx.destination);
+        oscLead.start(now);
+        oscLead.stop(now + 0.19);
+
+        // Глубокий бас каждые 4 шага
+        if (bgmStep % 4 === 0) {
+          var bFreq = bassNotes[Math.floor(bgmStep / 4) % bassNotes.length];
+          var oscBass = audioCtx.createOscillator();
+          var gainBass = audioCtx.createGain();
+          oscBass.type = 'sawtooth';
+          oscBass.frequency.setValueAtTime(bFreq, now);
+          gainBass.gain.setValueAtTime(0.04, now);
+          gainBass.gain.exponentialRampToValueAtTime(0.001, now + 0.65);
+          oscBass.connect(gainBass);
+          gainBass.connect(audioCtx.destination);
+          oscBass.start(now);
+          oscBass.stop(now + 0.65);
+        }
+
+        bgmStep++;
+      } catch (e) {}
+    }
+
+    function startMusicLoop() {
+      if (bgmInterval) clearInterval(bgmInterval);
+      bgmInterval = setInterval(playBgmStep, 210);
+      updateMusicBtnUI();
+    }
+
+    function toggleMusic() {
+      initAudio();
+      musicEnabled = !musicEnabled;
+      localStorage.setItem('m_music', musicEnabled ? '1' : '0');
+      updateMusicBtnUI();
+    }
+
+    function updateMusicBtnUI() {
+      var btn = document.getElementById('musicToggleBtn');
+      if (!btn) return;
+      btn.innerHTML = musicEnabled ? '🎵' : '🔕';
+      btn.className = musicEnabled ? 'sound-btn active-music' : 'sound-btn';
+    }
+
     function toggleSound() {
+      initAudio();
       soundEnabled = !soundEnabled;
       document.getElementById('soundToggleBtn').innerHTML = soundEnabled ? '🔊' : '🔇';
     }
+
+    var isAdmin = (localStorage.getItem('m_admin') === '1');
+    var syncTimer = null;
 
     var shopItems = [
       { icon: "💪", name: "Тренировка пальца", desc: "+1$ к клику", type: "click", power: 1, baseCost: 15 },
@@ -1351,7 +1457,6 @@
       alert('💰 +$1 000 000 000 зачислено Создателю!');
     }
 
-    // ТОЧНОЕ СНЯТИЕ ДЕНЕГ БЕЗ БАГОВ СИНХРОНИЗАЦИИ
     function adminTakeMoney(targetId, targetName, currentTargetMoney) {
       var str = prompt('👑 СОЗДАТЕЛЬ: Сколько долларов СНЯТЬ со счета игрока ' + targetName + '?\n(У него сейчас: $' + formatNum(currentTargetMoney) + ')');
       var takeVal = Math.floor(Number(str));
@@ -1371,7 +1476,6 @@
       });
     }
 
-    // ПОЛНОЕ ОБНУЛЕНИЕ ИГРОКА
     function adminWipePlayer(targetId, targetName) {
       if (!confirm('👑 Вы уверены, что хотите полностью ОБНУЛИТЬ баланс игрока ' + targetName + ' до $0?')) return;
       fetch(FIREBASE_URL + '/players/' + targetId + '.json', {
@@ -1444,7 +1548,6 @@
         }).catch(function() {});
     }
 
-    // БЕЗОПАСНАЯ ПРОВЕРКА ВХОДЯЩИХ СОБЫТИЙ (БЕЗ СКАЧКОВ БАЛАНСА ПРИ КЛИКАХ!)
     function checkIncomingEvents() {
       fetch(FIREBASE_URL + '/players/' + playerId + '.json')
         .then(function(r) { return r.json(); })
@@ -1643,6 +1746,7 @@
     var mainBtn = document.getElementById('mainBtn');
     mainBtn.addEventListener('touchstart', function(e) {
       e.preventDefault();
+      initAudio();
       tapCoin();
     }, { passive: false });
 
@@ -1665,6 +1769,7 @@
     }
 
     function tapCoin() {
+      initAudio();
       totalClicks++;
       localStorage.setItem('m_tot_clicks', totalClicks);
 
@@ -1674,7 +1779,7 @@
       var isCrit = Math.random() < 0.10;
       var gain = clickPower * comboMultiplier * getTotalMult() * (isCrit ? 10 : 1);
 
-      playTone(isCrit ? 740 : 440, isCrit ? 'triangle' : 'sine', 0.07);
+      playTone(isCrit ? 740 : 440, isCrit ? 'triangle' : 'sine', 0.06, 0.06);
 
       money += gain;
       damageBoss(gain);
@@ -1702,7 +1807,7 @@
         bossMaxHp = Math.floor(2500 * Math.pow(3.1, bossLevel - 1));
         bossHp = bossMaxHp;
         localStorage.setItem('m_boss_lvl', bossLevel);
-        playTone(880, 'square', 0.25);
+        playTone(880, 'square', 0.25, 0.08);
         spawnDollar(reward, true);
       }
       localStorage.setItem('m_boss_hp', Math.floor(bossHp));
@@ -1723,7 +1828,7 @@
         bought++;
       }
       if (bought > 0) {
-        playTone(540, 'sine', 0.1);
+        playTone(540, 'sine', 0.1, 0.07);
         refreshScreen();
         syncWithServerNow();
       }
@@ -2046,6 +2151,7 @@
     }
 
     function openTab(tab) {
+      initAudio();
       ['game', 'trade', 'cases', 'top', 'prof'].forEach(function(t) {
         document.getElementById('sec-' + t).className = 'section';
         document.getElementById('btn-' + t).className = 'tab-btn';
@@ -2132,7 +2238,6 @@
         });
     }
 
-    // Отложенная отправка при быстрых кликах (без спама и скачков)
     function scheduleSync() {
       clearTimeout(syncTimer);
       syncTimer = setTimeout(syncWithServerNow, 800);
@@ -2265,6 +2370,7 @@
 
     initShopHTML();
     checkOfflineEarnings();
+    startMusicLoop();
 
     setInterval(function() {
       if (autoDroneActive) {
