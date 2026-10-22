@@ -254,6 +254,35 @@
       text-shadow: 0 1px 3px #000;
     }
 
+    /* КАРТОЧКА КОНТРАКТА (КВЕСТА) */
+    .quest-bar {
+      background: linear-gradient(90deg, rgba(26, 36, 54, 0.95), rgba(20, 28, 42, 0.95));
+      border: 1px solid #3b4e70;
+      border-radius: 14px;
+      padding: 9px 12px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      text-align: left;
+    }
+    .quest-btn {
+      background: #2ecc71;
+      color: #000;
+      border: none;
+      padding: 7px 11px;
+      border-radius: 9px;
+      font-size: 11px;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .quest-btn:disabled {
+      background: #252e3e;
+      color: #6e7681;
+    }
+
     /* АКТИВНЫЕ СКИЛЛЫ */
     .skills-row {
       display: flex;
@@ -491,6 +520,7 @@
       border: 1px solid #283246;
       margin-bottom: 12px;
       text-align: left;
+      font-variant-numeric: tabular-nums;
     }
     .news-ticker {
       background: rgba(241, 196, 15, 0.12);
@@ -545,6 +575,53 @@
     .btn-sell-coin {
       flex: 1; background: #e74c3c; color: #fff; border: none;
       padding: 9px; border-radius: 8px; font-weight: 900; font-size: 12px; cursor: pointer;
+    }
+
+    /* ВИЗУАЛЬНОЕ КОЛЕСО ФОРТУНЫ */
+    .wheel-wrap {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      margin: 12px auto;
+    }
+    .wheel-pointer {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 22px;
+      z-index: 5;
+      filter: drop-shadow(0 2px 4px #000);
+    }
+    .wheel-circle {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 4px solid #f1c40f;
+      background: conic-gradient(
+        #e74c3c 0deg 60deg,
+        #2ecc71 60deg 120deg,
+        #3498db 120deg 180deg,
+        #e67e22 180deg 240deg,
+        #9b59b6 240deg 300deg,
+        #f1c40f 300deg 360deg
+      );
+      box-shadow: 0 0 25px rgba(241, 196, 15, 0.35);
+      transition: transform 3.2s cubic-bezier(0.15, 0.85, 0.25, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .wheel-center {
+      width: 38px;
+      height: 38px;
+      background: #141822;
+      border: 3px solid #f1c40f;
+      border-radius: 50%;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     /* Мини-игра Взлом Матрицы */
@@ -648,7 +725,17 @@
       font-weight: bold;
     }
 
-    /* ЧАТ, МИРОВОЙ БОСС И ОНЛАЙН РЕЙТИНГ */
+    /* ЧАТ, ТРОН ИМПЕРИИ, МИРОВОЙ БОСС И ОНЛАЙН РЕЙТИНГ */
+    .throne-card {
+      background: linear-gradient(135deg, #3a2a0d, #161924);
+      border: 2px solid #f1c40f;
+      border-radius: 18px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 0 25px rgba(241, 196, 15, 0.25);
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
     .world-raid-box {
       background: linear-gradient(135deg, #301134, #141824);
       border: 2px solid #e056fd;
@@ -819,7 +906,7 @@
     </div>
   </div>
 
-  <!-- ВКЛАДКА 1: БОСС, СКИЛЛЫ, КЛИКЕР И МАГАЗИН -->
+  <!-- ВКЛАДКА 1: БОСС, КОНТРАКТЫ, СКИЛЛЫ, КЛИКЕР И МАГАЗИН -->
   <div id="sec-game" class="section active">
     
     <div class="boss-card">
@@ -831,6 +918,15 @@
         <div id="bossHpFill" class="boss-hp-fill"></div>
         <div id="bossHpText" class="boss-hp-text">2500 / 2500 HP</div>
       </div>
+    </div>
+
+    <!-- Панель Активного Контракта (Квеста) -->
+    <div class="quest-bar">
+      <div>
+        <div id="questTitle" style="font-size:12px; font-weight:800; color:#58a6ff;">📋 Контракт: Сделать 30 кликов</div>
+        <div id="questProg" style="font-size:11px; color:#8b949e;">Прогресс: 0 / 30 | Награда: $1 000</div>
+      </div>
+      <button id="questClaimBtn" class="quest-btn" onclick="claimQuest()" disabled>Забрать</button>
     </div>
 
     <div class="skills-row">
@@ -879,15 +975,45 @@
     </div>
   </div>
 
-  <!-- ВКЛАДКА 2: ЭЛИТНАЯ НЕДВИЖИМОСТЬ, КРИПТО-БИРЖА И ВЗЛОМ -->
+  <!-- ВКЛАДКА 2: ШВЕЙЦАРСКИЙ БАНК, ЭКСПЕДИЦИИ, НЕДВИЖИМОСТЬ И БИРЖА -->
   <div id="sec-trade" class="section">
-    
+
+    <!-- Швейцарский Крипто-Банк (Депозит под % каждую секунду) -->
+    <div class="card-box" style="border-color:#f1c40f;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="margin:0; color:#f1c40f;">🏦 Швейцарский Крипто-Банк</h3>
+        <span style="font-size:11px; color:#2ecc71; font-weight:bold;">+5% каждые 5 сек!</span>
+      </div>
+      <p style="font-size:11px; color:#8b949e; margin:4px 0 8px 0;">
+        Положите деньги в банк — они будут автоматически расти за счет сложных процентов!
+      </p>
+      <div style="background:#0d1117; padding:10px; border-radius:10px; text-align:center; margin-bottom:8px;">
+        <span style="font-size:11px; color:#aaa;">Вклад в банке:</span>
+        <div style="font-size:20px; font-weight:900; color:#f1c40f;">$<span id="bankBalanceText">0</span></div>
+      </div>
+      <div class="trade-btns">
+        <button class="btn-buy-coin" onclick="depositBank()">📥 Вложить 50% баланса</button>
+        <button class="btn-sell-coin" style="background:#3498db;" onclick="withdrawBank()">📤 Снять всё на руки</button>
+      </div>
+    </div>
+
+    <!-- Космическая Экспедиция -->
+    <div class="card-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <h3 style="margin:0; color:#58a6ff;">🚀 Космическая Экспедиция</h3>
+        <span id="expedStatusText" style="font-size:11px; color:#aaa;">Флот готов</span>
+      </div>
+      <div class="boss-hp-bg" style="height:12px; margin-bottom:8px; border-color:#2b3a55;">
+        <div id="expedFill" class="boss-hp-fill" style="width:0%; background:linear-gradient(90deg,#3498db,#2ecc71);"></div>
+      </div>
+      <button id="expedBtn" class="btn-register" style="width:100%; padding:9px;" onclick="startExpedition()">
+        🛸 Отправить флот за сокровищами (20 сек)
+      </button>
+    </div>
+
     <!-- Элитная Недвижимость Миллиардера -->
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#f1c40f;">🏢 Элитная Недвижимость и Чудеса</h3>
-      <p style="font-size:12px; color:#8b949e; margin:0;">
-        Покупайте статусные активы империи, которые приносят огромный пассивный бонус к доходу!
-      </p>
       <div class="case-grid">
         <div id="est0" class="case-item" onclick="buyEstate(0, 100000, 75)">
           <div style="font-size:26px;">🏝️</div>
@@ -912,9 +1038,6 @@
 
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#2ecc71;">💻 Кибер-Взлом Матрицы (Мини-Игра)</h3>
-      <p style="font-size:12px; color:#8b949e; margin:0 0 10px 0;">
-        Нажимайте на появляющиеся вирусы 👾 за 10 секунд! Каждый пойманный узел приносит мгновенный куш!
-      </p>
       <button id="startHackBtn" class="btn-login" style="width:100%;" onclick="startHackMiniGame()">⚡ ЗАПУСТИТЬ ВЗЛОМ (10 СЕК)</button>
       <div id="hackArena" class="hack-arena"></div>
     </div>
@@ -923,18 +1046,32 @@
     <div id="coinsContainer"></div>
   </div>
 
-  <!-- ВКЛАДКА 3: ПОИСК СОКРОВИЩ, СИНДИКАТЫ, СКИНЫ, ПИТОМЦЫ И КЕЙСЫ -->
+  <!-- ВКЛАДКА 3: ВИЗУАЛЬНОЕ КОЛЕСО ФОРТУНЫ, ШАХТА, КЛАНЫ, СКИНЫ, ПИТОМЦЫ -->
   <div id="sec-cases" class="section">
 
-    <!-- Новая Мини-Игра: Золотая Шахта (Поиск сокровищ) -->
+    <!-- Настоящее Вращающееся Колесо Фортуны -->
+    <div class="card-box" style="text-align:center;">
+      <h3 style="margin:0 0 4px 0; color:#f1c40f;">🎡 Колесо Судьбы (До x10!)</h3>
+      <div class="wheel-wrap">
+        <div class="wheel-pointer">🔻</div>
+        <div id="wheelElement" class="wheel-circle">
+          <div class="wheel-center">🎰</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <button class="btn-buy-coin" onclick="spinVisualWheel(0.25)">Крутить на 25%</button>
+        <button class="btn-buy-coin" onclick="spinVisualWheel(0.5)">Крутить на 50%</button>
+        <button class="btn-sell-coin" onclick="spinVisualWheel(1)">ВА-БАНК!</button>
+      </div>
+      <div id="casinoResult" style="margin-top:10px; font-weight:bold; font-size:13px; min-height:18px;"></div>
+    </div>
+
+    <!-- Золотая Шахта (Поиск сокровищ) -->
     <div class="card-box">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <h3 style="margin:0; color:#f1c40f;">⛏️ Поиск Сокровищ (3 Попытки)</h3>
         <button class="btn-buy-coin" style="flex:0 0 110px; padding:6px;" onclick="resetTreasureMine()">🔄 Новое поле</button>
       </div>
-      <p style="font-size:11px; color:#8b949e; margin:4px 0 0 0;">
-        Открывайте золотые ячейки и находите спрятанные слитки и алмазы!
-      </p>
       <div id="mineGrid" class="mine-grid"></div>
     </div>
 
@@ -1037,16 +1174,6 @@
     </div>
 
     <div class="card-box">
-      <h3 style="margin:0 0 6px 0; color:#2ecc71;">🎰 Рулетка Фортуны (Джекпот до x10!)</h3>
-      <div style="display:flex; gap:8px; margin-top:8px;">
-        <button class="btn-buy-coin" onclick="spinCasino(0.25)">Ставка 25%</button>
-        <button class="btn-buy-coin" onclick="spinCasino(0.5)">Ставка 50%</button>
-        <button class="btn-sell-coin" onclick="spinCasino(1)">ВА-БАНК!</button>
-      </div>
-      <div id="casinoResult" style="margin-top:10px; font-weight:bold; font-size:13px;"></div>
-    </div>
-
-    <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#e056fd;">👑 Перерождение (Престиж)</h3>
       <p style="font-size:12px; color:#8b949e; margin:0;">
         Сбросьте деньги и бизнесы ради <b>+100% к доходу навсегда</b>!
@@ -1057,9 +1184,25 @@
     </div>
   </div>
 
-  <!-- ВКЛАДКА 4: МИРОВОЙ РЕЙД-БОСС, ОБЩИЙ БУСТ, ЧАТ И ТОП ИГРОКОВ -->
+  <!-- ВКЛАДКА 4: ТРОН ИМПЕРИИ, МИРОВОЙ РЕЙД-БОСС, ЧАТ И ТОП ИГРОКОВ -->
   <div id="sec-top" class="section">
-    
+
+    <!-- ОНЛАЙН-АУКЦИОН ТРОНА ИМПЕРИИ -->
+    <div class="throne-card">
+      <div style="font-weight:900; font-size:14px; color:#f1c40f; margin-bottom:4px;">
+        👑 ЗОЛОТОЙ ТРОН ИМПЕРИИ (+300% ДОХОД)
+      </div>
+      <div id="throneHolderText" style="font-size:13px; color:#fff; font-weight:bold; margin-bottom:4px;">
+        Правитель: Пусто
+      </div>
+      <div style="font-size:11px; color:#aaa; margin-bottom:8px;">
+        Текущая ставка: $<span id="thronePriceText">10 000</span>
+      </div>
+      <button class="btn-buy-coin" style="width:100%; background:linear-gradient(90deg,#f1c40f,#e67e22);" onclick="bidForThrone()">
+        🔨 Выкупить Трон (Перебить ставку)
+      </button>
+    </div>
+
     <div class="world-raid-box">
       <div style="font-weight:900; font-size:14px; color:#e056fd; margin-bottom:4px;">
         🐉 ВСЕЛЕНСКИЙ ЛЕВИАФАН (МИРОВОЙ БОСС)
@@ -1146,8 +1289,8 @@
   <!-- Нижнее меню навигации -->
   <div class="bottom-nav">
     <button id="btn-game" class="tab-btn active" onclick="openTab('game')"><span class="ico">⚔️</span>Босс</button>
-    <button id="btn-trade" class="tab-btn" onclick="openTab('trade')"><span class="ico">📈</span>Бизнес</button>
-    <button id="btn-cases" class="tab-btn" onclick="openTab('cases')"><span class="ico">🐾</span>Кланы</button>
+    <button id="btn-trade" class="tab-btn" onclick="openTab('trade')"><span class="ico">🏦</span>Бизнес</button>
+    <button id="btn-cases" class="tab-btn" onclick="openTab('cases')"><span class="ico">🎡</span>Кейсы</button>
     <button id="btn-top" class="tab-btn" onclick="openTab('top')"><span class="ico">🏆</span>Онлайн</button>
     <button id="btn-prof" class="tab-btn" onclick="openTab('prof')"><span class="ico">🔐</span>Профиль</button>
   </div>
@@ -1290,6 +1433,7 @@
     }
 
     var money = Number(localStorage.getItem('m_money')) || 0;
+    var bankBalance = Number(localStorage.getItem('m_bank')) || 0;
     var clickPower = Number(localStorage.getItem('m_click')) || 1;
     var autoIncome = Number(localStorage.getItem('m_auto')) || 0;
     var prestige = Number(localStorage.getItem('m_prestige')) || 0;
@@ -1297,7 +1441,6 @@
     var myArtifacts = JSON.parse(localStorage.getItem('m_arts') || "[]");
     var totalClicks = Number(localStorage.getItem('m_tot_clicks')) || 0;
 
-    // Недвижимость
     var estatesOwned = JSON.parse(localStorage.getItem('m_estates') || "[false, false, false]");
     var estateBonuses = [75, 250, 800];
 
@@ -1308,6 +1451,30 @@
     var playerClan = localStorage.getItem('m_clan') || "";
     var btnSkin = localStorage.getItem('m_skin') || '💵';
     var skinBonus = Number(localStorage.getItem('m_skin_b')) || 0;
+
+    // Система Контрактов (Квестов)
+    var questStep = Number(localStorage.getItem('m_qstep')) || 0;
+    var questProgress = Number(localStorage.getItem('m_qprog')) || 0;
+    var questsData = [
+      { desc: "Сделать 40 кликов", target: 40, reward: 1500, type: "clicks" },
+      { desc: "Купить 5 улучшений", target: 5, reward: 8000, type: "upgrades" },
+      { desc: "Сделать 120 кликов", target: 120, reward: 45000, type: "clicks" },
+      { desc: "Купить 15 улучшений", target: 15, reward: 250000, type: "upgrades" },
+      { desc: "Сделать 300 кликов", target: 300, reward: 2000000, type: "clicks" }
+    ];
+
+    // Трон Империи
+    var throneOwnerId = "";
+    var throneOwnerName = "Свободен";
+    var thronePrice = 10000;
+
+    // Экспедиция
+    var expedActive = false;
+    var expedPct = 0;
+
+    // Колесо Фортуны
+    var wheelAngle = 0;
+    var wheelSpinning = false;
 
     var buyMult = 1;
     var skillCd = [0, 0, 0];
@@ -1383,13 +1550,15 @@
       var clanB = playerClan ? 50 : 0;
       var achB = getAchBonus();
       var estB = getEstateBonus();
+      var throneB = (throneOwnerId === playerId) ? 300 : 0;
       var rush = goldRushActive ? 3 : 1;
       var srvB = serverBoostActive ? 2 : 1;
-      return (1 + prestige + ((artifactBonus + petB + skinBonus + clanB + achB + estB) / 100)) * rush * srvB;
+      return (1 + prestige + ((artifactBonus + petB + skinBonus + clanB + achB + estB + throneB) / 100)) * rush * srvB;
     }
 
     function getRankTitle(m) {
       if (isAdmin) return "👑 СОЗДАТЕЛЬ";
+      if (throneOwnerId === playerId) return "👑 ИМПЕРАТОР ТРОНА";
       if (m < 500) return "Новичок";
       if (m < 5000) return "Уличный темщик";
       if (m < 50000) return "Крипто-Хомяк";
@@ -1399,7 +1568,173 @@
       return "Бог Матрицы 🌌";
     }
 
-    // ПОКУПКА НЕДВИЖИМОСТИ
+    // СИСТЕМА КОНТРАКТОВ (КВЕСТОВ)
+    function advanceQuest(type, amount) {
+      var curQ = questsData[questStep % questsData.length];
+      if (curQ.type === type) {
+        questProgress = Math.min(curQ.target, questProgress + amount);
+        localStorage.setItem('m_qprog', questProgress);
+      }
+    }
+
+    function claimQuest() {
+      var curQ = questsData[questStep % questsData.length];
+      if (questProgress < curQ.target) return;
+      var rew = curQ.reward * Math.pow(3, Math.floor(questStep / questsData.length));
+      money += rew;
+      questStep++;
+      questProgress = 0;
+      localStorage.setItem('m_qstep', questStep);
+      localStorage.setItem('m_qprog', 0);
+      playTone(780, 'triangle', 0.2);
+      refreshScreen();
+      syncWithServerNow();
+      alert('📋 Контракт выполнен! Ваша премия: +$' + formatNum(rew));
+    }
+
+    // ШВЕЙЦАРСКИЙ БАНК
+    function depositBank() {
+      if (money < 100) {
+        alert('Нужно минимум $100 на балансе для вклада!');
+        return;
+      }
+      var dep = Math.floor(money * 0.5);
+      money -= dep;
+      bankBalance += dep;
+      localStorage.setItem('m_bank', bankBalance);
+      playTone(550, 'sine', 0.15);
+      refreshScreen();
+      syncWithServerNow();
+    }
+
+    function withdrawBank() {
+      if (bankBalance <= 0) return;
+      money += bankBalance;
+      bankBalance = 0;
+      localStorage.setItem('m_bank', 0);
+      playTone(680, 'triangle', 0.2);
+      refreshScreen();
+      syncWithServerNow();
+    }
+
+    // КОСМИЧЕСКАЯ ЭКСПЕДИЦИЯ
+    function startExpedition() {
+      if (expedActive) return;
+      expedActive = true;
+      expedPct = 0;
+      document.getElementById('expedBtn').disabled = true;
+      document.getElementById('expedStatusText').innerHTML = 'В полете...';
+
+      var expTimer = setInterval(function() {
+        expedPct += 5;
+        document.getElementById('expedFill').style.width = expedPct + '%';
+        if (expedPct >= 100) {
+          clearInterval(expTimer);
+          expedActive = false;
+          document.getElementById('expedFill').style.width = '0%';
+          document.getElementById('expedBtn').disabled = false;
+          document.getElementById('expedStatusText').innerHTML = 'Флот готов';
+
+          var loot = Math.max(1000, (clickPower * 45 + autoIncome * 35) * getTotalMult());
+          money += loot;
+          playTone(820, 'square', 0.25);
+          refreshScreen();
+          syncWithServerNow();
+          alert('🛸 Космический флот вернулся с ресурсами астероида!\nДобыча: +$' + formatNum(loot));
+        }
+      }, 1000);
+    }
+
+    // ОНЛАЙН-АУКЦИОН ТРОНА ИМПЕРИИ
+    function loadThrone() {
+      fetch(FIREBASE_URL + '/throne.json')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data && data.price) {
+            throneOwnerId = data.ownerId || "";
+            throneOwnerName = data.ownerName || "Свободен";
+            thronePrice = Number(data.price) || 10000;
+          }
+          document.getElementById('throneHolderText').innerHTML = 'Император: ' + String(throneOwnerName).replace(/</g, '&lt;');
+          document.getElementById('thronePriceText').innerHTML = formatNum(thronePrice);
+          refreshScreen();
+        }).catch(function() {});
+    }
+
+    function bidForThrone() {
+      if (money < thronePrice) {
+        alert('Не хватает денег, чтобы выкупить Трон Империи!');
+        return;
+      }
+      money -= thronePrice;
+      var nextPrice = Math.round(thronePrice * 1.6);
+      throneOwnerId = playerId;
+      throneOwnerName = playerName;
+      thronePrice = nextPrice;
+
+      fetch(FIREBASE_URL + '/throne.json', {
+        method: 'PUT',
+        body: JSON.stringify({
+          ownerId: playerId,
+          ownerName: playerName,
+          price: nextPrice
+        })
+      }).then(function() {
+        postSystemChat('👑 НОВЫЙ ИМПЕРАТОР! ' + playerName + ' выкупил Золотой Трон и получил +300% к доходу!');
+        loadThrone();
+        syncWithServerNow();
+      });
+    }
+
+    // ВИЗУАЛЬНОЕ КОЛЕСО ФОРТУНЫ
+    function spinVisualWheel(part) {
+      if (wheelSpinning) return;
+      var resBox = document.getElementById('casinoResult');
+      if (money < 10) {
+        resBox.style.color = '#ff6b6b';
+        resBox.innerHTML = 'Нужно минимум $10!';
+        return;
+      }
+      var bet = Math.floor(money * part);
+      money -= bet;
+      refreshScreen();
+
+      wheelSpinning = true;
+      resBox.style.color = '#f1c40f';
+      resBox.innerHTML = '🎰 Колесо крутится...';
+
+      var extraDeg = Math.floor(Math.random() * 360) + 1080;
+      wheelAngle += extraDeg;
+      document.getElementById('wheelElement').style.transform = 'rotate(' + wheelAngle + 'deg)';
+
+      setTimeout(function() {
+        wheelSpinning = false;
+        var roll = Math.random();
+        if (roll < 0.05) {
+          money += bet * 10;
+          resBox.style.color = '#e056fd';
+          resBox.innerHTML = '💎 МЕГА-ДЖЕКПОТ x10! +$' + formatNum(bet * 10);
+          playTone(880, 'triangle', 0.3);
+        } else if (roll < 0.16) {
+          money += bet * 5;
+          resBox.style.color = '#f1c40f';
+          resBox.innerHTML = '🚨 ДЖЕКПОТ x5! +$' + formatNum(bet * 5);
+          playTone(740, 'triangle', 0.25);
+        } else if (roll < 0.50) {
+          money += bet * 2;
+          resBox.style.color = '#2ecc71';
+          resBox.innerHTML = '🎉 ПОБЕДА x2! +$' + formatNum(bet * 2);
+          playTone(580, 'sine', 0.2);
+        } else {
+          resBox.style.color = '#ff6b6b';
+          resBox.innerHTML = '💸 Сектор 0x... Потеряно $' + formatNum(bet);
+          playTone(200, 'sawtooth', 0.2);
+        }
+        refreshScreen();
+        syncWithServerNow();
+      }, 3200);
+    }
+
     function buyEstate(idx, price, bonusVal) {
       if (estatesOwned[idx]) {
         alert('Вы уже владеете этим объектом недвижимости!');
@@ -1418,7 +1753,6 @@
       alert('🏢 Поздравляем с покупкой элитной недвижимости! Ваш доход вырос на +' + bonusVal + '%!');
     }
 
-    // МИНИ-ИГРА: ПОИСК СОКРОВИЩ (3 ПОПЫТКИ)
     var minePicksLeft = 3;
     var mineCellsState = [];
 
@@ -1462,7 +1796,6 @@
       scheduleSync();
     }
 
-    // ГЛОБАЛЬНЫЙ БУСТ СЕРВЕРА x2 ДЛЯ ВСЕХ ИГРОКОВ
     function buyServerBoost() {
       if (money < 500000) {
         alert('Нужно $500 000, чтобы запустить Мировой Буст x2 для всех игроков!');
@@ -1745,6 +2078,7 @@
 
           if (data.adminWipe) {
             money = 0;
+            bankBalance = 0;
             changed = true;
             fetch(FIREBASE_URL + '/players/' + playerId + '/adminWipe.json', { method: 'DELETE' });
           }
@@ -1902,6 +2236,7 @@
       initAudio();
       totalClicks++;
       localStorage.setItem('m_tot_clicks', totalClicks);
+      advanceQuest('clicks', 1);
 
       comboEnergy = Math.min(100, comboEnergy + 7);
       updateComboState();
@@ -1958,6 +2293,7 @@
         bought++;
       }
       if (bought > 0) {
+        advanceQuest('upgrades', bought);
         playTone(540, 'sine', 0.1, 0.07);
         refreshScreen();
         syncWithServerNow();
@@ -2234,32 +2570,6 @@
       alert('🎁 ПОЙМАН СЕКРЕТНЫЙ ДРОП: +$' + formatNum(bonus));
     }
 
-    function spinCasino(part) {
-      var resBox = document.getElementById('casinoResult');
-      if (money < 10) return;
-      var bet = Math.floor(money * part);
-      money -= bet;
-      var roll = Math.random();
-      if (roll < 0.04) {
-        money += bet * 10;
-        resBox.style.color = '#e056fd';
-        resBox.innerHTML = '💎 МЕГА-ДЖЕКПОТ x10! +$' + formatNum(bet * 10);
-      } else if (roll < 0.12) {
-        money += bet * 5;
-        resBox.style.color = '#f1c40f';
-        resBox.innerHTML = '🚨 ДЖЕКПОТ x5! +$' + formatNum(bet * 5);
-      } else if (roll < 0.48) {
-        money += bet * 2;
-        resBox.style.color = '#2ecc71';
-        resBox.innerHTML = '🎉 ПОБЕДА x2! +$' + formatNum(bet * 2);
-      } else {
-        resBox.style.color = '#ff6b6b';
-        resBox.innerHTML = '💸 Проигрыш $' + formatNum(bet);
-      }
-      refreshScreen();
-      syncWithServerNow();
-    }
-
     function doPrestige() {
       if (money < 5000000) {
         alert('Для Перерождения нужно накопить $5 000 000!');
@@ -2294,6 +2604,7 @@
         loadRealPlayers();
         loadChat();
         loadWorldBoss();
+        loadThrone();
       }
     }
 
@@ -2346,6 +2657,7 @@
           }
           playerId = accId; playerName = data.name || nick; playerPass = pass;
           money = Number(data.money) || 0;
+          bankBalance = Number(data.bank) || 0;
           clickPower = Number(data.clickPower) || 1;
           autoIncome = Number(data.autoIncome) || 0;
           prestige = Number(data.prestige) || 0;
@@ -2360,6 +2672,7 @@
           localStorage.setItem('m_uid', playerId);
           localStorage.setItem('m_name', playerName);
           localStorage.setItem('m_pass', playerPass);
+          localStorage.setItem('m_bank', bankBalance);
           localStorage.setItem('m_pet', currentPet);
           localStorage.setItem('m_clan', playerClan);
           localStorage.setItem('m_estates', JSON.stringify(estatesOwned));
@@ -2382,6 +2695,7 @@
           name: playerName,
           pass: playerPass,
           money: Math.floor(money),
+          bank: Math.floor(bankBalance),
           clickPower: clickPower,
           autoIncome: autoIncome,
           prestige: prestige,
@@ -2409,7 +2723,8 @@
               list.push({
                 id: key,
                 name: data[key].name || 'Аноним',
-                money: data[key].money,
+                money: data[key].money + (Number(data[key].bank) || 0),
+                rawMoney: data[key].money,
                 prestige: data[key].prestige || 0,
                 boss: data[key].bossLevel || 1,
                 pet: data[key].pet || 0,
@@ -2425,6 +2740,7 @@
             var isMe = (p.id === playerId);
             var rowClass = isMe ? 'leader-row me' : 'leader-row';
             var crown = p.prestige > 0 ? ' 👑' + p.prestige : '';
+            var empTag = (p.id === throneOwnerId) ? ' 🏛️' : '';
             var pIcon = petIcons[p.pet] ? (petIcons[p.pet] + ' ') : '';
             var cBadge = p.clan ? ('<span style="color:#f39c12; font-size:10px;">[' + p.clan + ']</span> ') : '';
             var medal = (i === 0) ? '🥇 ' : (i === 1) ? '🥈 ' : (i === 2) ? '🥉 ' : '#' + (i + 1) + ' ';
@@ -2432,16 +2748,16 @@
 
             var actionsHtml = '<div class="pvp-actions">';
             if (!isMe) {
-              actionsHtml += '<button class="pvp-btn btn-gift" onclick="giftPlayer(\'' + p.id + '\', \'' + safeName + '\', ' + p.money + ')">💸 Подарить</button>';
+              actionsHtml += '<button class="pvp-btn btn-gift" onclick="giftPlayer(\'' + p.id + '\', \'' + safeName + '\', ' + p.rawMoney + ')">💸 Подарить</button>';
             }
             if (isAdmin) {
-              actionsHtml += '<button class="pvp-btn btn-admin-take" onclick="adminTakeMoney(\'' + p.id + '\', \'' + safeName + '\', ' + p.money + ')">⚖️ Снять $</button>' +
+              actionsHtml += '<button class="pvp-btn btn-admin-take" onclick="adminTakeMoney(\'' + p.id + '\', \'' + safeName + '\', ' + p.rawMoney + ')">⚖️ Снять $</button>' +
                 '<button class="pvp-btn btn-admin-wipe" onclick="adminWipePlayer(\'' + p.id + '\', \'' + safeName + '\')">💀 В ноль</button>';
             }
             actionsHtml += '</div>';
 
             html += '<div class="' + rowClass + '">' +
-              '<div style="text-align:left;">' + medal + cBadge + pIcon + p.name + crown +
+              '<div style="text-align:left;">' + medal + cBadge + pIcon + p.name + crown + empTag +
               ' <div style="color:#2ecc71; font-weight:bold;">$' + formatNum(p.money) + ' <small style="color:#8b949e;">[Босс #' + p.boss + ']</small></div></div>' +
               actionsHtml + '</div>';
           }
@@ -2452,6 +2768,7 @@
     function refreshScreen() {
       var mult = getTotalMult();
       document.getElementById('money').innerHTML = formatNum(money);
+      document.getElementById('bankBalanceText').innerHTML = formatNum(bankBalance);
       document.getElementById('clickPower').innerHTML = '$' + formatNum(clickPower * mult);
       document.getElementById('autoIncome').innerHTML = '$' + formatNum(autoIncome * mult);
       document.getElementById('totalMultText').innerHTML = Math.round((mult - 1) * 100);
@@ -2460,6 +2777,13 @@
       document.getElementById('petIcon').innerHTML = petIcons[currentPet] || '';
       document.getElementById('clanTagText').innerHTML = playerClan ? ('[' + playerClan + ']') : '';
       document.getElementById('mainBtn').innerHTML = btnSkin;
+
+      // Обновление Контракта (Квеста)
+      var curQ = questsData[questStep % questsData.length];
+      var qRew = curQ.reward * Math.pow(3, Math.floor(questStep / questsData.length));
+      document.getElementById('questTitle').innerHTML = '📋 Контракт #' + (questStep + 1) + ': ' + curQ.desc;
+      document.getElementById('questProg').innerHTML = 'Прогресс: ' + questProgress + ' / ' + curQ.target + ' | Премия: $' + formatNum(qRew);
+      document.getElementById('questClaimBtn').disabled = (questProgress < curQ.target);
 
       for (var eIdx = 0; eIdx < 3; eIdx++) {
         var estCard = document.getElementById('est' + eIdx);
@@ -2500,6 +2824,7 @@
       }
 
       localStorage.setItem('m_money', money);
+      localStorage.setItem('m_bank', bankBalance);
       localStorage.setItem('m_click', clickPower);
       localStorage.setItem('m_auto', autoIncome);
     }
@@ -2507,6 +2832,7 @@
     initShopHTML();
     resetTreasureMine();
     checkOfflineEarnings();
+    loadThrone();
     startMusicLoop();
 
     setInterval(function() {
@@ -2532,6 +2858,15 @@
       }
     }, 1000);
 
+    // Начисление +5% по вкладу в Швейцарском Банке каждые 5 секунд
+    setInterval(function() {
+      if (bankBalance > 0) {
+        bankBalance = Math.floor(bankBalance * 1.05);
+        localStorage.setItem('m_bank', bankBalance);
+        refreshScreen();
+      }
+    }, 5000);
+
     setInterval(function() {
       checkIncomingEvents();
       syncWithServerNow();
@@ -2541,6 +2876,7 @@
         loadRealPlayers();
         loadChat();
         loadWorldBoss();
+        loadThrone();
       }
     }, 3000);
 
