@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Денежный Кликер — Финальная Империя</title>
+  <title>Денежный Кликер — Хардкор Экономика</title>
   <style>
     * {
       box-sizing: border-box;
@@ -138,21 +138,21 @@
 
     .stats {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
       margin-top: 8px;
       background: rgba(8, 11, 16, 0.7);
-      padding: 8px;
+      padding: 8px 6px;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,0.05);
-      font-size: 11px;
+      font-size: 10px;
       color: #8b949e;
       font-variant-numeric: tabular-nums;
     }
     .stats div b {
       display: block;
       color: #fff;
-      font-size: 12px;
+      font-size: 11px;
       margin-top: 2px;
       white-space: nowrap;
       overflow: hidden;
@@ -888,7 +888,7 @@
   <!-- Секретный бонус -->
   <div id="airdropBox" class="airdrop" onclick="catchAirdrop()">🎁</div>
 
-  <!-- Верхняя панель (Стабильная + Кнопки Музыки и Звука) -->
+  <!-- Верхняя панель (Стабильная + 4 показателя с Темной Материей) -->
   <div class="header">
     <div class="top-bar-info">
       <span id="rankBadge" class="rank-badge">Новичок</span>
@@ -900,9 +900,10 @@
     </div>
     <div class="balance">$<span id="money">0</span></div>
     <div class="stats">
-      <div>👆 За клик<b id="clickPower">$1</b></div>
-      <div>⚡ Авто/сек<b id="autoIncome">$0</b></div>
+      <div>👆 Клик<b id="clickPower">$1</b></div>
+      <div>⚡ В сек<b id="autoIncome">$0</b></div>
       <div>💎 Бонус<b>+<span id="totalMultText">0</span>%</b></div>
+      <div>🔮 Материя<b id="darkMatterText">0</b></div>
     </div>
   </div>
 
@@ -923,8 +924,8 @@
     <!-- Панель Активного Контракта (Квеста) -->
     <div class="quest-bar">
       <div>
-        <div id="questTitle" style="font-size:12px; font-weight:800; color:#58a6ff;">📋 Контракт: Сделать 30 кликов</div>
-        <div id="questProg" style="font-size:11px; color:#8b949e;">Прогресс: 0 / 30 | Награда: $1 000</div>
+        <div id="questTitle" style="font-size:12px; font-weight:800; color:#58a6ff;">📋 Контракт: Сделать 40 кликов</div>
+        <div id="questProg" style="font-size:11px; color:#8b949e;">Прогресс: 0 / 40 | Награда: $500</div>
       </div>
       <button id="questClaimBtn" class="quest-btn" onclick="claimQuest()" disabled>Забрать</button>
     </div>
@@ -935,11 +936,11 @@
         <span id="skSub0" class="skill-sub">Готов (10с)</span>
       </button>
       <button id="skBtn1" class="skill-btn ready" onclick="useSkill(1)">
-        <span class="skill-title">🌟 Доход x3</span>
+        <span class="skill-title">🌟 Доход x2</span>
         <span id="skSub1" class="skill-sub">Готов (15с)</span>
       </button>
       <button id="skBtn2" class="skill-btn ready" onclick="useSkill(2)">
-        <span class="skill-title">☄️ Удар -25% HP</span>
+        <span class="skill-title">☄️ Удар -20% HP</span>
         <span id="skSub2" class="skill-sub">Готов</span>
       </button>
     </div>
@@ -959,12 +960,12 @@
     </div>
 
     <button class="watch-ad-btn" onclick="startPrankAd(true)">
-      📺 СМОТРЕТЬ РЕКЛАМУ (+МЕГА БОНУС 💰)
+      📺 СМОТРЕТЬ РЕКЛАМУ (+БОНУС 💰)
     </button>
 
     <div class="shop-box">
       <div class="shop-header-row">
-        <div class="shop-title">🛒 МАГАЗИН ИМПЕРИИ</div>
+        <div class="shop-title">🛒 МАГАЗИН ИМПЕРИИ (Цены x1.75)</div>
         <div class="buy-mult-group">
           <button id="bm1" class="mult-btn active" onclick="setBuyMult(1)">x1</button>
           <button id="bm10" class="mult-btn" onclick="setBuyMult(10)">x10</button>
@@ -975,17 +976,26 @@
     </div>
   </div>
 
-  <!-- ВКЛАДКА 2: ШВЕЙЦАРСКИЙ БАНК, ЭКСПЕДИЦИИ, НЕДВИЖИМОСТЬ И БИРЖА -->
+  <!-- ВКЛАДКА 2: СЕКРЕТНАЯ ЛАБОРАТОРИЯ, СБАЛАНСИРОВАННЫЙ БАНК, ЭКСПЕДИЦИИ И БИРЖА -->
   <div id="sec-trade" class="section">
 
-    <!-- Швейцарский Крипто-Банк (Депозит под % каждую секунду) -->
+    <!-- НОВОЕ: Секретная Лаборатория для слива миллионов и миллиардов -->
+    <div class="card-box" style="border-color:#e056fd;">
+      <h3 style="margin:0 0 6px 0; color:#e056fd;">🔬 Секретная Научная Лаборатория</h3>
+      <p style="font-size:11px; color:#8b949e; margin:0 0 10px 0;">
+        Вкладывайте огромные капиталы в научные прорывы, чтобы ускорить развитие империи!
+      </p>
+      <div id="labList"></div>
+    </div>
+
+    <!-- Сбалансированный Швейцарский Банк (+1% раз в 10 сек с лимитом!) -->
     <div class="card-box" style="border-color:#f1c40f;">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <h3 style="margin:0; color:#f1c40f;">🏦 Швейцарский Крипто-Банк</h3>
-        <span style="font-size:11px; color:#2ecc71; font-weight:bold;">+5% каждые 5 сек!</span>
+        <span style="font-size:11px; color:#2ecc71; font-weight:bold;">+1% раз в 10 сек</span>
       </div>
       <p style="font-size:11px; color:#8b949e; margin:4px 0 8px 0;">
-        Положите деньги в банк — они будут автоматически расти за счет сложных процентов!
+        Безопасный вклад под процент (Лимит банка: $<span id="bankCapText">100 000</span>)
       </p>
       <div style="background:#0d1117; padding:10px; border-radius:10px; text-align:center; margin-bottom:8px;">
         <span style="font-size:11px; color:#aaa;">Вклад в банке:</span>
@@ -1007,7 +1017,7 @@
         <div id="expedFill" class="boss-hp-fill" style="width:0%; background:linear-gradient(90deg,#3498db,#2ecc71);"></div>
       </div>
       <button id="expedBtn" class="btn-register" style="width:100%; padding:9px;" onclick="startExpedition()">
-        🛸 Отправить флот за сокровищами (20 сек)
+        🛸 Отправить флот за ресурсами (20 сек)
       </button>
     </div>
 
@@ -1015,23 +1025,23 @@
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#f1c40f;">🏢 Элитная Недвижимость и Чудеса</h3>
       <div class="case-grid">
-        <div id="est0" class="case-item" onclick="buyEstate(0, 100000, 75)">
+        <div id="est0" class="case-item" onclick="buyEstate(0, 500000, 25)">
           <div style="font-size:26px;">🏝️</div>
           <div style="font-weight:bold; font-size:11px;">Остров в Дубае</div>
-          <div style="font-size:10px; color:#2ecc71;">+75% доход</div>
-          <div id="estPrice0" style="color:#f1c40f; font-weight:900; font-size:11px; margin-top:3px;">$100 000</div>
+          <div style="font-size:10px; color:#2ecc71;">+25% доход</div>
+          <div id="estPrice0" style="color:#f1c40f; font-weight:900; font-size:11px; margin-top:3px;">$500 000</div>
         </div>
-        <div id="est1" class="case-item" onclick="buyEstate(1, 2500000, 250)">
+        <div id="est1" class="case-item" onclick="buyEstate(1, 15000000, 60)">
           <div style="font-size:26px;">🏎️</div>
           <div style="font-weight:bold; font-size:11px;">Команда Ф-1</div>
-          <div style="font-size:10px; color:#2ecc71;">+250% доход</div>
-          <div id="estPrice1" style="color:#f1c40f; font-weight:900; font-size:11px; margin-top:3px;">$2 500 000</div>
+          <div style="font-size:10px; color:#2ecc71;">+60% доход</div>
+          <div id="estPrice1" style="color:#f1c40f; font-weight:900; font-size:11px; margin-top:3px;">$15 000 000</div>
         </div>
-        <div id="est2" class="case-item" onclick="buyEstate(2, 50000000, 800)">
+        <div id="est2" class="case-item" onclick="buyEstate(2, 500000000, 150)">
           <div style="font-size:26px;">🪐</div>
           <div style="font-weight:bold; font-size:11px;">Город на Марсе</div>
-          <div style="font-size:10px; color:#2ecc71;">+800% доход</div>
-          <div id="estPrice2" style="color:#e056fd; font-weight:900; font-size:11px; margin-top:3px;">$50 000 000</div>
+          <div style="font-size:10px; color:#2ecc71;">+150% доход</div>
+          <div id="estPrice2" style="color:#e056fd; font-weight:900; font-size:11px; margin-top:3px;">$500 000 000</div>
         </div>
       </div>
     </div>
@@ -1046,12 +1056,23 @@
     <div id="coinsContainer"></div>
   </div>
 
-  <!-- ВКЛАДКА 3: ВИЗУАЛЬНОЕ КОЛЕСО ФОРТУНЫ, ШАХТА, КЛАНЫ, СКИНЫ, ПИТОМЦЫ -->
+  <!-- ВКЛАДКА 3: ЧЕРНАЯ ДЫРА, КОЛЕСО ФОРТУНЫ, ШАХТА, КЛАНЫ, СКИНЫ, ПИТОМЦЫ -->
   <div id="sec-cases" class="section">
+
+    <!-- НОВОЕ: ЖЕРТВЕННИК ЧЕРНОЙ ДЫРЫ (Слив лишних миллиардов в Темную Материю) -->
+    <div class="card-box" style="background:linear-gradient(135deg,#1f0d2b,#0d111a); border:2px solid #9b59b6; text-align:center;">
+      <h3 style="margin:0 0 4px 0; color:#e056fd;">🕳️ Культ Черной Дыры (Слив Валюты)</h3>
+      <p style="font-size:11px; color:#ccc; margin:0 0 10px 0;">
+        Слишком много денег? Сожгите <b>50% вашего баланса</b> в Черной Дыре, чтобы получить <b>Темную Материю 🔮</b> (дает +15% к доходу навсегда и отображается в рейтинге!).
+      </p>
+      <button class="btn-sell-coin" style="width:100%; background:linear-gradient(90deg,#8e44ad,#e056fd); color:#fff;" onclick="sacrificeToBlackHole()">
+        🔮 Пожертвовать 50% денег (Минимум $1 000 000)
+      </button>
+    </div>
 
     <!-- Настоящее Вращающееся Колесо Фортуны -->
     <div class="card-box" style="text-align:center;">
-      <h3 style="margin:0 0 4px 0; color:#f1c40f;">🎡 Колесо Судьбы (До x10!)</h3>
+      <h3 style="margin:0 0 4px 0; color:#f1c40f;">🎡 Колесо Судьбы</h3>
       <div class="wheel-wrap">
         <div class="wheel-pointer">🔻</div>
         <div id="wheelElement" class="wheel-circle">
@@ -1076,7 +1097,7 @@
     </div>
 
     <div class="card-box">
-      <h3 style="margin:0 0 4px 0; color:#f1c40f;">🏅 Медали Империи (+25% за каждую)</h3>
+      <h3 style="margin:0 0 4px 0; color:#f1c40f;">🏅 Медали Империи (+15% за каждую)</h3>
       <div class="ach-grid">
         <div id="ach0" class="ach-card"><span>👆</span> 100 Кликов</div>
         <div id="ach1" class="ach-card"><span>💰</span> Первые $100K</div>
@@ -1086,7 +1107,7 @@
     </div>
 
     <div class="card-box">
-      <h3 style="margin:0 0 6px 0; color:#f39c12;">🏰 Вступить в Синдикат (+50% к доходу)</h3>
+      <h3 style="margin:0 0 6px 0; color:#f39c12;">🏰 Вступить в Синдикат (+25% к доходу)</h3>
       <div class="case-grid">
         <div class="case-item" onclick="joinClan('🐺 МАФИЯ')">
           <div style="font-size:26px;">🐺</div>
@@ -1106,23 +1127,23 @@
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#2ecc71;">🎨 Скины для Кнопки Клика</h3>
       <div class="case-grid">
-        <div class="case-item" onclick="selectSkin('🪙', 15000, 25)">
+        <div class="case-item" onclick="selectSkin('🪙', 50000, 15)">
           <div style="font-size:28px;">🪙</div>
           <div style="font-weight:bold; font-size:11px;">Биткоин</div>
-          <div style="font-size:10px; color:#2ecc71;">+25% доход</div>
-          <div style="color:#f1c40f; font-weight:900; font-size:11px; margin-top:3px;">$15 000</div>
+          <div style="font-size:10px; color:#2ecc71;">+15% доход</div>
+          <div style="color:#f1c40f; font-weight:900; font-size:11px; margin-top:3px;">$50 000</div>
         </div>
-        <div class="case-item" onclick="selectSkin('💎', 250000, 100)">
+        <div class="case-item" onclick="selectSkin('💎', 1000000, 40)">
           <div style="font-size:28px;">💎</div>
           <div style="font-weight:bold; font-size:11px;">Алмаз</div>
-          <div style="font-size:10px; color:#2ecc71;">+100% доход</div>
-          <div style="color:#f1c40f; font-weight:900; font-size:11px; margin-top:3px;">$250 000</div>
+          <div style="font-size:10px; color:#2ecc71;">+40% доход</div>
+          <div style="color:#f1c40f; font-weight:900; font-size:11px; margin-top:3px;">$1 000 000</div>
         </div>
-        <div class="case-item" onclick="selectSkin('🕳️', 5000000, 350)">
+        <div class="case-item" onclick="selectSkin('🕳️', 25000000, 100)">
           <div style="font-size:28px;">🕳️</div>
           <div style="font-weight:bold; font-size:11px;">Сингулярность</div>
-          <div style="font-size:10px; color:#2ecc71;">+350% доход</div>
-          <div style="color:#e056fd; font-weight:900; font-size:11px; margin-top:3px;">$5 000 000</div>
+          <div style="font-size:10px; color:#2ecc71;">+100% доход</div>
+          <div style="color:#e056fd; font-weight:900; font-size:11px; margin-top:3px;">$25 000 000</div>
         </div>
       </div>
     </div>
@@ -1130,23 +1151,23 @@
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#58a6ff;">🐾 Призыв Питомца-Компаньона</h3>
       <div class="case-grid">
-        <div class="case-item" onclick="buyPet(0, 25000)">
+        <div class="case-item" onclick="buyPet(0, 100000)">
           <div style="font-size:28px;">🐱</div>
           <div style="font-weight:bold; font-size:12px;">Кибер-Кот</div>
-          <div style="font-size:10px; color:#aaa;">+50% доход</div>
-          <div style="color:#2ecc71; font-weight:900; font-size:11px; margin-top:4px;">$25 000</div>
+          <div style="font-size:10px; color:#aaa;">+20% доход</div>
+          <div style="color:#2ecc71; font-weight:900; font-size:11px; margin-top:4px;">$100 000</div>
         </div>
-        <div class="case-item" onclick="buyPet(1, 500000)">
+        <div class="case-item" onclick="buyPet(1, 2500000)">
           <div style="font-size:28px;">🐉</div>
           <div style="font-weight:bold; font-size:12px;">Дракон</div>
-          <div style="font-size:10px; color:#aaa;">+200% доход</div>
-          <div style="color:#f1c40f; font-weight:900; font-size:11px; margin-top:4px;">$500 000</div>
+          <div style="font-size:10px; color:#aaa;">+65% доход</div>
+          <div style="color:#f1c40f; font-weight:900; font-size:11px; margin-top:4px;">$2 500 000</div>
         </div>
-        <div class="case-item" onclick="buyPet(2, 15000000)">
+        <div class="case-item" onclick="buyPet(2, 80000000)">
           <div style="font-size:28px;">🦅</div>
           <div style="font-weight:bold; font-size:12px;">Феникс</div>
-          <div style="font-size:10px; color:#aaa;">+700% доход</div>
-          <div style="color:#e056fd; font-weight:900; font-size:11px; margin-top:4px;">$15 000 000</div>
+          <div style="font-size:10px; color:#aaa;">+180% доход</div>
+          <div style="color:#e056fd; font-weight:900; font-size:11px; margin-top:4px;">$80 000 000</div>
         </div>
       </div>
     </div>
@@ -1154,20 +1175,20 @@
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#f1c40f;">📦 Кейсы с Артефактами</h3>
       <div class="case-grid">
-        <div class="case-item" onclick="openCase(5000, 'Обычный')">
+        <div class="case-item" onclick="openCase(25000, 'Обычный')">
           <div style="font-size:26px;">🧰</div>
           <div style="font-weight:bold; font-size:12px;">Бронзовый</div>
-          <div style="color:#2ecc71; font-weight:900; font-size:11px;">$5 000</div>
+          <div style="color:#2ecc71; font-weight:900; font-size:11px;">$25 000</div>
         </div>
-        <div class="case-item" onclick="openCase(75000, 'Эпический')">
+        <div class="case-item" onclick="openCase(500000, 'Эпический')">
           <div style="font-size:26px;">💎</div>
           <div style="font-weight:bold; font-size:12px;">Алмазный</div>
-          <div style="color:#f1c40f; font-weight:900; font-size:11px;">$75 000</div>
+          <div style="color:#f1c40f; font-weight:900; font-size:11px;">$500 000</div>
         </div>
-        <div class="case-item" onclick="openCase(1000000, 'Легендарный')">
+        <div class="case-item" onclick="openCase(10000000, 'Легендарный')">
           <div style="font-size:26px;">👑</div>
           <div style="font-weight:bold; font-size:12px;">Королевский</div>
-          <div style="color:#e056fd; font-weight:900; font-size:11px;">$1 000 000</div>
+          <div style="color:#e056fd; font-weight:900; font-size:11px;">$10 000 000</div>
         </div>
       </div>
       <div id="artifactList" style="margin-top:10px;">Коллекция пуста</div>
@@ -1176,10 +1197,10 @@
     <div class="card-box">
       <h3 style="margin:0 0 6px 0; color:#e056fd;">👑 Перерождение (Престиж)</h3>
       <p style="font-size:12px; color:#8b949e; margin:0;">
-        Сбросьте деньги и бизнесы ради <b>+100% к доходу навсегда</b>!
+        Сбросьте деньги и бизнесы ради <b>+50% к доходу навсегда</b>!
       </p>
       <button class="btn-register" style="width:100%; margin-top:10px; background:#8e44ad;" onclick="doPrestige()">
-        👑 Сделать Престиж (Нужно $5 000 000)
+        👑 Сделать Престиж (Нужно $25 000 000)
       </button>
     </div>
   </div>
@@ -1190,13 +1211,13 @@
     <!-- ОНЛАЙН-АУКЦИОН ТРОНА ИМПЕРИИ -->
     <div class="throne-card">
       <div style="font-weight:900; font-size:14px; color:#f1c40f; margin-bottom:4px;">
-        👑 ЗОЛОТОЙ ТРОН ИМПЕРИИ (+300% ДОХОД)
+        👑 ЗОЛОТОЙ ТРОН ИМПЕРИИ (+100% ДОХОД)
       </div>
       <div id="throneHolderText" style="font-size:13px; color:#fff; font-weight:bold; margin-bottom:4px;">
         Правитель: Пусто
       </div>
       <div style="font-size:11px; color:#aaa; margin-bottom:8px;">
-        Текущая ставка: $<span id="thronePriceText">10 000</span>
+        Текущая ставка: $<span id="thronePriceText">50 000</span>
       </div>
       <button class="btn-buy-coin" style="width:100%; background:linear-gradient(90deg,#f1c40f,#e67e22);" onclick="bidForThrone()">
         🔨 Выкупить Трон (Перебить ставку)
@@ -1225,7 +1246,7 @@
         <div style="font-weight:bold; font-size:13px; color:#f1c40f;">🎉 Мировой Буст Дохода x2</div>
         <div style="font-size:11px; color:#8b949e;">Включает удвоение денег ВСЕМ игрокам на 3 мин!</div>
       </div>
-      <button class="btn-buy-coin" style="flex:0 0 115px; background:#f1c40f;" onclick="buyServerBoost()">Запустить ($500K)</button>
+      <button class="btn-buy-coin" style="flex:0 0 115px; background:#f1c40f;" onclick="buyServerBoost()">Запустить ($2M)</button>
     </div>
 
     <div class="card-box">
@@ -1271,11 +1292,12 @@
     <div id="adminPanel" class="card-box" style="display:none; border:2px solid #e056fd;">
       <h3 style="margin:0 0 8px 0; color:#e056fd;">👑 ПУЛЬТ СОЗДАТЕЛЯ ИГРЫ</h3>
       <p style="font-size:11px; color:#aaa; margin-top:0;">
-        Подсказка: в списке «Онлайн» напротив каждого игрока у вас работают админ-кнопки <b>«⚖️ Снять $»</b> и <b>«💀 В ноль»</b>!
+        Подсказка: в списке «Онлайн» напротив каждого игрока работают кнопки <b>«⚖️ Снять $»</b> и <b>«💀 В ноль»</b>!
       </p>
       <div style="display:flex; flex-direction:column; gap:8px;">
-        <button class="btn-login" onclick="adminAddMoney()">💰 Выдать себе +$1 000 000 000</button>
-        <button class="btn-buy-coin" style="background:#f1c40f;" onclick="adminGiftAll()">🌧️ Золотой Дождь (+$1M ВСЕМ игрокам)</button>
+        <button class="btn-sell-coin" style="background:#e74c3c;" onclick="adminTaxAllPlayers()">📉 Деноминация: Срезать ВСЕМ игрокам 90% денег!</button>
+        <button class="btn-login" onclick="adminAddMoney()">💰 Выдать себе +$100 000 000</button>
+        <button class="btn-buy-coin" style="background:#f1c40f;" onclick="adminGiftAll()">🌧️ Золотой Дождь (+$500K ВСЕМ игрокам)</button>
         <button class="btn-register" onclick="adminBroadcast()">📢 Отправить объявление на весь сервер</button>
         <button class="btn-sell-coin" style="background:#e056fd; color:#000;" onclick="adminSpawnWorldBoss()">🐉 Сбросить Босса (1 ТРИЛЛИОН HP)</button>
       </div>
@@ -1283,14 +1305,14 @@
   </div>
 
   <div class="footer-version">
-    бета тестирование версия 1.1 • релиз
+    бета тестирование версия 1.1 • хардкор-баланс
   </div>
 
   <!-- Нижнее меню навигации -->
   <div class="bottom-nav">
     <button id="btn-game" class="tab-btn active" onclick="openTab('game')"><span class="ico">⚔️</span>Босс</button>
-    <button id="btn-trade" class="tab-btn" onclick="openTab('trade')"><span class="ico">🏦</span>Бизнес</button>
-    <button id="btn-cases" class="tab-btn" onclick="openTab('cases')"><span class="ico">🎡</span>Кейсы</button>
+    <button id="btn-trade" class="tab-btn" onclick="openTab('trade')"><span class="ico">🔬</span>Бизнес</button>
+    <button id="btn-cases" class="tab-btn" onclick="openTab('cases')"><span class="ico">🕳️</span>Дыра</button>
     <button id="btn-top" class="tab-btn" onclick="openTab('top')"><span class="ico">🏆</span>Онлайн</button>
     <button id="btn-prof" class="tab-btn" onclick="openTab('prof')"><span class="ico">🔐</span>Профиль</button>
   </div>
@@ -1407,23 +1429,33 @@
     var syncTimer = null;
     var serverBoostActive = false;
 
+    // СБАЛАНСИРОВАННЫЙ МАГАЗИН (Цены выше, прирост умеренный)
     var shopItems = [
-      { icon: "💪", name: "Тренировка пальца", desc: "+1$ к клику", type: "click", power: 1, baseCost: 15 },
-      { icon: "🥤", name: "Лимонадный стенд", desc: "+2$ в сек", type: "auto", power: 2, baseCost: 50 },
-      { icon: "💎", name: "Золотая перчатка", desc: "+6$ к клику", type: "click", power: 6, baseCost: 250 },
-      { icon: "☕", name: "Сеть кофеен", desc: "+18$ в сек", type: "auto", power: 18, baseCost: 1100 },
-      { icon: "⚡", name: "Кибер-имплант руки", desc: "+35$ к клику", type: "click", power: 35, baseCost: 4200 },
-      { icon: "🖥️", name: "Майнинг-ферма", desc: "+95$ в сек", type: "auto", power: 95, baseCost: 15000 },
-      { icon: "🤖", name: "Нейросеть-Трейдер", desc: "+220$ к клику", type: "click", power: 220, baseCost: 55000 },
-      { icon: "🏦", name: "Крипто-Биржа", desc: "+600$ в сек", type: "auto", power: 600, baseCost: 200000 },
-      { icon: "🏭", name: "Гигафабрика роботов", desc: "+2 200$ в сек", type: "auto", power: 2200, baseCost: 850000 },
-      { icon: "🚀", name: "Лунная База Добычи", desc: "+8 500$ в сек", type: "auto", power: 8500, baseCost: 3800000 },
-      { icon: "☄️", name: "Захват Астероидов", desc: "+15 000$ к клику", type: "click", power: 15000, baseCost: 16000000 },
-      { icon: "🧬", name: "Квантовый Компьютер", desc: "+45 000$ в сек", type: "auto", power: 45000, baseCost: 75000000 },
-      { icon: "☀️", name: "Сфера Дайсона", desc: "+200 000$ в сек", type: "auto", power: 200000, baseCost: 380000000 },
-      { icon: "🌌", name: "Портал Мультивселенной", desc: "+1 000 000$ в сек", type: "auto", power: 1000000, baseCost: 2000000000 },
-      { icon: "👑", name: "Матрица Бесконечности", desc: "+6 000 000$ в сек", type: "auto", power: 6000000, baseCost: 12000000000 }
+      { icon: "💪", name: "Тренировка пальца", desc: "+1$ к клику", type: "click", power: 1, baseCost: 25 },
+      { icon: "🥤", name: "Лимонадный стенд", desc: "+1$ в сек", type: "auto", power: 1, baseCost: 75 },
+      { icon: "💎", name: "Золотая перчатка", desc: "+4$ к клику", type: "click", power: 4, baseCost: 400 },
+      { icon: "☕", name: "Сеть кофеен", desc: "+10$ в сек", type: "auto", power: 10, baseCost: 1800 },
+      { icon: "⚡", name: "Кибер-имплант руки", desc: "+22$ к клику", type: "click", power: 22, baseCost: 7500 },
+      { icon: "🖥️", name: "Майнинг-ферма", desc: "+55$ в сек", type: "auto", power: 55, baseCost: 28000 },
+      { icon: "🤖", name: "Нейросеть-Трейдер", desc: "+130$ к клику", type: "click", power: 130, baseCost: 110000 },
+      { icon: "🏦", name: "Крипто-Биржа", desc: "+350$ в сек", type: "auto", power: 350, baseCost: 450000 },
+      { icon: "🏭", name: "Гигафабрика роботов", desc: "+1 200$ в сек", type: "auto", power: 1200, baseCost: 2000000 },
+      { icon: "🚀", name: "Лунная База Добычи", desc: "+4 500$ в сек", type: "auto", power: 4500, baseCost: 9500000 },
+      { icon: "☄️", name: "Захват Астероидов", desc: "+9 000$ к клику", type: "click", power: 9000, baseCost: 42000000 },
+      { icon: "🧬", name: "Квантовый Компьютер", desc: "+25 000$ в сек", type: "auto", power: 25000, baseCost: 190000000 },
+      { icon: "☀️", name: "Сфера Дайсона", desc: "+95 000$ в сек", type: "auto", power: 95000, baseCost: 900000000 },
+      { icon: "🌌", name: "Портал Мультивселенной", desc: "+400 000$ в сек", type: "auto", power: 400000, baseCost: 5000000000 },
+      { icon: "👑", name: "Матрица Бесконечности", desc: "+2 000 000$ в сек", type: "auto", power: 2000000, baseCost: 35000000000 }
     ];
+
+    // СЕКРЕТНАЯ ЛАБОРАТОРИЯ ДЛЯ СЛИВА МИЛЛИОНОВ И МИЛЛИАРДОВ
+    var labItems = [
+      { name: "🧪 Квантовый Синтез", desc: "+20% к общему доходу", cost: 5000000, bonus: 20 },
+      { name: "🧠 Нейро-Интерфейс", desc: "+40% к общему доходу", cost: 50000000, bonus: 40 },
+      { name: "⚛️ Антиматерия", desc: "+80% к общему доходу", cost: 750000000, bonus: 80 },
+      { name: "⏳ Искривление Времени", desc: "+150% к общему доходу", cost: 10000000000, bonus: 150 }
+    ];
+    var labLevels = JSON.parse(localStorage.getItem('m_lab_lvls') || "[0, 0, 0, 0]");
 
     var costs = [];
     var counts = [];
@@ -1434,6 +1466,7 @@
 
     var money = Number(localStorage.getItem('m_money')) || 0;
     var bankBalance = Number(localStorage.getItem('m_bank')) || 0;
+    var darkMatter = Number(localStorage.getItem('m_dark')) || 0;
     var clickPower = Number(localStorage.getItem('m_click')) || 1;
     var autoIncome = Number(localStorage.getItem('m_auto')) || 0;
     var prestige = Number(localStorage.getItem('m_prestige')) || 0;
@@ -1442,37 +1475,33 @@
     var totalClicks = Number(localStorage.getItem('m_tot_clicks')) || 0;
 
     var estatesOwned = JSON.parse(localStorage.getItem('m_estates') || "[false, false, false]");
-    var estateBonuses = [75, 250, 800];
+    var estateBonuses = [25, 60, 150];
 
     var petIcons = ["", "🐱", "🐉", "🦅"];
-    var petBonuses = [0, 50, 200, 700];
+    var petBonuses = [0, 20, 65, 180];
     var currentPet = Number(localStorage.getItem('m_pet')) || 0;
 
     var playerClan = localStorage.getItem('m_clan') || "";
     var btnSkin = localStorage.getItem('m_skin') || '💵';
     var skinBonus = Number(localStorage.getItem('m_skin_b')) || 0;
 
-    // Система Контрактов (Квестов)
     var questStep = Number(localStorage.getItem('m_qstep')) || 0;
     var questProgress = Number(localStorage.getItem('m_qprog')) || 0;
     var questsData = [
-      { desc: "Сделать 40 кликов", target: 40, reward: 1500, type: "clicks" },
-      { desc: "Купить 5 улучшений", target: 5, reward: 8000, type: "upgrades" },
-      { desc: "Сделать 120 кликов", target: 120, reward: 45000, type: "clicks" },
-      { desc: "Купить 15 улучшений", target: 15, reward: 250000, type: "upgrades" },
-      { desc: "Сделать 300 кликов", target: 300, reward: 2000000, type: "clicks" }
+      { desc: "Сделать 40 кликов", target: 40, reward: 500, type: "clicks" },
+      { desc: "Купить 5 улучшений", target: 5, reward: 2500, type: "upgrades" },
+      { desc: "Сделать 120 кликов", target: 120, reward: 12000, type: "clicks" },
+      { desc: "Купить 15 улучшений", target: 15, reward: 65000, type: "upgrades" },
+      { desc: "Сделать 300 кликов", target: 300, reward: 350000, type: "clicks" }
     ];
 
-    // Трон Империи
     var throneOwnerId = "";
     var throneOwnerName = "Свободен";
-    var thronePrice = 10000;
+    var thronePrice = 50000;
 
-    // Экспедиция
     var expedActive = false;
     var expedPct = 0;
 
-    // Колесо Фортуны
     var wheelAngle = 0;
     var wheelSpinning = false;
 
@@ -1530,10 +1559,10 @@
 
     function getAchBonus() {
       var b = 0;
-      if (totalClicks >= 100) b += 25;
-      if (money >= 100000) b += 25;
-      if (bossLevel >= 5) b += 25;
-      if (money >= 1000000000) b += 25;
+      if (totalClicks >= 100) b += 15;
+      if (money >= 100000) b += 15;
+      if (bossLevel >= 5) b += 15;
+      if (money >= 1000000000) b += 15;
       return b;
     }
 
@@ -1545,15 +1574,32 @@
       return b;
     }
 
+    function getLabBonus() {
+      var b = 0;
+      for (var i = 0; i < labItems.length; i++) {
+        b += (labLevels[i] || 0) * labItems[i].bonus;
+      }
+      return b;
+    }
+
+    // СБАЛАНСИРОВАННЫЙ ОБЩИЙ МНОЖИТЕЛЬ (Без безумных накруток)
     function getTotalMult() {
       var petB = petBonuses[currentPet] || 0;
-      var clanB = playerClan ? 50 : 0;
+      var clanB = playerClan ? 25 : 0;
       var achB = getAchBonus();
       var estB = getEstateBonus();
-      var throneB = (throneOwnerId === playerId) ? 300 : 0;
-      var rush = goldRushActive ? 3 : 1;
+      var labB = getLabBonus();
+      var darkB = darkMatter * 15;
+      var throneB = (throneOwnerId === playerId) ? 100 : 0;
+      var rush = goldRushActive ? 2 : 1;
       var srvB = serverBoostActive ? 2 : 1;
-      return (1 + prestige + ((artifactBonus + petB + skinBonus + clanB + achB + estB + throneB) / 100)) * rush * srvB;
+      var prestB = prestige * 0.5;
+      return (1 + prestB + ((artifactBonus + petB + skinBonus + clanB + achB + estB + labB + darkB + throneB) / 100)) * rush * srvB;
+    }
+
+    function getBankCap() {
+      var baseCap = 100000 + (clickPower * 400 + autoIncome * 600) * getTotalMult();
+      return Math.floor(baseCap);
     }
 
     function getRankTitle(m) {
@@ -1568,7 +1614,54 @@
       return "Бог Матрицы 🌌";
     }
 
-    // СИСТЕМА КОНТРАКТОВ (КВЕСТОВ)
+    // ИНИЦИАЛИЗАЦИЯ НАУЧНОЙ ЛАБОРАТОРИИ
+    function initLabHTML() {
+      var html = '';
+      for (var i = 0; i < labItems.length; i++) {
+        var curCost = Math.round(labItems[i].cost * Math.pow(3.5, labLevels[i] || 0));
+        html += '<button class="upgrade-btn" onclick="buyLabResearch(' + i + ')">' +
+          '<div class="item-left"><div><div style="font-weight:bold; font-size:12px;">' + labItems[i].name + ' <span class="lvl-tag">Ур. <span id="labCnt' + i + '">' + (labLevels[i] || 0) + '</span></span></div>' +
+          '<div style="font-size:10px; color:#8b949e;">' + labItems[i].desc + '</div></div></div>' +
+          '<div class="price">$<span id="labCost' + i + '">' + formatNum(curCost) + '</span></div></button>';
+      }
+      document.getElementById('labList').innerHTML = html;
+    }
+
+    function buyLabResearch(idx) {
+      var curCost = Math.round(labItems[idx].cost * Math.pow(3.5, labLevels[idx] || 0));
+      if (money < curCost) {
+        alert('Не хватает денег на это научное исследование!');
+        return;
+      }
+      money -= curCost;
+      labLevels[idx] = (labLevels[idx] || 0) + 1;
+      localStorage.setItem('m_lab_lvls', JSON.stringify(labLevels));
+      playTone(720, 'triangle', 0.2);
+      initLabHTML();
+      refreshScreen();
+      syncWithServerNow();
+    }
+
+    // ЖЕРТВЕННИК ЧЕРНОЙ ДЫРЫ (СЛИВ 50% БАЛАНСА В ТЕМНУЮ МАТЕРИЮ)
+    function sacrificeToBlackHole() {
+      if (money < 1000000) {
+        alert('Для жертвоприношения Черной Дыре нужно минимум $1 000 000 на руках!');
+        return;
+      }
+      var burned = Math.floor(money * 0.5);
+      var gainedDark = Math.max(1, Math.floor(Math.log10(burned) - 4));
+      if (!confirm('🕳️ Пожертвовать $' + formatNum(burned) + ' (50% баланса) в Черную Дыру в обмен на +' + gainedDark + '🔮 Темной Материи?')) return;
+
+      money -= burned;
+      darkMatter += gainedDark;
+      localStorage.setItem('m_dark', darkMatter);
+      playTone(300, 'sawtooth', 0.35);
+      postSystemChat('🕳️ ЧЕРНАЯ ДЫРА: ' + playerName + ' сжег $' + formatNum(burned) + ' и добыл +' + gainedDark + '🔮 Темной Материи!');
+      refreshScreen();
+      syncWithServerNow();
+    }
+
+    // СИСТЕМА КОНТРАКТОВ
     function advanceQuest(type, amount) {
       var curQ = questsData[questStep % questsData.length];
       if (curQ.type === type) {
@@ -1580,7 +1673,7 @@
     function claimQuest() {
       var curQ = questsData[questStep % questsData.length];
       if (questProgress < curQ.target) return;
-      var rew = curQ.reward * Math.pow(3, Math.floor(questStep / questsData.length));
+      var rew = curQ.reward * Math.pow(2.2, Math.floor(questStep / questsData.length));
       money += rew;
       questStep++;
       questProgress = 0;
@@ -1592,13 +1685,18 @@
       alert('📋 Контракт выполнен! Ваша премия: +$' + formatNum(rew));
     }
 
-    // ШВЕЙЦАРСКИЙ БАНК
+    // СБАЛАНСИРОВАННЫЙ ШВЕЙЦАРСКИЙ БАНК
     function depositBank() {
       if (money < 100) {
         alert('Нужно минимум $100 на балансе для вклада!');
         return;
       }
-      var dep = Math.floor(money * 0.5);
+      var cap = getBankCap();
+      if (bankBalance >= cap) {
+        alert('Ваш банковский сейф переполнен! Прокачайте бизнесы, чтобы повысить лимит вклада.');
+        return;
+      }
+      var dep = Math.min(Math.floor(money * 0.5), cap - bankBalance);
       money -= dep;
       bankBalance += dep;
       localStorage.setItem('m_bank', bankBalance);
@@ -1617,7 +1715,6 @@
       syncWithServerNow();
     }
 
-    // КОСМИЧЕСКАЯ ЭКСПЕДИЦИЯ
     function startExpedition() {
       if (expedActive) return;
       expedActive = true;
@@ -1635,17 +1732,16 @@
           document.getElementById('expedBtn').disabled = false;
           document.getElementById('expedStatusText').innerHTML = 'Флот готов';
 
-          var loot = Math.max(1000, (clickPower * 45 + autoIncome * 35) * getTotalMult());
+          var loot = Math.max(400, (clickPower * 18 + autoIncome * 15) * getTotalMult());
           money += loot;
           playTone(820, 'square', 0.25);
           refreshScreen();
           syncWithServerNow();
-          alert('🛸 Космический флот вернулся с ресурсами астероида!\nДобыча: +$' + formatNum(loot));
+          alert('🛸 Космический флот вернулся!\nДобыча: +$' + formatNum(loot));
         }
       }, 1000);
     }
 
-    // ОНЛАЙН-АУКЦИОН ТРОНА ИМПЕРИИ
     function loadThrone() {
       fetch(FIREBASE_URL + '/throne.json')
         .then(function(r) { return r.json(); })
@@ -1653,7 +1749,7 @@
           if (data && data.price) {
             throneOwnerId = data.ownerId || "";
             throneOwnerName = data.ownerName || "Свободен";
-            thronePrice = Number(data.price) || 10000;
+            thronePrice = Number(data.price) || 50000;
           }
           document.getElementById('throneHolderText').innerHTML = 'Император: ' + String(throneOwnerName).replace(/</g, '&lt;');
           document.getElementById('thronePriceText').innerHTML = formatNum(thronePrice);
@@ -1667,7 +1763,7 @@
         return;
       }
       money -= thronePrice;
-      var nextPrice = Math.round(thronePrice * 1.6);
+      var nextPrice = Math.round(thronePrice * 1.8);
       throneOwnerId = playerId;
       throneOwnerName = playerName;
       thronePrice = nextPrice;
@@ -1680,13 +1776,12 @@
           price: nextPrice
         })
       }).then(function() {
-        postSystemChat('👑 НОВЫЙ ИМПЕРАТОР! ' + playerName + ' выкупил Золотой Трон и получил +300% к доходу!');
+        postSystemChat('👑 НОВЫЙ ИМПЕРАТОР! ' + playerName + ' выкупил Золотой Трон (+100% к доходу)!');
         loadThrone();
         syncWithServerNow();
       });
     }
 
-    // ВИЗУАЛЬНОЕ КОЛЕСО ФОРТУНЫ
     function spinVisualWheel(part) {
       if (wheelSpinning) return;
       var resBox = document.getElementById('casinoResult');
@@ -1710,17 +1805,17 @@
       setTimeout(function() {
         wheelSpinning = false;
         var roll = Math.random();
-        if (roll < 0.05) {
-          money += bet * 10;
-          resBox.style.color = '#e056fd';
-          resBox.innerHTML = '💎 МЕГА-ДЖЕКПОТ x10! +$' + formatNum(bet * 10);
-          playTone(880, 'triangle', 0.3);
-        } else if (roll < 0.16) {
+        if (roll < 0.03) {
           money += bet * 5;
+          resBox.style.color = '#e056fd';
+          resBox.innerHTML = '💎 ДЖЕКПОТ x5! +$' + formatNum(bet * 5);
+          playTone(880, 'triangle', 0.3);
+        } else if (roll < 0.15) {
+          money += bet * 3;
           resBox.style.color = '#f1c40f';
-          resBox.innerHTML = '🚨 ДЖЕКПОТ x5! +$' + formatNum(bet * 5);
+          resBox.innerHTML = '🚨 КРУПНЫЙ КУШ x3! +$' + formatNum(bet * 3);
           playTone(740, 'triangle', 0.25);
-        } else if (roll < 0.50) {
+        } else if (roll < 0.44) {
           money += bet * 2;
           resBox.style.color = '#2ecc71';
           resBox.innerHTML = '🎉 ПОБЕДА x2! +$' + formatNum(bet * 2);
@@ -1777,14 +1872,14 @@
       cell.className = 'mine-cell opened';
 
       var roll = Math.random();
-      var basePrize = Math.max(100, (clickPower * 10 + autoIncome * 8) * getTotalMult());
+      var basePrize = Math.max(50, (clickPower * 4 + autoIncome * 3) * getTotalMult());
 
-      if (roll < 0.2) {
-        var jackpot = basePrize * 5;
+      if (roll < 0.15) {
+        var jackpot = basePrize * 3;
         money += jackpot;
         cell.innerHTML = '💎';
         playTone(880, 'triangle', 0.2);
-      } else if (roll < 0.75) {
+      } else if (roll < 0.65) {
         money += basePrize;
         cell.innerHTML = '🪙';
         playTone(580, 'sine', 0.12);
@@ -1797,11 +1892,11 @@
     }
 
     function buyServerBoost() {
-      if (money < 500000) {
-        alert('Нужно $500 000, чтобы запустить Мировой Буст x2 для всех игроков!');
+      if (money < 2000000) {
+        alert('Нужно $2 000 000, чтобы запустить Мировой Буст x2 для всех игроков!');
         return;
       }
-      money -= 500000;
+      money -= 2000000;
       fetch(FIREBASE_URL + '/serverBoost.json', {
         method: 'PUT',
         body: JSON.stringify({
@@ -1840,8 +1935,8 @@
       if (lastSeen && autoIncome > 0) {
         var diffSec = Math.floor((now - lastSeen) / 1000);
         if (diffSec > 60) {
-          var cappedSec = Math.min(diffSec, 28800);
-          var earned = Math.floor(cappedSec * autoIncome * getTotalMult() * 0.5);
+          var cappedSec = Math.min(diffSec, 14400);
+          var earned = Math.floor(cappedSec * autoIncome * getTotalMult() * 0.25);
           if (earned > 0) {
             money += earned;
             setTimeout(function() {
@@ -1869,7 +1964,7 @@
         node.style.left = Math.floor(Math.random() * 82 + 5) + '%';
         node.style.top = Math.floor(Math.random() * 72 + 10) + '%';
         node.onclick = function() {
-          var prize = Math.max(250, (clickPower * 15 + autoIncome * 10) * getTotalMult());
+          var prize = Math.max(100, (clickPower * 6 + autoIncome * 4) * getTotalMult());
           money += prize;
           playTone(780, 'square', 0.08);
           node.remove();
@@ -1895,7 +1990,7 @@
       playTone(600, 'triangle', 0.2);
       refreshScreen();
       syncWithServerNow();
-      alert('🏰 Вы вступили в синдикат «' + cName + '» (+50% ко всем доходам)!');
+      alert('🏰 Вы вступили в синдикат «' + cName + '» (+25% ко всем доходам)!');
     }
 
     var worldBossMax = 1000000000000;
@@ -1922,12 +2017,12 @@
     }
 
     function attackWorldBoss() {
-      var dmg = Math.max(5000, (clickPower * 30 + autoIncome * 20) * getTotalMult());
+      var dmg = Math.max(2000, (clickPower * 15 + autoIncome * 10) * getTotalMult());
       playTone(300, 'sawtooth', 0.15);
       worldBossHp = Math.max(0, worldBossHp - dmg);
 
       if (worldBossHp <= 0) {
-        var megaReward = Math.max(50000000, dmg * 35);
+        var megaReward = Math.max(10000000, dmg * 20);
         money += megaReward;
         worldBossMax = worldBossMax * 3;
         worldBossHp = worldBossMax;
@@ -1953,7 +2048,7 @@
         localStorage.setItem('m_admin', '1');
         document.getElementById('adminPanel').style.display = 'block';
         refreshScreen();
-        alert('👑 РЕЖИМ СОЗДАТЕЛЯ АКТИВИРОВАН!\nТеперь в разделе «Онлайн» вы можете снимать деньги с любого игрока или обнулять их баланс!');
+        alert('👑 РЕЖИМ СОЗДАТЕЛЯ АКТИВИРОВАН!\nТеперь вы можете провести Деноминацию сервера (срезать 90% лишних денег) или управлять балансом игроков!');
         return;
       }
       if (code === 'START2026') {
@@ -1962,20 +2057,46 @@
           return;
         }
         localStorage.setItem('promo_start', '1');
-        money += 50000;
+        money += 25000;
         refreshScreen();
         syncWithServerNow();
-        alert('🎉 Промокод активирован! Получено +$50 000!');
+        alert('🎉 Промокод активирован! Получено +$25 000!');
         return;
       }
       alert('❌ Неверный промокод!');
     }
 
+    // НОВАЯ КНОПКА СОЗДАТЕЛЯ: ДЕНОМИНАЦИЯ СЕРВЕРА (-90% ДЕНЕГ У ВСЕХ ИГРОКОВ)
+    function adminTaxAllPlayers() {
+      if (!confirm('👑 СОЗДАТЕЛЬ: Срезать 90% денег и банковских вкладов у ВСЕХ игроков сервера для оздоровления экономики?')) return;
+      fetch(FIREBASE_URL + '/players.json')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (!data) return;
+          for (var k in data) {
+            if (data[k] && typeof data[k].money === 'number') {
+              var cutAmount = Math.floor(data[k].money * 0.9);
+              fetch(FIREBASE_URL + '/players/' + k + '.json', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  money: Math.max(0, data[k].money - cutAmount),
+                  bank: 0,
+                  adminFine: cutAmount
+                })
+              });
+            }
+          }
+          postSystemChat('📉 НАЛОГОВАЯ РЕФОРМА СОЗДАТЕЛЯ: У всех игроков изъято 90% сверхдоходов для стабилизации экономики!');
+          alert('📉 Деноминация проведена! У всех игроков списано 90% лишних денег.');
+        });
+    }
+
     function adminAddMoney() {
-      money += 1000000000;
+      money += 100000000;
       refreshScreen();
       syncWithServerNow();
-      alert('💰 +$1 000 000 000 зачислено Создателю!');
+      alert('💰 +$100 000 000 зачислено Создателю!');
     }
 
     function adminTakeMoney(targetId, targetName, currentTargetMoney) {
@@ -2004,6 +2125,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           money: 0,
+          bank: 0,
           adminWipe: true
         })
       }).then(function() {
@@ -2023,14 +2145,14 @@
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                  money: data[k].money + 1000000,
-                  inboxGift: (Number(data[k].inboxGift) || 0) + 1000000
+                  money: data[k].money + 500000,
+                  inboxGift: (Number(data[k].inboxGift) || 0) + 500000
                 })
               });
             }
           }
-          postSystemChat('🌧️ ЗОЛОТОЙ ДОЖДЬ! Создатель игры подарил ВСЕМ игрокам по +$1 000 000!');
-          alert('🌧️ Всем игрокам сервера отправлено по $1 000 000!');
+          postSystemChat('🌧️ ЗОЛОТОЙ ДОЖДЬ! Создатель игры подарил ВСЕМ игрокам по +$500 000!');
+          alert('🌧️ Всем игрокам сервера отправлено по $500 000!');
         });
     }
 
@@ -2084,6 +2206,7 @@
           }
           if (typeof data.adminFine === 'number' && data.adminFine > 0) {
             money = Math.max(0, money - data.adminFine);
+            bankBalance = 0;
             changed = true;
             fetch(FIREBASE_URL + '/players/' + playerId + '/adminFine.json', { method: 'DELETE' });
           }
@@ -2170,18 +2293,18 @@
 
       if (idx === 0) {
         autoDroneActive = true;
-        skillCd[0] = 45;
+        skillCd[0] = 55;
         document.getElementById('skBtn0').className = 'skill-btn active-buff';
         setTimeout(function() { autoDroneActive = false; }, 10000);
       } else if (idx === 1) {
         goldRushActive = true;
-        skillCd[1] = 60;
+        skillCd[1] = 75;
         document.getElementById('skBtn1').className = 'skill-btn active-buff';
         refreshScreen();
         setTimeout(function() { goldRushActive = false; refreshScreen(); }, 15000);
       } else if (idx === 2) {
-        skillCd[2] = 50;
-        var strikeDmg = Math.floor(bossMaxHp * 0.25);
+        skillCd[2] = 60;
+        var strikeDmg = Math.floor(bossMaxHp * 0.20);
         damageBoss(strikeDmg);
         spawnDollar(strikeDmg, true);
         refreshScreen();
@@ -2238,11 +2361,11 @@
       localStorage.setItem('m_tot_clicks', totalClicks);
       advanceQuest('clicks', 1);
 
-      comboEnergy = Math.min(100, comboEnergy + 7);
+      comboEnergy = Math.min(100, comboEnergy + 6);
       updateComboState();
 
-      var isCrit = Math.random() < 0.10;
-      var gain = clickPower * comboMultiplier * getTotalMult() * (isCrit ? 10 : 1);
+      var isCrit = Math.random() < 0.08;
+      var gain = clickPower * comboMultiplier * getTotalMult() * (isCrit ? 4 : 1);
 
       playTone(isCrit ? 740 : 440, isCrit ? 'triangle' : 'sine', 0.06, 0.06);
 
@@ -2266,10 +2389,10 @@
     function damageBoss(dmg) {
       bossHp -= dmg;
       if (bossHp <= 0) {
-        var reward = Math.floor(bossMaxHp * 0.65);
+        var reward = Math.floor(bossMaxHp * 0.35);
         money += reward;
         bossLevel++;
-        bossMaxHp = Math.floor(2500 * Math.pow(3.1, bossLevel - 1));
+        bossMaxHp = Math.floor(2500 * Math.pow(3.2, bossLevel - 1));
         bossHp = bossMaxHp;
         localStorage.setItem('m_boss_lvl', bossLevel);
         playTone(880, 'square', 0.25, 0.08);
@@ -2289,7 +2412,8 @@
         } else {
           autoIncome += shopItems[idx].power;
         }
-        costs[idx] = Math.round(costs[idx] * 1.55);
+        // Повышенный рост цены x1.75 против инфляции
+        costs[idx] = Math.round(costs[idx] * 1.75);
         bought++;
       }
       if (bought > 0) {
@@ -2444,13 +2568,13 @@
       money -= price;
 
       var pool = [
-        { name: "🍀 Счастливая монетка", bonus: 15 },
-        { name: "🕶️ Очки Магната", bonus: 30 },
-        { name: "⌚ Золотые Ролексы", bonus: 50 },
-        { name: "🏎️ Ключи от Ламбы", bonus: 100 },
-        { name: "🛸 Чип Инопланетян", bonus: 250 }
+        { name: "🍀 Счастливая монетка", bonus: 5 },
+        { name: "🕶️ Очки Магната", bonus: 10 },
+        { name: "⌚ Золотые Ролексы", bonus: 18 },
+        { name: "🏎️ Ключи от Ламбы", bonus: 30 },
+        { name: "🛸 Чип Инопланетян", bonus: 60 }
       ];
-      var mult = (tier === 'Легендарный') ? 4 : (tier === 'Эпический' ? 2 : 1);
+      var mult = (tier === 'Легендарный') ? 3 : (tier === 'Эпический' ? 2 : 1);
       var item = pool[Math.floor(Math.random() * pool.length)];
       var finalBonus = item.bonus * mult;
 
@@ -2515,7 +2639,7 @@
       document.getElementById('adOverlay').style.display = 'none';
       lastAdTime = Date.now();
       if (adWithReward) {
-        var reward = Math.max(500, (clickPower * 40 + autoIncome * 30) * getTotalMult());
+        var reward = Math.max(250, (clickPower * 15 + autoIncome * 12) * getTotalMult());
         money += reward;
         refreshScreen();
         syncWithServerNow();
@@ -2529,7 +2653,7 @@
 
     function updateComboState() {
       if (comboEnergy >= 85) {
-        comboMultiplier = 5;
+        comboMultiplier = 3;
         mainBtn.className = 'click-btn frenzy-5';
       } else if (comboEnergy >= 45) {
         comboMultiplier = 2;
@@ -2563,7 +2687,7 @@
 
     function catchAirdrop() {
       document.getElementById('airdropBox').style.display = 'none';
-      var bonus = Math.max(400, (clickPower * 30 + autoIncome * 25) * getTotalMult());
+      var bonus = Math.max(200, (clickPower * 12 + autoIncome * 10) * getTotalMult());
       money += bonus;
       refreshScreen();
       syncWithServerNow();
@@ -2571,13 +2695,14 @@
     }
 
     function doPrestige() {
-      if (money < 5000000) {
-        alert('Для Перерождения нужно накопить $5 000 000!');
+      if (money < 25000000) {
+        alert('Для Перерождения нужно накопить $25 000 000!');
         return;
       }
-      if (confirm('Сделать Престиж? Вы получите +100% к доходу навсегда!')) {
+      if (confirm('Сделать Престиж? Вы получите +50% к доходу навсегда!')) {
         prestige += 1;
         money = 0;
+        bankBalance = 0;
         clickPower = 1;
         autoIncome = 0;
         for (var i = 0; i < shopItems.length; i++) {
@@ -2658,6 +2783,7 @@
           playerId = accId; playerName = data.name || nick; playerPass = pass;
           money = Number(data.money) || 0;
           bankBalance = Number(data.bank) || 0;
+          darkMatter = Number(data.dark) || 0;
           clickPower = Number(data.clickPower) || 1;
           autoIncome = Number(data.autoIncome) || 0;
           prestige = Number(data.prestige) || 0;
@@ -2673,6 +2799,7 @@
           localStorage.setItem('m_name', playerName);
           localStorage.setItem('m_pass', playerPass);
           localStorage.setItem('m_bank', bankBalance);
+          localStorage.setItem('m_dark', darkMatter);
           localStorage.setItem('m_pet', currentPet);
           localStorage.setItem('m_clan', playerClan);
           localStorage.setItem('m_estates', JSON.stringify(estatesOwned));
@@ -2696,6 +2823,7 @@
           pass: playerPass,
           money: Math.floor(money),
           bank: Math.floor(bankBalance),
+          dark: darkMatter,
           clickPower: clickPower,
           autoIncome: autoIncome,
           prestige: prestige,
@@ -2725,6 +2853,7 @@
                 name: data[key].name || 'Аноним',
                 money: data[key].money + (Number(data[key].bank) || 0),
                 rawMoney: data[key].money,
+                dark: Number(data[key].dark) || 0,
                 prestige: data[key].prestige || 0,
                 boss: data[key].bossLevel || 1,
                 pet: data[key].pet || 0,
@@ -2740,6 +2869,7 @@
             var isMe = (p.id === playerId);
             var rowClass = isMe ? 'leader-row me' : 'leader-row';
             var crown = p.prestige > 0 ? ' 👑' + p.prestige : '';
+            var darkBadge = p.dark > 0 ? (' <span style="color:#e056fd;">🔮' + p.dark + '</span>') : '';
             var empTag = (p.id === throneOwnerId) ? ' 🏛️' : '';
             var pIcon = petIcons[p.pet] ? (petIcons[p.pet] + ' ') : '';
             var cBadge = p.clan ? ('<span style="color:#f39c12; font-size:10px;">[' + p.clan + ']</span> ') : '';
@@ -2757,7 +2887,7 @@
             actionsHtml += '</div>';
 
             html += '<div class="' + rowClass + '">' +
-              '<div style="text-align:left;">' + medal + cBadge + pIcon + p.name + crown + empTag +
+              '<div style="text-align:left;">' + medal + cBadge + pIcon + p.name + crown + empTag + darkBadge +
               ' <div style="color:#2ecc71; font-weight:bold;">$' + formatNum(p.money) + ' <small style="color:#8b949e;">[Босс #' + p.boss + ']</small></div></div>' +
               actionsHtml + '</div>';
           }
@@ -2769,6 +2899,8 @@
       var mult = getTotalMult();
       document.getElementById('money').innerHTML = formatNum(money);
       document.getElementById('bankBalanceText').innerHTML = formatNum(bankBalance);
+      document.getElementById('bankCapText').innerHTML = formatNum(getBankCap());
+      document.getElementById('darkMatterText').innerHTML = darkMatter;
       document.getElementById('clickPower').innerHTML = '$' + formatNum(clickPower * mult);
       document.getElementById('autoIncome').innerHTML = '$' + formatNum(autoIncome * mult);
       document.getElementById('totalMultText').innerHTML = Math.round((mult - 1) * 100);
@@ -2778,9 +2910,8 @@
       document.getElementById('clanTagText').innerHTML = playerClan ? ('[' + playerClan + ']') : '';
       document.getElementById('mainBtn').innerHTML = btnSkin;
 
-      // Обновление Контракта (Квеста)
       var curQ = questsData[questStep % questsData.length];
-      var qRew = curQ.reward * Math.pow(3, Math.floor(questStep / questsData.length));
+      var qRew = curQ.reward * Math.pow(2.2, Math.floor(questStep / questsData.length));
       document.getElementById('questTitle').innerHTML = '📋 Контракт #' + (questStep + 1) + ': ' + curQ.desc;
       document.getElementById('questProg').innerHTML = 'Прогресс: ' + questProgress + ' / ' + curQ.target + ' | Премия: $' + formatNum(qRew);
       document.getElementById('questClaimBtn').disabled = (questProgress < curQ.target);
@@ -2801,7 +2932,7 @@
 
       var bName = bossNames[(bossLevel - 1) % bossNames.length];
       document.getElementById('bossName').innerHTML = '👾 Босс #' + bossLevel + ': ' + bName;
-      document.getElementById('bossReward').innerHTML = formatNum(Math.floor(bossMaxHp * 0.65));
+      document.getElementById('bossReward').innerHTML = formatNum(Math.floor(bossMaxHp * 0.35));
       var hpPercent = Math.max(0, Math.min(100, (bossHp / bossMaxHp) * 100));
       document.getElementById('bossHpFill').style.width = hpPercent + '%';
       document.getElementById('bossHpText').innerHTML = formatNum(Math.max(0, bossHp)) + ' / ' + formatNum(bossMaxHp) + ' HP';
@@ -2830,6 +2961,7 @@
     }
 
     initShopHTML();
+    initLabHTML();
     resetTreasureMine();
     checkOfflineEarnings();
     loadThrone();
@@ -2858,14 +2990,15 @@
       }
     }, 1000);
 
-    // Начисление +5% по вкладу в Швейцарском Банке каждые 5 секунд
+    // СБАЛАНСИРОВАННЫЙ БАНК: +1% раз в 10 секунд и строго не выше лимита сейфа!
     setInterval(function() {
-      if (bankBalance > 0) {
-        bankBalance = Math.floor(bankBalance * 1.05);
+      var cap = getBankCap();
+      if (bankBalance > 0 && bankBalance < cap) {
+        bankBalance = Math.min(cap, Math.floor(bankBalance * 1.01));
         localStorage.setItem('m_bank', bankBalance);
         refreshScreen();
       }
-    }, 5000);
+    }, 10000);
 
     setInterval(function() {
       checkIncomingEvents();
